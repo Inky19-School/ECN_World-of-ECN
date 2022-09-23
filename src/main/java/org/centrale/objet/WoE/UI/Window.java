@@ -13,6 +13,6 @@ public class Window {
         
         config.setWindowedMode(GameScreen.WIDTH, GameScreen.HEIGHT);
         
-        new Lwjgl3Application(new Boot(), config);
+        //new Lwjgl3Application(new Boot(), config);
     }
 }
