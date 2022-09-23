@@ -9,6 +9,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import org.centrale.objet.WoE.World;
 
 /**
@@ -19,10 +20,11 @@ public class GameScreen extends ScreenAdapter{
 
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 640;
+    public static final float SMOOTHNESS = 10f;
     
     private int cameraSpeedX = 0;
     private int cameraSpeedY = 0;
-    private int cameraBaseSpeed = 3;
+    private int cameraBaseSpeed = 10;
     
     
     private SpriteBatch batch;
@@ -30,6 +32,7 @@ public class GameScreen extends ScreenAdapter{
     private IsometricRenderer renderer;
     private PlayerInput input;
     private World monde;
+    private int x, y;
     
     private long timer;
     
@@ -56,14 +59,17 @@ public class GameScreen extends ScreenAdapter{
     
     @Override
     public void render(float delta) {
+        System.out.println(delta);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.setProjectionMatrix(camera.combined);
         
         camera.update();
-                
-        camera.translate(cameraSpeedX, cameraSpeedY);
+
+        updatePosition(cameraSpeedX,cameraSpeedY);
+        
+        camera.translate((x - (float)camera.position.x)/SMOOTHNESS, (y - (float)camera.position.y)/SMOOTHNESS);
         
         //monde.wolfie.deplace();
         if (System.currentTimeMillis()>timer+500){
@@ -84,16 +90,20 @@ public class GameScreen extends ScreenAdapter{
         
     }
     
-    public void moveCameraVertical(int dy){
+    public void moveCameraVertical(int dy){ 
         cameraSpeedY = dy;
     }
     
     public void moveCameraHorizontal(int dx){
         cameraSpeedX = dx;
     }
+    public void updatePosition(int dx, int dy) {
+        x += dx;
+        y += dy;
+    }
         
     public void zoomCamera(float delta){
-        if (camera.zoom+delta > 0){
+        if (camera.zoom+delta > 0.1f ){
             camera.zoom += delta;
         }
     }
