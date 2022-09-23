@@ -10,7 +10,7 @@ import org.centrale.objet.WoE.Point2D;
  *
  * @author inky19
  */
-public class Entite {
+public abstract class Entite {
 
     private Point2D pos;
     
@@ -56,8 +56,6 @@ public class Entite {
     /**
      * Affiche des informations sur l'entité
      */
-    public void affiche(){
-        
-    }
+    abstract public void affiche();
 
 }

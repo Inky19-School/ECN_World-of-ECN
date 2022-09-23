@@ -27,72 +27,15 @@ public class World {
     
     
     private ArrayList<Objet> ObjetsMap;
-    /**
-     *
-     */
-    public Archer robin;
-    
-    /**
-     *
-     */
-    public Archer guillaumeT;
 
-    /**
-     *
-     */
-    public Paysan peon;
-
-    /**
-     *
-     */
-    public Lapin bugs1;
-
-    /**
-     *
-     */
-    public Lapin bugs2;
-
-    /**
-     *
-     */
-    
-    public Guerrier grosBill;
-    
-    /**
-     *
-     */
     public Loup wolfie;
 
-    /**
-     *
-     */
-    public PotionSoin P1;
-
-    /**
-     *
-     */
-    public PotionSoin P2;
-    
-    /**
-     *
-     */
     public World() {
         entites = new LinkedList<>();
         mapEntites = new Entite[size][size];
         
-        
-        robin = new Archer();
-        peon = new Paysan();
-        bugs1 = new Lapin();
-        bugs2 = new Lapin();
-        guillaumeT = new Archer(robin);
-        grosBill = new Guerrier();
         wolfie = new Loup();
-        P1 = new PotionSoin();
-        P2 = new PotionSoin();
-        ObjetsMap = new ArrayList<>();
-        ObjetsMap.add(P1);
-        ObjetsMap.add(P2);
+
     }
     
     /**

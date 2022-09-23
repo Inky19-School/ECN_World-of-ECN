@@ -74,5 +74,8 @@ public class Objet extends Entite{
         this.qte = qte;
     }
     
+    public void affiche() {
+        
+    }
     
 }
