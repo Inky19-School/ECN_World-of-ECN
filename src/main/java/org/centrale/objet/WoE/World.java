@@ -8,6 +8,8 @@ import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -18,6 +20,10 @@ public class World {
     /**
      * Objets sur la carte
      */
+   
+    public List<Entite> entites;
+    
+    
     private ArrayList<Objet> ObjetsMap;
     /**
      *
@@ -69,6 +75,10 @@ public class World {
      *
      */
     public World() {
+        entites = new LinkedList<>();
+        
+        
+        
         robin = new Archer();
         peon = new Paysan();
         bugs1 = new Lapin();
@@ -87,30 +97,49 @@ public class World {
      * Crée un monde avec des positions de départ aléatoires et distinctes
      */
     public void creerMondeAlea(){
+        
+        
+        
         Random alea = new Random();
         int size = 10;
         
+        long timer = System.currentTimeMillis();
         
-        ArrayList<Entite> Entities =  new ArrayList<>();
-        Entities.add(robin);
-        Entities.add(peon);
-        Entities.add(bugs1);
-        Entities.add(bugs2);
-        Entities.add(wolfie);
-        Entities.add(grosBill);
-        Entities.add(P1);
-        Entities.add(P2);
+        for (int i=0; i<alea.nextInt(10); i++){
+            entites.add(new Archer());
+        }
+        for (int i=0; i<alea.nextInt(10); i++){
+            entites.add(new Paysan());
+        }
+        for (int i=0; i<alea.nextInt(10); i++){
+            entites.add(new Lapin());
+        }
+        for (int i=0; i<alea.nextInt(10); i++){
+            entites.add(new Guerrier());
+        }
+        for (int i=0; i<alea.nextInt(10); i++){
+            entites.add(new Loup());
+        }
+        int PVtotal = 0;
+        for(Entite p: entites){
+            if (p instanceof Creature){
+                PVtotal += ((Creature) (p)).getPtVie();
+            }
+        }
         
-        for (int i=0; i < Entities.size(); i++){
+        System.out.println("Somme des PVs : " + PVtotal);
+        
+        
+        for (int i=0; i < entites.size(); i++){
             boolean notValide = true; // Indique si l'emplacement est occupé (true = occupé)
             while (notValide){
                 int x = alea.nextInt(size);
                 int y = alea.nextInt(size);
                 Point2D point = new Point2D(x, y);
-                Entities.get(i).setPos(point);
+                entites.get(i).setPos(point);
                 notValide = false;
                 for (int j=0; j < i; j++){ // Parcours la liste des entités déjà générées
-                    if (Entities.get(i).getPos().equals(Entities.get(j).getPos()))
+                    if (entites.get(i).getPos().equals(entites.get(j).getPos()))
                         notValide = true;
                 }
             }
