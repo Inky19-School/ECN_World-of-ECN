@@ -92,7 +92,7 @@ public class PlayerInput implements InputProcessor{
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        gScreen.zoomCamera(amountY/10f);
+        gScreen.zoomCamera(amountY);
         return true;
     }
 }

@@ -61,7 +61,6 @@ public class GameScreen extends ScreenAdapter{
     
     @Override
     public void render(float delta) {
-        System.out.println(delta);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
@@ -108,8 +107,10 @@ public class GameScreen extends ScreenAdapter{
     }
         
     public void zoomCamera(float delta){
-        if (camera.zoom+delta > 0.1f ){
-            camera.zoom += delta;
+        if (delta > 0){
+            camera.zoom /=0.9;
+        } else {
+            camera.zoom *=0.9;
         }
     }
 
