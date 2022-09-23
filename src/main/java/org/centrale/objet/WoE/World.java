@@ -23,7 +23,7 @@ public class World {
    
     public List<Entite> entites;
     public Entite[][] mapEntites;
-    public final static int SIZE = 15;
+    public final int SIZE = 15;
     
     
     private ArrayList<Objet> ObjetsMap;

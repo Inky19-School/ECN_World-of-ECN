@@ -89,7 +89,7 @@ public class IsometricRenderer {
         // x = x le long de la diagonale
         // Diagonale haute
         for (int start = monde.SIZE - 1; start >= 0; start--) {
-            for (int x = start; x < World.SIZE; x++) {
+            for (int x = start; x < monde.SIZE; x++) {
                 if (monde.mapEntites[x][monde.SIZE - 1 - x + start] != null) {
                     Entite e = monde.mapEntites[x][monde.SIZE - 1 - x + start];
                     this.drawEntite(e, batch);
