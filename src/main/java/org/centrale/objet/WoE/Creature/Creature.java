@@ -62,6 +62,7 @@ public class Creature extends Entite{
         this.degAtt = degAtt;
     }
     
+    
     /**
      * Ajouter des points de vie
      * La valeur peut être négative pour soustraire.
