@@ -24,7 +24,7 @@ public class GameScreen extends ScreenAdapter{
     
     private int cameraSpeedX = 0;
     private int cameraSpeedY = 0;
-    private int cameraBaseSpeed = 3;
+    private int cameraBaseSpeed = 10;
     
     
     private SpriteBatch batch;
@@ -35,6 +35,7 @@ public class GameScreen extends ScreenAdapter{
     private int x, y; // Vraie position caméra
     
     private long timer;
+    private long timerCamera;
     
     
     
@@ -43,6 +44,7 @@ public class GameScreen extends ScreenAdapter{
         this.input = new PlayerInput(this);
         this.monde = monde;
         timer = System.currentTimeMillis();
+        timerCamera = System.currentTimeMillis();
     }
     
 
@@ -64,10 +66,12 @@ public class GameScreen extends ScreenAdapter{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.setProjectionMatrix(camera.combined);
-        
         camera.update();
-
-        updatePosition(cameraSpeedX,cameraSpeedY);
+        if (System.currentTimeMillis() > timerCamera+20){
+            
+            updatePosition(cameraSpeedX,cameraSpeedY);
+            timerCamera = System.currentTimeMillis();
+        }
         
         camera.translate((x - (float)camera.position.x)/SMOOTHNESS, (y - (float)camera.position.y)/SMOOTHNESS);
         
@@ -100,6 +104,7 @@ public class GameScreen extends ScreenAdapter{
     public void updatePosition(int dx, int dy) {
         x += dx;
         y += dy;
+
     }
         
     public void zoomCamera(float delta){
