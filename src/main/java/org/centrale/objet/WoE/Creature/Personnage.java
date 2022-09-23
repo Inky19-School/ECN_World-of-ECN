@@ -92,6 +92,7 @@ public class Personnage extends Creature{
     /**
      * Affiche des informations sur le personnage
      */
+    @Override
     public void affiche(){
         super.affiche();
     }

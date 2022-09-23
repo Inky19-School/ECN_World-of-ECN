@@ -44,6 +44,7 @@ public class Lapin extends Monstre {
     /**
      * Affiche des informations sur le lapin
      */
+    @Override
     public void affiche(){
         System.out.println("\nLAPIN");
         super.affiche();

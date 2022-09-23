@@ -72,6 +72,7 @@ public class Loup extends Monstre {
     /**
      * Affiche des informations sur le loup
      */
+    @Override
     public void affiche(){
         System.out.println("\nLOUP :");
         super.affiche();

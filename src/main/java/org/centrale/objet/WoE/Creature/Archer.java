@@ -89,6 +89,7 @@ public class Archer extends Personnage {
     /**
      * Affiche des informations sur l'archer
      */
+    @Override
     public void affiche(){
         System.out.println("\nARCHER :");
         super.affiche();

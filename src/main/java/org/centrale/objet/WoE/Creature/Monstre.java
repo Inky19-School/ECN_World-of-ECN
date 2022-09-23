@@ -43,6 +43,7 @@ public class Monstre extends Creature{
     /**
      * Affiche des informations sur le monstre
      */
+    @Override
     public void affiche(){
         super.affiche();
     }

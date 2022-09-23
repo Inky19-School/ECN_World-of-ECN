@@ -68,6 +68,7 @@ public class Guerrier extends Personnage {
     /**
      * Affiche des informations sur le guerrier
      */
+    @Override
     public void affiche(){
         System.out.println("\nGUERRIER :");
         super.affiche();

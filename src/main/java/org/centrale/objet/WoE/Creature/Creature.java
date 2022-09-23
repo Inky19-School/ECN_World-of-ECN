@@ -76,6 +76,7 @@ public class Creature extends Entite{
     /**
      * Affiche des informations sur la créature.
      */
+    @Override
     public void affiche(){
         System.out.println("Position : [" + this.getPos().getX() + ";" + getPos().getY() + "] | HP : " + ptVie + "\n%Parade : " + pagePar + "   Points parade : " + pagePar + "\n%Attaque : " + pageAtt + "   Points attaque : " + degAtt);
     }
