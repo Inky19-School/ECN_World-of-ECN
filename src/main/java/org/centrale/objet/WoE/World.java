@@ -22,8 +22,8 @@ public class World {
      */
    
     public List<Entite> entites;
-    private Entite[][] mapEntites;
-    private int size = 50;
+    public Entite[][] mapEntites;
+    public final static int SIZE = 50;
     
     
     private ArrayList<Objet> ObjetsMap;

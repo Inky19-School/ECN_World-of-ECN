@@ -64,7 +64,34 @@ public class IsometricRenderer {
             }
         }
         
-
+        for (int x=monde.SIZE-1; x >= 0; x--) {
+            for (int j=x;j < World.SIZE;j++) {
+                if (monde.mapEntites[j][monde.SIZE-1-j+x]!=null) {
+                    Creature p = (Creature) monde.mapEntites[j][monde.SIZE-1-j+x];
+                    pos = this.toWindowPos(p.getPos().getX(), p.getPos().getY());
+                    if (p instanceof Loup){   
+                        batch.draw(wolf, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT);
+                    } else if (p instanceof Paysan){
+                        batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
+                    }
+                }
+            }
+        }
+        for (int x=monde.SIZE-2; x >= 0; x--) {
+            for (int j=0;j <= x;j++) {
+                if (monde.mapEntites[j][x-j]!=null) {
+                    Creature p = (Creature) monde.mapEntites[j][monde.SIZE-1-j+x];
+                    pos = this.toWindowPos(p.getPos().getX(), p.getPos().getY());
+                    if (p instanceof Loup){   
+                        batch.draw(wolf, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT);
+                    } else if (p instanceof Paysan){
+                        batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
+                    }
+                }
+            }
+        }
+        
+        
         for (Entite p: monde.entites){
             pos = this.toWindowPos(p.getPos().getX(), p.getPos().getY());
             if (p instanceof Loup){   
