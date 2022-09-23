@@ -91,6 +91,7 @@ public class TestWoE {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
         config.setTitle("WoE");
+        config.setIdleFPS(60);
         
         config.setWindowedMode(GameScreen.WIDTH, GameScreen.HEIGHT);
         new Lwjgl3Application(new Boot(monde), config);

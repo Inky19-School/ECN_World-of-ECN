@@ -24,7 +24,7 @@ public class GameScreen extends ScreenAdapter{
     
     private int cameraSpeedX = 0;
     private int cameraSpeedY = 0;
-    private int cameraBaseSpeed = 10;
+    private int cameraBaseSpeed = 3;
     
     
     private SpriteBatch batch;
@@ -32,7 +32,7 @@ public class GameScreen extends ScreenAdapter{
     private IsometricRenderer renderer;
     private PlayerInput input;
     private World monde;
-    private int x, y;
+    private int x, y; // Vraie position caméra
     
     private long timer;
     
