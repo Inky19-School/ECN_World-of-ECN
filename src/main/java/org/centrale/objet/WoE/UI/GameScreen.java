@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import org.centrale.objet.WoE.World;
 
 /**
@@ -22,9 +24,9 @@ public class GameScreen extends ScreenAdapter{
     public static final int HEIGHT = 640;
     public static final float SMOOTHNESS = 10f;
     
-    private int cameraSpeedX = 0;
-    private int cameraSpeedY = 0;
-    private int cameraBaseSpeed = 10;
+    private float cameraSpeedX = 0;
+    private float cameraSpeedY = 0;
+    private float cameraBaseSpeed = 10;
     
     
     private SpriteBatch batch;
@@ -93,14 +95,14 @@ public class GameScreen extends ScreenAdapter{
         
     }
     
-    public void moveCameraVertical(int dy){ 
-        cameraSpeedY = dy;
+    public void moveCameraVertical(float dy){ 
+        cameraSpeedY = (float) (dy*min(1f, max(camera.zoom*2, 0.1f)));
     }
     
-    public void moveCameraHorizontal(int dx){
-        cameraSpeedX = dx;
+    public void moveCameraHorizontal(float dx){
+        cameraSpeedX = (float) (dx*min(1f, max(camera.zoom*2, 0.1f)));
     }
-    public void updatePosition(int dx, int dy) {
+    public void updatePosition(float dx, float dy) {
         x += dx;
         y += dy;
 
@@ -114,15 +116,15 @@ public class GameScreen extends ScreenAdapter{
         }
     }
 
-    public int getCameraSpeedX() {
+    public float getCameraSpeedX() {
         return cameraSpeedX;
     }
 
-    public int getCameraSpeedY() {
+    public float getCameraSpeedY() {
         return cameraSpeedY;
     }
 
-    public int getCameraBaseSpeed() {
+    public float getCameraBaseSpeed() {
         return cameraBaseSpeed;
     }
     

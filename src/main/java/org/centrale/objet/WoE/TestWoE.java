@@ -86,6 +86,9 @@ public class TestWoE {
         monde.interactionObjet(monde.bugs1);
         monde.bugs1.affiche();
         monde.afficheObjetMap();
+        
+        monde.peon.setPos(new Point2D(1,0));
+        monde.wolfie.setPos(new Point2D(1,0));
        
         
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
