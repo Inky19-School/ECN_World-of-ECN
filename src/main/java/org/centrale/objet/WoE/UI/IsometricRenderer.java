@@ -40,6 +40,12 @@ public class IsometricRenderer {
         return new Vector2(winX, winY);
     }
     
+    public Vector2 toIsometric(int x, int y) {
+       float tileX = x/TILE_WIDTH + y/TILE_HEIGHT;
+       float tileY = y/TILE_HEIGHT - x/TILE_WIDTH;
+       return new Vector2((int) tileX,(int) tileY);
+    }
+    
     public void drawGrid(SpriteBatch batch){
         Vector2 pos;
         for (int i=15; i>=-15;i--){ // Ancien Y = ligne
