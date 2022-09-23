@@ -19,6 +19,11 @@ public class Loup extends Monstre {
 
     public Loup() {
         super();
+        this.setDegAtt(15);
+        this.setPageAtt(59);
+        this.setPagePar(9);
+        this.setPtPar(6);
+        this.setPtVie(25);
     }
 
     /**

@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.World;
 
 /**
@@ -48,8 +49,8 @@ public class IsometricRenderer {
     
     public void drawGrid(SpriteBatch batch){
         Vector2 pos;
-        for (int i=15; i>=-15;i--){ // Ancien Y = ligne
-            for (int j=15; j>=-15; j--){ // Ancien X = colonne
+        for (int i=25; i>=-25;i--){ // Ancien Y = ligne
+            for (int j=25; j>=-25; j--){ // Ancien X = colonne
                 //float x = (j - i) * (TILE_WIDTH / 2f);
                 //float y = (j + i) * (TILE_HEIGHT / 2f);
                 pos = this.toWindowPos(j, i);
@@ -63,12 +64,35 @@ public class IsometricRenderer {
             }
         }
         
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+        for (Entite p: monde.entites){
+            pos = this.toWindowPos(p.getPos().getX(), p.getPos().getY());
+            if (p instanceof Loup){   
+                batch.draw(wolf, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT);
+            } else if (p instanceof Paysan){
+                batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
+            }
+        }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         
         float wolfx = monde.wolfie.getPos().getX();
         float wolfy = monde.wolfie.getPos().getY();
         batch.draw(wolf,(wolfx-wolfy)* (TILE_WIDTH / 2f),(wolfx + wolfy) * (TILE_HEIGHT / 2f)  + TILE_HEIGHT/4, TILE_WIDTH, TILE_HEIGHT);
         
-        pos = this.toWindowPos(monde.peon.getPos().getX(), monde.peon.getPos().getY());
-        batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
+        //pos = this.toWindowPos(monde.peon.getPos().getX(), monde.peon.getPos().getY());
+        //batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
     }
 }

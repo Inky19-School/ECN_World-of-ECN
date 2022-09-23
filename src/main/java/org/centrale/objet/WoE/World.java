@@ -22,6 +22,8 @@ public class World {
      */
    
     public List<Entite> entites;
+    private Entite[][] mapEntites;
+    private int size = 50;
     
     
     private ArrayList<Objet> ObjetsMap;
@@ -76,7 +78,7 @@ public class World {
      */
     public World() {
         entites = new LinkedList<>();
-        
+        mapEntites = new Entite[size][size];
         
         
         robin = new Archer();
@@ -102,13 +104,15 @@ public class World {
         
         Random alea = new Random();
         int size = 10;
-        
+        int rand = 0;
         long timer = System.currentTimeMillis();
         
         for (int i=0; i<alea.nextInt(10); i++){
             entites.add(new Archer());
         }
-        for (int i=0; i<alea.nextInt(10); i++){
+        rand = alea.nextInt(10); 
+        for (int i=0; i<rand; i++){
+            System.out.println("Nb Paysan :" + rand);
             entites.add(new Paysan());
         }
         for (int i=0; i<alea.nextInt(10); i++){
@@ -117,7 +121,9 @@ public class World {
         for (int i=0; i<alea.nextInt(10); i++){
             entites.add(new Guerrier());
         }
-        for (int i=0; i<alea.nextInt(10); i++){
+        rand = alea.nextInt(10); 
+        for (int i=0; i<rand; i++){
+            System.out.println("Nb Loup :" + rand);
             entites.add(new Loup());
         }
         int PVtotal = 0;
@@ -129,9 +135,23 @@ public class World {
         
         System.out.println("Somme des PVs : " + PVtotal);
         
+       boolean notValide = true;
+        for (Entite p: entites){
+            notValide = true;
+            while (notValide){
+                int x = alea.nextInt(size);
+                int y = alea.nextInt(size);
+                if (mapEntites[x][y] == null){
+                   p.setPos(new Point2D(x,y));
+                   mapEntites[x][y]=p;
+                   notValide = false;
+                }
+            }
+        }
         
+        /**
         for (int i=0; i < entites.size(); i++){
-            boolean notValide = true; // Indique si l'emplacement est occupé (true = occupé)
+            notValide = true; // Indique si l'emplacement est occupé (true = occupé)
             while (notValide){
                 int x = alea.nextInt(size);
                 int y = alea.nextInt(size);
@@ -144,6 +164,9 @@ public class World {
                 }
             }
         }
+        */
+        long fin = System.currentTimeMillis();
+        System.out.println("Temps d'exécution : " + (fin-timer) +"ms");
 
         
     }

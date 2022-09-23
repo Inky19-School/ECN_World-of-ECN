@@ -22,8 +22,13 @@ public class Archer extends Personnage {
      */
     public Archer() {
         super();
-        nbFleches = 0;
-        degAttDist = 0;
+        nbFleches = 20;
+        degAttDist = 4;
+        this.setDegAtt(6);
+        this.setPageAtt(90);
+        this.setPagePar(5);
+        this.setPtPar(4);
+        this.setPtVie(27);
     }
 
     /**

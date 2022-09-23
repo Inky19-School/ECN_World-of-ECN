@@ -18,6 +18,11 @@ public class Paysan extends Personnage {
      */
     public Paysan() {
         super();
+        this.setDegAtt(0);
+        this.setPageAtt(0);
+        this.setPagePar(0);
+        this.setPtPar(0);
+        this.setPtVie(22);
     }
 
     /**

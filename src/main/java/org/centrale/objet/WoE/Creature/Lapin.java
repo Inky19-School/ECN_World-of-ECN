@@ -17,6 +17,11 @@ public class Lapin extends Monstre {
      *
      */
     public Lapin() {
+        this.setDegAtt(2);
+        this.setPageAtt(93);
+        this.setPagePar(13);
+        this.setPtPar(2);
+        this.setPtVie(13);
     }
 
     /**

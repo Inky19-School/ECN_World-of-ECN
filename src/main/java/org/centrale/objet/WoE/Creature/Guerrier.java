@@ -18,6 +18,11 @@ public class Guerrier extends Personnage {
      */
     public Guerrier() {
         super();
+        this.setDegAtt(10);
+        this.setPageAtt(83);
+        this.setPagePar(8);
+        this.setPtPar(7);
+        this.setPtVie(42);
     }
 
     /**
