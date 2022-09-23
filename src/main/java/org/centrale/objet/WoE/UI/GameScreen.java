@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.World;
 
 /**
@@ -79,6 +80,7 @@ public class GameScreen extends ScreenAdapter{
         //monde.wolfie.deplace();
         if (System.currentTimeMillis()>timer+500){
             monde.wolfie.deplace();
+            ((Creature)(monde.entites.get(2))).deplace();
             timer = timer = System.currentTimeMillis();
         }
         

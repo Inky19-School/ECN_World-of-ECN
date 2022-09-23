@@ -22,8 +22,8 @@ public class World {
      */
    
     public List<Entite> entites;
-    private Entite[][] mapEntites;
-    private int size = 50;
+    public Entite[][] mapEntites;
+    public final static int SIZE = 15;
     
     
     private ArrayList<Objet> ObjetsMap;
@@ -31,8 +31,8 @@ public class World {
     public Loup wolfie;
 
     public World() {
-        entites = new LinkedList<>();
-        mapEntites = new Entite[size][size];
+        entites = new ArrayList<>();
+        mapEntites = new Entite[SIZE][SIZE];
         
         wolfie = new Loup();
 
@@ -46,44 +46,53 @@ public class World {
         
         
         Random alea = new Random();
-        int size = 10;
+
         int rand = 0;
         long timer = System.currentTimeMillis();
-        
-        for (int i=0; i<alea.nextInt(10); i++){
+        int r = 4;
+        rand = alea.nextInt(10); 
+        System.out.println("Nb Archer :" + rand);
+        for (int i=0; i<r; i++){
             entites.add(new Archer());
         }
         rand = alea.nextInt(10); 
-        for (int i=0; i<rand; i++){
-            System.out.println("Nb Paysan :" + rand);
+        System.out.println("Nb Paysan :" + rand);
+        for (int i=0; i<r; i++){
             entites.add(new Paysan());
         }
-        for (int i=0; i<alea.nextInt(10); i++){
+        
+        rand = alea.nextInt(10); 
+        System.out.println("Nb Lapin :" + rand);
+        for (int i=0; i<r; i++){
             entites.add(new Lapin());
         }
-        for (int i=0; i<alea.nextInt(10); i++){
+        
+        rand = alea.nextInt(10); 
+        System.out.println("Nb Guerrier :" + rand);
+        for (int i=0; i<r; i++){
             entites.add(new Guerrier());
         }
         rand = alea.nextInt(10); 
-        for (int i=0; i<rand; i++){
-            System.out.println("Nb Loup :" + rand);
+        System.out.println("Nb Loup :" + rand);
+        for (int i=0; i<r; i++){
             entites.add(new Loup());
         }
         int PVtotal = 0;
-        for(Entite p: entites){
-            if (p instanceof Creature){
-                PVtotal += ((Creature) (p)).getPtVie();
-            }
+        for(int i=0;i<entites.size();i++){
+            PVtotal += ((Creature) (entites.get(i))).getPtVie();
         }
-        
+        System.out.println("Nb total de personnage : " + entites.size());
+        long fin = System.currentTimeMillis();
+        System.out.println("Temps d'exécution : " + (fin-timer) +"ms");
         System.out.println("Somme des PVs : " + PVtotal);
+        
         
        boolean notValide = true;
         for (Entite p: entites){
             notValide = true;
             while (notValide){
-                int x = alea.nextInt(size);
-                int y = alea.nextInt(size);
+                int x = alea.nextInt(SIZE);
+                int y = alea.nextInt(SIZE);
                 if (mapEntites[x][y] == null){
                    p.setPos(new Point2D(x,y));
                    mapEntites[x][y]=p;
@@ -108,8 +117,7 @@ public class World {
             }
         }
         */
-        long fin = System.currentTimeMillis();
-        System.out.println("Temps d'exécution : " + (fin-timer) +"ms");
+
 
         
     }
