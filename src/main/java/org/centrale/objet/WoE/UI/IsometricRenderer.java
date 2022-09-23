@@ -64,14 +64,7 @@ public class IsometricRenderer {
             }
         }
         
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
         for (Entite p: monde.entites){
             pos = this.toWindowPos(p.getPos().getX(), p.getPos().getY());
             if (p instanceof Loup){   
@@ -80,13 +73,7 @@ public class IsometricRenderer {
                 batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
             }
         }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
         
         float wolfx = monde.wolfie.getPos().getX();
         float wolfy = monde.wolfie.getPos().getY();
