@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.World;
 
@@ -29,6 +30,7 @@ public class IsometricRenderer {
     private Texture lapin;
     private Texture guerrier;
     private Texture archer;
+    private Texture selected;
 
     public IsometricRenderer(World monde) {
         tileGrass1 = new Texture(Gdx.files.internal("data/textures/tiles/grass1.png"));
@@ -38,18 +40,25 @@ public class IsometricRenderer {
         archer = new Texture(Gdx.files.internal("data/textures/entity/personnage/archer.png"));
         guerrier = new Texture(Gdx.files.internal("data/textures/entity/personnage/guerrier.png"));
         lapin = new Texture(Gdx.files.internal("data/textures/entity/monster/lapin.png"));
+        selected = new Texture(Gdx.files.internal("data/textures/tiles/select.png"));
         this.monde = monde;
     }
 
-    public Vector2 toWindowPos(int x, int y) {
+    public Vector2 toWindowPos(float x, float y) {
         float winX = (x - y) * (TILE_WIDTH / 2f);
         float winY = (x + y) * (TILE_HEIGHT / 2f);
         return new Vector2(winX, winY);
     }
 
     public Vector2 toIsometric(float x, float y) {
-        float tileX = -x / (2*TILE_WIDTH) - y / (2*TILE_HEIGHT);
-        float tileY = y / (2*TILE_HEIGHT) - x / (2*TILE_WIDTH);
+        float tileX = x / TILE_WIDTH + y / TILE_HEIGHT;
+        float tileY = y / TILE_HEIGHT - x / TILE_WIDTH;
+        if (tileX < 0){
+            tileX--;
+        }
+        if (tileY < 0){
+            tileY--;
+        }
         return new Vector2((int) tileX, (int) tileY);
     }
 
@@ -70,20 +79,12 @@ public class IsometricRenderer {
         }
     }
 
-    
-    
-    public void drawGrid(SpriteBatch batch) {
-        Vector2 pos, mousePos;
+    public void drawGrid(SpriteBatch batch, Vector3 mousePos) {
+        Vector2 pos;
         for (int i = monde.SIZE - 1; i >= 0; i--) { // Ancien Y = ligne
             for (int j = monde.SIZE - 1; j >= 0; j--) { // Ancien X = colonne
                 pos = this.toWindowPos(j, i);
-                mousePos = toIsometric(Gdx.input.getX()-700,Gdx.input.getY()-285);
-                System.out.println(Gdx.input.getX()+" "+Gdx.input.getY());
-                System.out.println(mousePos.x+" "+mousePos.y);
-                if (i == mousePos.x && j == mousePos.y) {
-                    batch.draw(tileStoneConcentric, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
-                }
-                if (i==0 && j==0) {
+                if (i == 0 && j == 0) {
                     batch.draw(tileStoneConcentric, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
                 } else {
                     batch.draw(tileGrass1, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
@@ -91,6 +92,9 @@ public class IsometricRenderer {
 
             }
         }
+        pos = this.toIsometric(mousePos.x-TILE_WIDTH/2, mousePos.y);
+        pos = this.toWindowPos(pos.x, pos.y);
+        batch.draw(selected, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
         
         // Affichage des entités
         // start = x de départ (point ([x,SIZE])
@@ -104,7 +108,7 @@ public class IsometricRenderer {
                 }
             }
         }
-        
+
         // Diagonale basse
         for (int start = monde.SIZE - 2; start >= 0; start--) {
             for (int x = 0; x <= start; x++) {
