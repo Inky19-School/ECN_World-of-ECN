@@ -9,9 +9,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.util.Random;
+import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.World;
 
 /**
@@ -67,9 +68,21 @@ public class GameScreen extends ScreenAdapter{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.setProjectionMatrix(camera.combined);
+        
+        update();
+        
+        batch.begin();
+        
+        renderer.drawGrid(batch);
+
+        batch.end();
+    }
+    /**
+     * Met à jour le jeu avant de l'afficher à l'écran
+     */
+    public void update() {
         camera.update();
-        if (System.currentTimeMillis() > timerCamera+20){
-            
+        if (System.currentTimeMillis() > timerCamera+5){
             updatePosition(cameraSpeedX,cameraSpeedY);
             timerCamera = System.currentTimeMillis();
         }
@@ -78,16 +91,13 @@ public class GameScreen extends ScreenAdapter{
         
         //monde.wolfie.deplace();
         if (System.currentTimeMillis()>timer+500){
-            monde.wolfie.deplace();
+            monde.wolfie.deplace(monde);
+            int rand;
+            Random alea = new Random();
+            rand = alea.nextInt(monde.entites.size());
+            ((Creature)(monde.entites.get(rand))).deplace(monde);
             timer = timer = System.currentTimeMillis();
         }
-        
-        batch.begin();
-        
-        renderer.drawGrid(batch);
-        
-        
-        batch.end();
     }
     
     @Override
@@ -110,9 +120,9 @@ public class GameScreen extends ScreenAdapter{
         
     public void zoomCamera(float delta){
         if (delta > 0){
-            camera.zoom /=0.9;
+            camera.zoom /=0.8;
         } else {
-            camera.zoom *=0.9;
+            camera.zoom *=0.8;
         }
     }
 
