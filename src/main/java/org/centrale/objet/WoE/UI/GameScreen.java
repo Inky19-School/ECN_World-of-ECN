@@ -10,10 +10,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.World;
+import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -37,6 +39,8 @@ public class GameScreen extends ScreenAdapter{
     private World monde;
     private int x, y; // Vraie position caméra
     
+    private Vector3 mousePos;
+    
     private long timer;
     private long timerCamera;
     
@@ -48,6 +52,7 @@ public class GameScreen extends ScreenAdapter{
         this.monde = monde;
         timer = System.currentTimeMillis();
         timerCamera = System.currentTimeMillis();
+        mousePos = new Vector3();
     }
     
 
@@ -66,6 +71,10 @@ public class GameScreen extends ScreenAdapter{
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(mousePos);
+        
         
         batch.setProjectionMatrix(camera.combined);
         camera.update();
@@ -86,7 +95,7 @@ public class GameScreen extends ScreenAdapter{
         
         batch.begin();
         
-        renderer.drawGrid(batch);
+        renderer.drawGrid(batch, mousePos);
         
         
         batch.end();
@@ -128,6 +137,10 @@ public class GameScreen extends ScreenAdapter{
 
     public float getCameraBaseSpeed() {
         return cameraBaseSpeed;
+    }
+
+    public Vector3 getMousePos() {
+        return mousePos;
     }
     
 }
