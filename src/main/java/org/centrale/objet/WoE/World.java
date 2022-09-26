@@ -20,18 +20,33 @@ public class World {
     /**
      * Objets sur la carte
      */
-   
-    public List<Entite> entites;
-    public Entite[][] mapEntites;
-    public final int SIZE = 15;
+   /**
+    * Liste des entités
+    */
+    public List<Entite> entites; 
+    /**
+     * Matrice des entités pour un accès rapide à partir d'une position
+     */
+    public Entite[][] mapEntites;// Matrice des entités à leur position
     
+    /**
+     * Taille du monde.
+     */
+    public final int SIZE = 50; 
     
+    /**
+     * Liste des objets sur la carte.
+     * (Doit être remplacée à terme)
+     */
     private ArrayList<Objet> ObjetsMap;
 
+    /**
+     *  Reste là car devenu la mascotte du débogage 🐺 
+     */
     public Loup wolfie;
 
     public World() {
-        entites = new ArrayList<>();
+        entites = new LinkedList<>();
         mapEntites = new Entite[SIZE][SIZE];
         
         wolfie = new Loup();
@@ -44,86 +59,73 @@ public class World {
     public void creerMondeAlea(){
         
         
-        
+        // Générateur de nombre aléatoire
         Random alea = new Random();
-
         int rand = 0;
+        
         long timer = System.currentTimeMillis();
-        int r = 4;
+        
+        // Génération d'un nombre de créatures aléatoires
         rand = alea.nextInt(10); 
         System.out.println("Nb Archer :" + rand);
-        for (int i=0; i<r; i++){
+        for (int i=0; i<rand; i++){
             entites.add(new Archer());
         }
         rand = alea.nextInt(10); 
         System.out.println("Nb Paysan :" + rand);
-        for (int i=0; i<r; i++){
+        for (int i=0; i<rand; i++){
             entites.add(new Paysan());
         }
         
         rand = alea.nextInt(10); 
         System.out.println("Nb Lapin :" + rand);
-        for (int i=0; i<r; i++){
+        for (int i=0; i<rand; i++){
             entites.add(new Lapin());
         }
         
         rand = alea.nextInt(10); 
         System.out.println("Nb Guerrier :" + rand);
-        for (int i=0; i<r; i++){
+        for (int i=0; i<rand; i++){
             entites.add(new Guerrier());
         }
         rand = alea.nextInt(10); 
         System.out.println("Nb Loup :" + rand);
-        for (int i=0; i<r; i++){
+        for (int i=0; i<rand; i++){
             entites.add(new Loup());
         }
+        
+        // Calcul du nombre total de points de vie
         int PVtotal = 0;
-        for(int i=0;i<entites.size();i++){
-            PVtotal += ((Creature) (entites.get(i))).getPtVie();
+        for(Entite p: entites){
+            if (p instanceof Creature){
+                PVtotal += ((Creature) (p)).getPtVie();
+            }
         }
         System.out.println("Nb total de personnage : " + entites.size());
         long fin = System.currentTimeMillis();
         System.out.println("Temps d'exécution : " + (fin-timer) +"ms");
         System.out.println("Somme des PVs : " + PVtotal);
         
-        
-       boolean notValide = true;
+        // Placement aléatoire des entités
+        boolean notValide = true;
         for (Entite p: entites){
             notValide = true;
             while (notValide){
+                // Tirage d'une position aléatoire sur la carte
                 int x = alea.nextInt(SIZE);
                 int y = alea.nextInt(SIZE);
+                // Vérification que la case est libre
                 if (mapEntites[x][y] == null){
                    p.setPos(new Point2D(x,y));
                    mapEntites[x][y]=p;
                    notValide = false;
                 }
             }
-        }
-        
-        /**
-        for (int i=0; i < entites.size(); i++){
-            notValide = true; // Indique si l'emplacement est occupé (true = occupé)
-            while (notValide){
-                int x = alea.nextInt(size);
-                int y = alea.nextInt(size);
-                Point2D point = new Point2D(x, y);
-                entites.get(i).setPos(point);
-                notValide = false;
-                for (int j=0; j < i; j++){ // Parcours la liste des entités déjà générées
-                    if (entites.get(i).getPos().equals(entites.get(j).getPos()))
-                        notValide = true;
-                }
-            }
-        }
-        */
-
-
-        
+        }     
     }
     
     /**
-     *
+     * Non implémentée
      */
     public void tourDeJeu(){
         
@@ -154,7 +156,7 @@ public class World {
     }
     
     /**
-     *
+     * Non implémentée
      */
     public void afficheWorld(){
         
