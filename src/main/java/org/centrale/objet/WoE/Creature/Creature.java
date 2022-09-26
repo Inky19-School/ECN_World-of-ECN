@@ -7,6 +7,7 @@ package org.centrale.objet.WoE.Creature;
 import org.centrale.objet.WoE.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+import org.centrale.objet.WoE.World;
 
 /**
  *
@@ -84,24 +85,35 @@ public class Creature extends Entite{
     /**
      * Déplace la créature de manière aléatoire.
      */
-    public void deplace(){
+    public void deplace(World monde){
         ArrayList<Point2D> casesCibles = new ArrayList<>();
+        int x = this.getPos().getX();
+        int y = this.getPos().getY();
         for (int i=-1;i<2;i++){
             for (int j=-1;j<2;j++){
-                if (!(j==0 && i==0)){
+                if (!(j==0 && i==0)&&(inBounds(x+i,monde.SIZE))&&(inBounds(y+j,monde.SIZE)&&(monde.mapEntites[x+i][y+j]==null))){
                     casesCibles.add(new Point2D(i,j));
                 }
             }
         }
         Random alea = new Random();
-        int indCase = alea.nextInt(casesCibles.size());
-        Point2D cible = casesCibles.get(indCase);
-        Point2D newPos = new Point2D(this.getPos());
-        newPos.translate(cible.getX(),cible.getY());
-        this.setPos(newPos);
-    }   
-  
-
+        if (!casesCibles.isEmpty()) {
+            int indCase = alea.nextInt(casesCibles.size());
+            Point2D cible = casesCibles.get(indCase);
+            Point2D newPos = new Point2D(this.getPos());
+            newPos.translate(cible.getX(),cible.getY());
+            //mise à jour de la position
+            monde.mapEntites[x][y]=null;
+            monde.mapEntites[newPos.getX()][newPos.getY()] = this;
+            this.setPos(newPos);
+        }
+        
+    }
+    
+    private boolean inBounds(int i,int u) {
+        return (i>=0)&&(i<u);
+    }
+ 
     /**
      * Renvoie le nombre de points de vie de la créature
      * @return Nombre de points de vie de la créature

@@ -32,7 +32,7 @@ public class World {
     /**
      * Taille du monde.
      */
-    public final int SIZE = 50; 
+    public final int SIZE = 15; 
     
     /**
      * Liste des objets sur la carte.
@@ -50,6 +50,7 @@ public class World {
         mapEntites = new Entite[SIZE][SIZE];
         
         wolfie = new Loup();
+        mapEntites[0][0] = wolfie; 
 
     }
     
@@ -96,10 +97,8 @@ public class World {
         
         // Calcul du nombre total de points de vie
         int PVtotal = 0;
-        for(Entite p: entites){
-            if (p instanceof Creature){
-                PVtotal += ((Creature) (p)).getPtVie();
-            }
+        for(int i=0;i<entites.size();i++){
+            PVtotal += ((Creature) (entites.get(i))).getPtVie();
         }
         System.out.println("Nb total de personnage : " + entites.size());
         long fin = System.currentTimeMillis();
@@ -107,7 +106,7 @@ public class World {
         System.out.println("Somme des PVs : " + PVtotal);
         
         // Placement aléatoire des entités
-        boolean notValide = true;
+        boolean notValide;
         for (Entite p: entites){
             notValide = true;
             while (notValide){

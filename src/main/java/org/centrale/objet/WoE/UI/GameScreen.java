@@ -77,9 +77,21 @@ public class GameScreen extends ScreenAdapter{
         
         
         batch.setProjectionMatrix(camera.combined);
+        
+        update();
+        
+        batch.begin();
+        
+        renderer.drawGrid(batch,mousePos);
+
+        batch.end();
+    }
+    /**
+     * Met à jour le jeu avant de l'afficher à l'écran
+     */
+    public void update() {
         camera.update();
-        if (System.currentTimeMillis() > timerCamera+20){
-            
+        if (System.currentTimeMillis() > timerCamera+5){
             updatePosition(cameraSpeedX,cameraSpeedY);
             timerCamera = System.currentTimeMillis();
         }
@@ -88,17 +100,10 @@ public class GameScreen extends ScreenAdapter{
         
         //monde.wolfie.deplace();
         if (System.currentTimeMillis()>timer+500){
-            monde.wolfie.deplace();
-            ((Creature)(monde.entites.get(2))).deplace();
+            monde.wolfie.deplace(monde);
+            ((Creature)(monde.entites.get(2))).deplace(monde);
             timer = timer = System.currentTimeMillis();
         }
-        
-        batch.begin();
-        
-        renderer.drawGrid(batch, mousePos);
-        
-        
-        batch.end();
     }
     
     @Override
@@ -121,9 +126,9 @@ public class GameScreen extends ScreenAdapter{
         
     public void zoomCamera(float delta){
         if (delta > 0){
-            camera.zoom /=0.9;
+            camera.zoom /=0.8;
         } else {
-            camera.zoom *=0.9;
+            camera.zoom *=0.8;
         }
     }
 
