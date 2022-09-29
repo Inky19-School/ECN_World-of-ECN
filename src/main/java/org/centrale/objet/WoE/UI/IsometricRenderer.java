@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import org.centrale.objet.WoE.Creature.*;
+import org.centrale.objet.WoE.Objet.Objet;
+import org.centrale.objet.WoE.Objet.PotionSoin;
 import org.centrale.objet.WoE.World;
 
 /**
@@ -21,16 +23,17 @@ public class IsometricRenderer {
     public static final int TILE_WIDTH = 64;
     public static final int TILE_HEIGHT = 32;
 
-    private Texture empty;
-    private Texture tileGrass1;
-    private Texture tileStoneConcentric;
-    private World monde;
-    private Texture wolf;
-    private Texture paysan;
-    private Texture lapin;
-    private Texture guerrier;
-    private Texture archer;
-    private Texture selected;
+    //private final Texture empty;
+    private final Texture tileGrass1;
+    private final Texture tileStoneConcentric;
+    private final World monde;
+    private final Texture wolf;
+    private final Texture paysan;
+    private final Texture lapin;
+    private final Texture guerrier;
+    private final Texture archer;
+    private final Texture selected;
+    private final Texture healPotion;
 
     public IsometricRenderer(World monde) {
         tileGrass1 = new Texture(Gdx.files.internal("data/textures/tiles/grass1.png"));
@@ -41,6 +44,7 @@ public class IsometricRenderer {
         guerrier = new Texture(Gdx.files.internal("data/textures/entity/personnage/guerrier.png"));
         lapin = new Texture(Gdx.files.internal("data/textures/entity/monster/lapin.png"));
         selected = new Texture(Gdx.files.internal("data/textures/tiles/select.png"));
+        healPotion = new Texture(Gdx.files.internal("data/textures/entity/object/healPotion.png"));
         this.monde = monde;
     }
 
@@ -76,7 +80,10 @@ public class IsometricRenderer {
             batch.draw(archer, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
         } else if (e instanceof Lapin) {
             batch.draw(lapin, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+        } else if (e instanceof PotionSoin) {
+            batch.draw(healPotion, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         }
+        
     }
 
     public void drawGrid(SpriteBatch batch, Vector3 mousePos) {
@@ -102,8 +109,14 @@ public class IsometricRenderer {
         // Diagonale haute
         for (int start = monde.SIZE - 1; start >= 0; start--) {
             for (int x = start; x < monde.SIZE; x++) {
+                //affichage créature
                 if (monde.mapEntites[x][monde.SIZE - 1 - x + start] != null) {
                     Entite e = monde.mapEntites[x][monde.SIZE - 1 - x + start];
+                    this.drawEntite(e, batch);
+                }
+                //affichage objet
+                if (monde.mapObjets[x][monde.SIZE - 1 - x + start] != null) {
+                    Objet e = monde.mapObjets[x][monde.SIZE - 1 - x + start];
                     this.drawEntite(e, batch);
                 }
             }
@@ -112,8 +125,14 @@ public class IsometricRenderer {
         // Diagonale basse
         for (int start = monde.SIZE - 2; start >= 0; start--) {
             for (int x = 0; x <= start; x++) {
+                //affichage créature
                 if (monde.mapEntites[x][start - x] != null) {
                     Entite e = monde.mapEntites[x][start - x];
+                    this.drawEntite(e, batch);
+                }
+                //affichage objet
+                if (monde.mapObjets[x][start-x] != null) {
+                    Objet e = monde.mapObjets[x][start-x];
                     this.drawEntite(e, batch);
                 }
             }

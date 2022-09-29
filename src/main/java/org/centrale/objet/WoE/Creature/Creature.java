@@ -107,6 +107,7 @@ public class Creature extends Entite{
             monde.mapEntites[newPos.getX()][newPos.getY()] = this;
             this.setPos(newPos);
         }
+        monde.interactionObjet(this);
         
     }
     
