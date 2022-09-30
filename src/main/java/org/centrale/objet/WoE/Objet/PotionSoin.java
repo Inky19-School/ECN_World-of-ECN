@@ -32,7 +32,7 @@ public class PotionSoin extends Objet {
      */
     public PotionSoin() {
         super();
-        ptVieRegen = 0;
+        ptVieRegen = 5;
     }
     
     /**
