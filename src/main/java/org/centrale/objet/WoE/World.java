@@ -17,16 +17,15 @@ import java.util.List;
  * @author inky19
  */
 public class World {
-
     /**
      * Objets sur la carte
      */
+   /**
+    * Liste des entités
+    */
+    public List<Entite> entites; 
     /**
-     * Liste des entités
-     */
-    public List<Entite> entites;
-    /**
-     * Matrice des créatures pour un accès rapide à partir d'une position
+     * Matrice des Créatures pour un accès rapide à partir d'une position
      */
     public Entite[][] mapEntites;// Matrice des entités à leur position
     
@@ -37,15 +36,16 @@ public class World {
     /**
      * Taille du monde.
      */
-    public final int SIZE = 15;
-
+    public final int SIZE = 32; 
+    
     /**
-     * Liste des objets sur la carte. (Doit être remplacée à terme)
+     * Liste des objets sur la carte.
+     * (Doit être remplacée à terme)
      */
     private ArrayList<Objet> ObjetsMap;
 
     /**
-     * Reste là car devenu la mascotte du débogage 🐺
+     *  Reste là car devenu la mascotte du débogage 🐺 
      */
     public Loup wolfie;
 
@@ -58,42 +58,45 @@ public class World {
         //mapCreatures[0][0] = wolfie;
 
     }
-
+    
     /**
      * Crée un monde avec des positions de départ aléatoires et distinctes
      */
-    public void creerMondeAlea() {
-
+    public void creerMondeAlea(){
+        
+        
         // Générateur de nombre aléatoire
         Random alea = new Random();
-        int rand;
-
+        int rand = 0;
+        
+        long timer = System.currentTimeMillis();
+        
         // Génération d'un nombre de créatures aléatoires
-        rand = alea.nextInt(10);
+        rand = alea.nextInt(10); 
         System.out.println("Nb Archer :" + rand);
-        for (int i = 0; i < rand; i++) {
+        for (int i=0; i<rand; i++){
             entites.add(new Archer());
         }
-        rand = alea.nextInt(10);
+        rand = alea.nextInt(10); 
         System.out.println("Nb Paysan :" + rand);
-        for (int i = 0; i < rand; i++) {
+        for (int i=0; i<rand; i++){
             entites.add(new Paysan());
         }
-
-        rand = alea.nextInt(10);
+        
+        rand = alea.nextInt(10); 
         System.out.println("Nb Lapin :" + rand);
-        for (int i = 0; i < rand; i++) {
+        for (int i=0; i<rand; i++){
             entites.add(new Lapin());
         }
-
-        rand = alea.nextInt(10);
+        
+        rand = alea.nextInt(10); 
         System.out.println("Nb Guerrier :" + rand);
-        for (int i = 0; i < rand; i++) {
+        for (int i=0; i<rand; i++){
             entites.add(new Guerrier());
         }
-        rand = alea.nextInt(10);
+        rand = alea.nextInt(10); 
         System.out.println("Nb Loup :" + rand);
-        for (int i = 0; i < rand; i++) {
+        for (int i=0; i<rand; i++){
             entites.add(new Loup());
         }
         
@@ -102,13 +105,16 @@ public class World {
         for (int i = 0; i < rand; i++) {
             entites.add(new PotionSoin());
         }
-    
         System.out.println("Nb total de personnage : " + entites.size());
+        long fin = System.currentTimeMillis();
+        System.out.println("Temps d'exécution : " + (fin-timer) +"ms");
+        System.out.println("Somme des PVs : " + PVtotal);
+        
         // Placement aléatoire des entités
         boolean notValide;
-        for (Entite p : entites) {
+        for (Entite p: entites){
             notValide = true;
-            while (notValide) {
+            while (notValide){
                 // Tirage d'une position aléatoire sur la carte
                 int x = alea.nextInt(SIZE);
                 int y = alea.nextInt(SIZE);
@@ -124,20 +130,18 @@ public class World {
                     notValide = false;
                 }
             }
-        }
+        }     
     }
-
+    
     /**
      * Non implémentée
      */
-    public void tourDeJeu() {
-
+    public void tourDeJeu(){
+        
     }
-
+    
     /**
-     * Vérifie si une créature peut intéragir avec un objet sur la carte, et le
-     * supprime après l'interaction.
-     *
+     * Vérifie si une créature peut intéragir avec un objet sur la carte, et le supprime après l'interaction.
      * @param creature Créature avec laquelle intéragir
      */
     public void interactionObjet(Creature creature) {
@@ -147,21 +151,21 @@ public class World {
             mapObjets[x][y].interagir(creature);
         }
     }
-
+    
     /**
      * Affiche la liste des objets présents sur la carte
      */
-    public void afficheObjetMap() {
+    public void afficheObjetMap(){
         System.out.println("OBJETS SUR LA CARTE :");
-        for (int i = 0; i < ObjetsMap.size(); i++) {
+        for (int i=0; i<ObjetsMap.size(); i++){
             ObjetsMap.get(i).affiche();
         }
     }
-
+    
     /**
      * Non implémentée
      */
-    public void afficheWorld() {
-
+    public void afficheWorld(){
+        
     }
 }

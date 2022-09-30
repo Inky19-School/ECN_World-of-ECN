@@ -9,11 +9,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import org.centrale.objet.WoE.Creature.Creature;
+import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
 import org.centrale.objet.WoE.World;
 import org.lwjgl.input.Mouse;
 
@@ -34,12 +36,15 @@ public class GameScreen extends ScreenAdapter{
     
     private SpriteBatch batch;
     private OrthographicCamera camera;
+    private OrthographicCamera fixedCamera;
     private IsometricRenderer renderer;
     private PlayerInput input;
     private World monde;
+    private Tileinfo infobox;
     private int x, y; // Vraie position caméra
     
     private Vector3 mousePos;
+    private Vector2 selectedTile;
     
     private long timer;
     private long timerCamera;
@@ -53,14 +58,22 @@ public class GameScreen extends ScreenAdapter{
         timer = System.currentTimeMillis();
         timerCamera = System.currentTimeMillis();
         mousePos = new Vector3();
+        infobox = new Tileinfo();
+        selectedTile = new Vector2();
     }
     
 
     @Override
     public void show(){
         camera = new OrthographicCamera(WIDTH, HEIGHT);
+        fixedCamera = new OrthographicCamera(WIDTH, HEIGHT);
+        
         camera.position.set(0, 0, 0);
         camera.zoom = 0.5f;
+        fixedCamera.position.set(-WIDTH, WIDTH, 0);
+        fixedCamera.zoom = 0.5f;
+        
+        infobox.setPos(new Vector2(WIDTH-20,HEIGHT-20));
         
         Gdx.input.setInputProcessor(input);
         
@@ -74,9 +87,10 @@ public class GameScreen extends ScreenAdapter{
         
         mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         camera.unproject(mousePos);
-        
-        
         batch.setProjectionMatrix(camera.combined);
+        
+        selectedTile = renderer.toIsometric(mousePos.x-TILE_WIDTH/2, mousePos.y);
+   
         
         update();
         
@@ -85,6 +99,24 @@ public class GameScreen extends ScreenAdapter{
         renderer.drawGrid(batch,mousePos);
 
         batch.end();
+        
+        batch.setProjectionMatrix(fixedCamera.combined);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        infobox.begin(ShapeType.Filled);
+        infobox.setColor(0.8f, 0.8f, 0.8f, 0.7f);
+        infobox.update(selectedTile, monde.mapEntites);
+        
+        infobox.draw();
+        infobox.end();
+        
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+        
+        batch.begin();
+        infobox.drawTextures(batch);
+        batch.end();
+        
+        
     }
     /**
      * Met à jour le jeu avant de l'afficher à l'écran
@@ -147,5 +179,6 @@ public class GameScreen extends ScreenAdapter{
     public Vector3 getMousePos() {
         return mousePos;
     }
+    
     
 }
