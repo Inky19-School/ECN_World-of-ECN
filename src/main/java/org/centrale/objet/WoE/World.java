@@ -32,7 +32,7 @@ public class World {
     /**
      * Taille du monde.
      */
-    public final int SIZE = 15; 
+    public final int SIZE = 32; 
     
     /**
      * Liste des objets sur la carte.
