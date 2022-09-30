@@ -69,8 +69,6 @@ public class World {
         Random alea = new Random();
         int rand = 0;
         
-        long timer = System.currentTimeMillis();
-        
         // Génération d'un nombre de créatures aléatoires
         rand = alea.nextInt(10); 
         System.out.println("Nb Archer :" + rand);
@@ -106,9 +104,6 @@ public class World {
             entites.add(new PotionSoin());
         }
         System.out.println("Nb total de personnage : " + entites.size());
-        long fin = System.currentTimeMillis();
-        System.out.println("Temps d'exécution : " + (fin-timer) +"ms");
-        System.out.println("Somme des PVs : " + PVtotal);
         
         // Placement aléatoire des entités
         boolean notValide;
