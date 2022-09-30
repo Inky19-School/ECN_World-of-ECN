@@ -25,10 +25,14 @@ public class World {
     */
     public List<Entite> entites; 
     /**
-     * Matrice des entités pour un accès rapide à partir d'une position
+     * Matrice des Créatures pour un accès rapide à partir d'une position
      */
     public Entite[][] mapEntites;// Matrice des entités à leur position
     
+    /**
+     * Matrice des objets pour un accès rapide à partir d'une position
+     */
+    public Objet[][] mapObjets;
     /**
      * Taille du monde.
      */
@@ -48,9 +52,10 @@ public class World {
     public World() {
         entites = new LinkedList<>();
         mapEntites = new Entite[SIZE][SIZE];
+        mapObjets = new Objet[SIZE][SIZE];
         
         wolfie = new Loup();
-        mapEntites[0][0] = wolfie; 
+        //mapCreatures[0][0] = wolfie;
 
     }
     
@@ -95,10 +100,10 @@ public class World {
             entites.add(new Loup());
         }
         
-        // Calcul du nombre total de points de vie
-        int PVtotal = 0;
-        for(int i=0;i<entites.size();i++){
-            PVtotal += ((Creature) (entites.get(i))).getPtVie();
+        rand = alea.nextInt(10);
+        System.out.println("Nb Potion de soin :" + rand);
+        for (int i = 0; i < rand; i++) {
+            entites.add(new PotionSoin());
         }
         System.out.println("Nb total de personnage : " + entites.size());
         long fin = System.currentTimeMillis();
@@ -114,10 +119,15 @@ public class World {
                 int x = alea.nextInt(SIZE);
                 int y = alea.nextInt(SIZE);
                 // Vérification que la case est libre
-                if (mapEntites[x][y] == null){
-                   p.setPos(new Point2D(x,y));
-                   mapEntites[x][y]=p;
-                   notValide = false;
+                if ((p instanceof Creature)&&(mapEntites[x][y] == null)) {
+                    p.setPos(new Point2D(x, y));
+                    mapEntites[x][y] = (Creature) p;
+                    notValide = false;
+                }
+                if ((p instanceof Objet)&&(mapObjets[x][y] == null)) {
+                    p.setPos(new Point2D(x, y));
+                    mapObjets[x][y] = (Objet) p;
+                    notValide = false;
                 }
             }
         }     
@@ -134,13 +144,11 @@ public class World {
      * Vérifie si une créature peut intéragir avec un objet sur la carte, et le supprime après l'interaction.
      * @param creature Créature avec laquelle intéragir
      */
-    public void interactionObjet(Creature creature){
-
-        for (int i=0; i<ObjetsMap.size(); i++){
-            if (ObjetsMap.get(i).getPos().equals(creature.getPos())){
-                ObjetsMap.get(i).interagir(creature);
-                ObjetsMap.remove(i);
-            }
+    public void interactionObjet(Creature creature) {
+        int x = creature.getPos().getX();
+        int y = creature.getPos().getY();
+        if (mapObjets[x][y] != null) {
+            mapObjets[x][y].interagir(creature);
         }
     }
     

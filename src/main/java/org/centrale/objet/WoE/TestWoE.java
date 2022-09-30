@@ -18,16 +18,15 @@ public class TestWoE {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         World monde = new World();
         monde.creerMondeAlea();
 
-       
-        
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
-        config.setTitle("WoE");
+        config.setTitle("World of ECN");
         config.setIdleFPS(60);
-        
+        config.setWindowIcon("data/gui/icon3.png");
         config.setWindowedMode(GameScreen.WIDTH, GameScreen.HEIGHT);
         new Lwjgl3Application(new Boot(monde), config);
         

@@ -90,4 +90,5 @@
             </plugin>
         </plugins>
     </build>
+    <name>World-of-ECN</name>
 </project>

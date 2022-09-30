@@ -123,7 +123,7 @@ public class GameScreen extends ScreenAdapter{
      */
     public void update() {
         camera.update();
-        if (System.currentTimeMillis() > timerCamera+5){
+        if (System.currentTimeMillis() > timerCamera){
             updatePosition(cameraSpeedX,cameraSpeedY);
             timerCamera = System.currentTimeMillis();
         }
