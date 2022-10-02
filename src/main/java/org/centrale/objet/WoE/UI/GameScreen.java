@@ -105,7 +105,7 @@ public class GameScreen extends ScreenAdapter{
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         infobox.begin(ShapeType.Filled);
         infobox.setColor(0.8f, 0.8f, 0.8f, 0.7f);
-        infobox.update(selectedTile, monde.mapEntites);
+        infobox.update(selectedTile, monde.mapCreature);
         
         infobox.draw();
         infobox.end();

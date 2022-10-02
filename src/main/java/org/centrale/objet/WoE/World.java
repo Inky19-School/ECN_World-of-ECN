@@ -27,7 +27,7 @@ public class World {
     /**
      * Matrice des Créatures pour un accès rapide à partir d'une position
      */
-    public Entite[][] mapEntites;// Matrice des entités à leur position
+    public Entite[][] mapCreature;// Matrice des entités à leur position
     
     /**
      * Matrice des objets pour un accès rapide à partir d'une position
@@ -51,7 +51,7 @@ public class World {
 
     public World() {
         entites = new LinkedList<>();
-        mapEntites = new Entite[SIZE][SIZE];
+        mapCreature = new Entite[SIZE][SIZE];
         mapObjets = new Objet[SIZE][SIZE];
         
         wolfie = new Loup();
@@ -70,29 +70,29 @@ public class World {
         int rand = 0;
         
         // Génération d'un nombre de créatures aléatoires
-        rand = alea.nextInt(10); 
+        rand = alea.nextInt(100); 
         System.out.println("Nb Archer :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Archer());
         }
-        rand = alea.nextInt(10); 
+        rand = alea.nextInt(100); 
         System.out.println("Nb Paysan :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Paysan());
         }
         
-        rand = alea.nextInt(10); 
+        rand = alea.nextInt(100); 
         System.out.println("Nb Lapin :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Lapin());
         }
         
-        rand = alea.nextInt(10); 
+        rand = alea.nextInt(100); 
         System.out.println("Nb Guerrier :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Guerrier());
         }
-        rand = alea.nextInt(10); 
+        rand = alea.nextInt(100); 
         System.out.println("Nb Loup :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Loup());
@@ -114,9 +114,9 @@ public class World {
                 int x = alea.nextInt(SIZE);
                 int y = alea.nextInt(SIZE);
                 // Vérification que la case est libre
-                if ((p instanceof Creature)&&(mapEntites[x][y] == null)) {
+                if ((p instanceof Creature)&&(mapCreature[x][y] == null)) {
                     p.setPos(new Point2D(x, y));
-                    mapEntites[x][y] = (Creature) p;
+                    mapCreature[x][y] = (Creature) p;
                     notValide = false;
                 }
                 if ((p instanceof Objet)&&(mapObjets[x][y] == null)) {
