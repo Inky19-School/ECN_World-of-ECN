@@ -23,6 +23,7 @@ public class Guerrier extends Personnage {
         this.setPagePar(8);
         this.setPtPar(7);
         this.setPtVie(42);
+        super.setNom("Robert");
     }
 
     /**
