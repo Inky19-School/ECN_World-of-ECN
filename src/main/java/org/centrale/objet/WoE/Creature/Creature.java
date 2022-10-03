@@ -91,7 +91,7 @@ public class Creature extends Entite{
         int y = this.getPos().getY();
         for (int i=-1;i<2;i++){
             for (int j=-1;j<2;j++){
-                if (!(j==0 && i==0)&&(inBounds(x+i,monde.SIZE))&&(inBounds(y+j,monde.SIZE)&&(monde.mapEntites[x+i][y+j]==null))){
+                if (!(j==0 && i==0)&&(inBounds(x+i,monde.SIZE))&&(inBounds(y+j,monde.SIZE)&&(monde.mapCreature[x+i][y+j]==null))){
                     casesCibles.add(new Point2D(i,j));
                 }
             }
@@ -103,8 +103,8 @@ public class Creature extends Entite{
             Point2D newPos = new Point2D(this.getPos());
             newPos.translate(cible.getX(),cible.getY());
             //mise à jour de la position
-            monde.mapEntites[x][y]=null;
-            monde.mapEntites[newPos.getX()][newPos.getY()] = this;
+            monde.mapCreature[x][y]=null;
+            monde.mapCreature[newPos.getX()][newPos.getY()] = this;
             this.setPos(newPos);
         }
         monde.interactionObjet(this);
