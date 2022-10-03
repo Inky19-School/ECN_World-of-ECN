@@ -105,6 +105,8 @@ public class World {
         }
         System.out.println("Nb total de personnage : " + entites.size());
         
+        
+        
         // Placement aléatoire des entités
         boolean notValide;
         for (Entite p: entites){
@@ -125,7 +127,14 @@ public class World {
                     notValide = false;
                 }
             }
-        }     
+        }
+        PotionSoin p = new PotionSoin(new Point2D(1,1), 1, 6);
+        entites.add(p);
+        mapObjets[1][1] = p;
+        Loup w = new Loup(new Point2D(1,1), 20, 20, 20, 20, 20);
+        entites.add(w);
+        mapCreature[1][1] = w;
+        
     }
     
     /**

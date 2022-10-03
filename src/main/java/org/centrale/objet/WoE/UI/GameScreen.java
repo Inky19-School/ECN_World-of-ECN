@@ -40,7 +40,7 @@ public class GameScreen extends ScreenAdapter{
     private IsometricRenderer renderer;
     private PlayerInput input;
     private World monde;
-    private Tileinfo infobox;
+    private InfoMenu infobox;
     private int x, y; // Vraie position caméra
     
     private Vector3 mousePos;
@@ -58,7 +58,7 @@ public class GameScreen extends ScreenAdapter{
         timer = System.currentTimeMillis();
         timerCamera = System.currentTimeMillis();
         mousePos = new Vector3();
-        infobox = new Tileinfo();
+        infobox = new InfoMenu();
         selectedTile = new Vector2();
     }
     
@@ -105,7 +105,7 @@ public class GameScreen extends ScreenAdapter{
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         infobox.begin(ShapeType.Filled);
         infobox.setColor(0.8f, 0.8f, 0.8f, 0.7f);
-        infobox.update(selectedTile, monde.mapCreature);
+        infobox.update(selectedTile, monde.mapCreature, monde.mapObjets);
         
         infobox.draw();
         infobox.end();
