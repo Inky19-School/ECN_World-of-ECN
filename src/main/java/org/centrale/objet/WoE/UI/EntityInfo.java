@@ -31,7 +31,7 @@ public class EntityInfo {
     }
 
     
-    static Texture getTexture(Entite e){
+    public static Texture getTexture(Entite e){
         if (e instanceof Creature ){
             if (e instanceof Loup){
                 return wolf;
@@ -52,7 +52,7 @@ public class EntityInfo {
         return null;
     }
         
-    static String getClassName(Entite e){
+    public static String getClassName(Entite e){
         if (e instanceof Creature ){
             if (e instanceof Loup){
                 return "Loup";

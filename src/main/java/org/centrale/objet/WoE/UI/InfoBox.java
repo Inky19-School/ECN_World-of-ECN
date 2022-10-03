@@ -83,7 +83,9 @@ public class InfoBox {
 
             if (c instanceof Archer){
                 addElement(bow, String.valueOf(((Archer) c).getDegAttDist()), arrow, String.valueOf(((Archer) c).getNbFleches()));
-            }
+            } 
+        } else {
+            name = "";
         }
     }
     
