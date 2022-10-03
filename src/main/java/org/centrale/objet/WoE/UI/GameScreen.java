@@ -119,6 +119,41 @@ public class GameScreen extends ScreenAdapter{
         Gdx.input.setInputProcessor(input);
         
         renderer = new IsometricRenderer(monde);
+        
+        boolean sql = false;
+        
+        if (sql){
+            DatabaseTools database = new DatabaseTools();
+            database.connect();
+            System.out.println("getname");
+            Integer playerId=0;
+            try {
+                playerId = database.getPlayerID("Saegusa", "Mayumi");
+            } catch (SQLException ex) {
+                Logger.getLogger(TestWoE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /*
+            System.out.println(playerId);
+            try {
+                database.saveWorld(playerId, "Test Game 1", "Test1", monde);
+            } catch (SQLException ex) {
+                Logger.getLogger(TestWoE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+
+            try {
+                // Retreive World
+                database.readWorld(playerId, "Test Game 1", "Test1", monde);
+                database.removeWorld(0, "Test Game 1", "Start");
+            } catch (SQLException ex) {
+                Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+            database.disconnect();
+        }
+
+        
     }
     
     @Override
