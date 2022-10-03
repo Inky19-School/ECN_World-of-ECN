@@ -14,7 +14,8 @@ import org.centrale.objet.WoE.World;
 public class Boot extends Game {
     
     private SpriteBatch batch;
-    private GameScreen gScreen;
+    public GameScreen gScreen;
+    private MainMenu menu;
     private World monde;
     
     public Boot(World m){
@@ -25,8 +26,10 @@ public class Boot extends Game {
     @Override
     public void create(){
         batch = new SpriteBatch();
+        menu = new MainMenu(this);
         gScreen = new GameScreen(batch, monde);
-        setScreen(gScreen);
+        //setScreen(gScreen);
+        setScreen(menu);
     }
     
     @Override

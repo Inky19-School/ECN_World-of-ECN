@@ -21,7 +21,7 @@ public class TestWoE {
         
         World monde = new World();
         monde.creerMondeAlea();
-
+        
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
         config.setTitle("World of ECN");

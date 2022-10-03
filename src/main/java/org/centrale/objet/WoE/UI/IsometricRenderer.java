@@ -110,8 +110,8 @@ public class IsometricRenderer {
         for (int start = monde.SIZE - 1; start >= 0; start--) {
             for (int x = start; x < monde.SIZE; x++) {
                 //affichage créature
-                if (monde.mapEntites[x][monde.SIZE - 1 - x + start] != null) {
-                    Entite e = monde.mapEntites[x][monde.SIZE - 1 - x + start];
+                if (monde.mapCreature[x][monde.SIZE - 1 - x + start] != null) {
+                    Entite e = monde.mapCreature[x][monde.SIZE - 1 - x + start];
                     this.drawEntite(e, batch);
                 }
                 //affichage objet
@@ -126,8 +126,8 @@ public class IsometricRenderer {
         for (int start = monde.SIZE - 2; start >= 0; start--) {
             for (int x = 0; x <= start; x++) {
                 //affichage créature
-                if (monde.mapEntites[x][start - x] != null) {
-                    Entite e = monde.mapEntites[x][start - x];
+                if (monde.mapCreature[x][start - x] != null) {
+                    Entite e = monde.mapCreature[x][start - x];
                     this.drawEntite(e, batch);
                 }
                 //affichage objet
