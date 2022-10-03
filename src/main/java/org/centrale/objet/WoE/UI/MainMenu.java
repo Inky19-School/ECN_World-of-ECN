@@ -26,10 +26,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 public class MainMenu implements Screen {
     protected Stage stage;
-    private Skin skin;
+    private final Skin skin;
     private final Boot game;
-    private TextureAtlas buttonAtlas;
-    private Texture img;
+    private final TextureAtlas buttonAtlas;
+    private final Texture img;
     //private final SpriteBatch batch;
 
     public MainMenu(Boot game)
@@ -52,7 +52,7 @@ public class MainMenu implements Screen {
 		
         Table table = new Table();
 	table.setFillParent(true);
-        table.setDebug(true);
+        table.setDebug(false);
         stage.addActor(table);
 
         //Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
