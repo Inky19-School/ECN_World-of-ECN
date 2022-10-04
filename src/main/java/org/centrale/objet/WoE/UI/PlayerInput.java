@@ -13,7 +13,7 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class PlayerInput implements InputProcessor{
     
-    private GameScreen gScreen;
+    private final GameScreen gScreen;
     
     public PlayerInput(GameScreen g){
         gScreen = g;

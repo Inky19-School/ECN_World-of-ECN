@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.centrale.objet.WoE.Creature.Creature;
@@ -22,7 +21,6 @@ import org.centrale.objet.WoE.Creature.Entite;
 import org.centrale.objet.WoE.TestWoE;
 import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
 import org.centrale.objet.WoE.World;
-import org.centrale.objet.WoE.sql.DatabaseTools;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -79,7 +77,6 @@ public class GameScreen extends ScreenAdapter{
 
     @Override
     public void show(){
-         
         boolean sql = false;
         
         if (sql){
@@ -129,7 +126,6 @@ public class GameScreen extends ScreenAdapter{
         
         renderer = new IsometricRenderer(monde);
         
-           
     }
     
     @Override
@@ -191,7 +187,8 @@ public class GameScreen extends ScreenAdapter{
         if (System.currentTimeMillis()>timer+500){
             movePlayer();
             monde.wolfie.deplacer(monde);
-            ((Creature)(monde.entites.get(2))).deplacer(monde);
+            
+            //((Creature)(monde.entites.get(2))).deplace(monde);
             timer = timer = System.currentTimeMillis();
         }
     }

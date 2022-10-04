@@ -6,6 +6,7 @@ package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -62,10 +65,10 @@ public class MainMenu implements Screen {
         textButtonStyle.over = skin.getDrawable("blue_button_selected");
         //create buttons and image
         Image logo = new Image(img);
-        TextButton newGame = new TextButton("New Game", textButtonStyle);
+        TextButton newGame = new TextButton("New Game",textButtonStyle);
         TextButton openGame = new TextButton("OpenGame", textButtonStyle);
         TextButton exit = new TextButton("Exit", textButtonStyle);
-        
+
         //add buttons and image to table
         table.add(logo).padBottom(50);
         table.row();
@@ -85,7 +88,7 @@ public class MainMenu implements Screen {
 	newGame.addListener(new ChangeListener() {
 	@Override
 	public void changed(ChangeEvent event, Actor actor) {
-		game.setScreen(game.gScreen);
+		game.setScreen(game.settings);
         }
 	});
 		
