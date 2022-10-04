@@ -14,7 +14,7 @@ import org.centrale.objet.WoE.World;
  *
  * @author inky19
  */
-public class Creature extends Entite implements Deplacable {
+public abstract class Creature extends Entite implements Deplacable {
     private int ptVie;
     private int ptPar;
     private int pagePar;
@@ -85,6 +85,7 @@ public class Creature extends Entite implements Deplacable {
     
     /**
      * Déplace la créature de manière aléatoire.
+     * @param monde
      */
     public void deplacer(World monde){
         ArrayList<Point2D> casesCibles = new ArrayList<>();
@@ -194,6 +195,11 @@ public class Creature extends Entite implements Deplacable {
      */
     public void setDegAtt(int degAtt) {
         this.degAtt = degAtt;
+    }
+
+    @Override
+    public void deplacer(World monde) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

@@ -52,6 +52,7 @@ public class Loup extends Monstre implements Combattant {
      * Combat contre une autre créature et inflige des dégâts
      * @param c Crétature à combattre
      */
+    @Override
     public void combattre(Creature c){
         if (c.getPos().distance(this.getPos())==1){
             Random alea = new Random();
