@@ -255,7 +255,7 @@ public class DatabaseTools {
                     break;
             }   
             monde.entites.add(e);
-            monde.mapEntites[pos.getX()][pos.getY()] = e;
+            monde.mapCreature[pos.getX()][pos.getY()] = e;
 
         }
                     
@@ -275,7 +275,7 @@ public class DatabaseTools {
                     break;
             }   
             monde.entites.add(e);
-            monde.mapEntites[pos.getX()][pos.getY()] = e;
+            monde.mapCreature[pos.getX()][pos.getY()] = e;
 
         }
         
