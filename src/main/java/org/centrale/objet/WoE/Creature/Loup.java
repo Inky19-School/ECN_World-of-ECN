@@ -5,13 +5,14 @@
 package org.centrale.objet.WoE.Creature;
 
 import java.util.Random;
+import org.centrale.objet.WoE.Actions.Combattant;
 import org.centrale.objet.WoE.Point2D;
 
 /**
  *
  * @author inky19
  */
-public class Loup extends Monstre {
+public class Loup extends Monstre implements Combattant {
 
     /**
      *

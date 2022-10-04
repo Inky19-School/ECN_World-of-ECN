@@ -26,14 +26,7 @@ public class TestWoE {
         
         World monde = new World();
         monde.creerMondeAlea();
-        
-<<<<<<< HEAD
-        
-        
-        
-=======
-        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
->>>>>>> main
+
         
         config.setTitle("World of ECN");
         config.setIdleFPS(60);

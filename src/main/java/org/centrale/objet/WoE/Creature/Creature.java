@@ -7,13 +7,14 @@ package org.centrale.objet.WoE.Creature;
 import org.centrale.objet.WoE.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+import org.centrale.objet.WoE.Actions.Deplacable;
 import org.centrale.objet.WoE.World;
 
 /**
  *
  * @author inky19
  */
-public class Creature extends Entite{
+public class Creature extends Entite implements Deplacable {
     private int ptVie;
     private int ptPar;
     private int pagePar;
@@ -85,7 +86,7 @@ public class Creature extends Entite{
     /**
      * Déplace la créature de manière aléatoire.
      */
-    public void deplace(World monde){
+    public void deplacer(World monde){
         ArrayList<Point2D> casesCibles = new ArrayList<>();
         int x = this.getPos().getX();
         int y = this.getPos().getY();

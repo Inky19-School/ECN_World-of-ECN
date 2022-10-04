@@ -34,6 +34,21 @@ public class PlayerInput implements InputProcessor{
             case Input.Keys.DOWN:
                 gScreen.moveCameraVertical(-gScreen.getCameraBaseSpeed());
                 break;
+            case Input.Keys.W:
+                gScreen.setZ(true);
+                break;
+            case Input.Keys.A:
+                gScreen.setQ(true);
+                break;
+            case Input.Keys.S:
+                gScreen.setS(true);
+                break;
+            case Input.Keys.D:
+                gScreen.setD(true);
+                break;
+            case Input.Keys.E:
+                gScreen.fightPlayer();
+                break;
         }
         return true;
     }
@@ -60,6 +75,18 @@ public class PlayerInput implements InputProcessor{
                 if (gScreen.getCameraSpeedY()<0){
                     gScreen.moveCameraVertical(0);
                 }  
+                break;
+            case Input.Keys.W:
+                gScreen.setZ(false);
+                break;
+            case Input.Keys.A:
+                gScreen.setQ(false);
+                break;
+            case Input.Keys.S:
+                gScreen.setS(false);
+                break;
+            case Input.Keys.D:
+                gScreen.setD(false);
                 break;
         }
         return true;

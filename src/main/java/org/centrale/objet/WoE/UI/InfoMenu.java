@@ -83,9 +83,19 @@ public class InfoMenu extends ShapeRenderer {
     private void drawBox(SpriteBatch batch, float x, float y, InfoBox b){
         if (b.getClassName() != null) {
             int line = 1;
+             
             font.draw(batch, b.getClassName(), x-width, y-20);
             Texture texture = b.getTexture();
-            int txtrHeight = texture.getHeight();
+            int txtrHeight = 0;
+            try {
+                txtrHeight = texture.getHeight();
+            } catch (NullPointerException ex) {
+                txtrHeight = 0;
+                System.out.println("Texture invalide !");
+                texture = heart;
+            }
+            
+            
             if (b.getName() != ""){
                 font.draw(batch, b.getName(), x-width+(b.getClassName().length()/2)*12, y-50-txtrHeight * 2);
                 line++;
