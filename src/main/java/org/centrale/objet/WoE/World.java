@@ -36,7 +36,7 @@ public class World {
     /**
      * Taille du monde.
      */
-    public final int SIZE = 32; 
+    public int SIZE; 
     
     /**
      * Liste des objets sur la carte.
@@ -47,16 +47,49 @@ public class World {
     /**
      *  Reste là car devenu la mascotte du débogage 🐺 
      */
+    private Joueur player;
+    
+    
     public Loup wolfie;
 
     public World() {
         entites = new LinkedList<>();
         mapCreature = new Entite[SIZE][SIZE];
         mapObjets = new Objet[SIZE][SIZE];
-        
         wolfie = new Loup();
+        player = new Joueur(this);
+        try {
+            ajoutCreature(player.chooseClass());
+        } catch(Exception e) {   
+        }
         //mapCreatures[0][0] = wolfie;
-
+    }
+    
+    public World(int size, Joueur player) {
+        SIZE = size;
+        entites = new LinkedList<>();
+        mapCreature = new Entite[SIZE][SIZE];
+        mapObjets = new Objet[SIZE][SIZE];
+        wolfie = new Loup();
+        wolfie.setPos(new Point2D(3,4));
+        entites.add(wolfie);
+        entites.add(wolfie);
+        entites.add(player.character);
+        mapCreature[player.character.getPos().getX()][player.character.getPos().getY()]  = player.character;
+        //mapCreatures[0][0] = wolfie;
+    } 
+    
+    
+    
+    public void ajoutCreature(Creature c) {
+        
+        //this.mapCreature[c.getPos().getX()][c.getPos().getY()]  = c;
+        this.entites.add(c);
+    }
+    
+    
+    public void creerPlayer(Joueur player, int size) {
+        
     }
     
     /**
@@ -67,7 +100,7 @@ public class World {
         
         // Générateur de nombre aléatoire
         Random alea = new Random();
-        int rand = 0;
+        int rand;
         
         // Génération d'un nombre de créatures aléatoires
         rand = alea.nextInt(100); 

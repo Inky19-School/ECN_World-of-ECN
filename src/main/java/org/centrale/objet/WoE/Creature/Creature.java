@@ -7,13 +7,14 @@ package org.centrale.objet.WoE.Creature;
 import org.centrale.objet.WoE.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+import org.centrale.objet.WoE.Action.Deplacable;
 import org.centrale.objet.WoE.World;
 
 /**
  *
  * @author inky19
  */
-public class Creature extends Entite{
+public abstract class Creature extends Entite implements Deplacable {
     private int ptVie;
     private int ptPar;
     private int pagePar;
@@ -84,6 +85,7 @@ public class Creature extends Entite{
     
     /**
      * Déplace la créature de manière aléatoire.
+     * @param monde
      */
     public void deplace(World monde){
         ArrayList<Point2D> casesCibles = new ArrayList<>();
@@ -193,6 +195,11 @@ public class Creature extends Entite{
      */
     public void setDegAtt(int degAtt) {
         this.degAtt = degAtt;
+    }
+
+    @Override
+    public void deplacer(World monde) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

@@ -6,6 +6,7 @@ package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.centrale.objet.WoE.Joueur;
 import org.centrale.objet.WoE.World;
 /**
  *
@@ -16,7 +17,13 @@ public class Boot extends Game {
     private SpriteBatch batch;
     public GameScreen gScreen;
     private MainMenu menu;
-    private World monde;
+    public World monde;
+    public WorldCreation settings;
+ 
+    public Boot(){
+        super();
+    }
+    
     
     public Boot(World m){
         super();
@@ -27,8 +34,8 @@ public class Boot extends Game {
     public void create(){
         batch = new SpriteBatch();
         menu = new MainMenu(this);
-        gScreen = new GameScreen(batch, monde);
-        //setScreen(gScreen);
+        //gScreen = new GameScreen(batch, monde);
+        settings = new WorldCreation(this);
         setScreen(menu);
     }
     
@@ -41,5 +48,12 @@ public class Boot extends Game {
     public void dispose(){
         batch.dispose();
         super.dispose();
+    }
+    
+    public void createNewWorld(int size, Joueur player) {
+        monde = new World(size,player);
+        monde.creerMondeAlea();
+        gScreen = new GameScreen(batch, monde);
+        setScreen(gScreen);
     }
 }
