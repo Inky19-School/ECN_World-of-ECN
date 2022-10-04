@@ -117,6 +117,7 @@ public class WorldCreation implements Screen {
         table.add(createButton).colspan(3).pad(20);
         
         createButton.addListener(new ChangeListener() {
+            
 	@Override
 	public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             Joueur player = new Joueur((String) selectBox.getSelected(),playerNameField.getText());

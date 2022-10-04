@@ -6,6 +6,8 @@ package org.centrale.objet.WoE;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Action.Deplacable;
 import org.centrale.objet.WoE.Creature.*;
@@ -20,7 +22,6 @@ public class Joueur {
     
     private Personnage player;
     private String name;
-    private World monde;
     
     private int dx;
     private int dy;
@@ -28,14 +29,33 @@ public class Joueur {
     public Joueur(){
         name = "";
         player = new Guerrier();
-        //this.monde = monde;
         
     }
     
-    public Joueur(World monde, String name, Personnage p){
+    public Joueur(String pClass, String name){
         this.name = name;
-        this.player = new Personnage(p);
-        this.monde = monde;
+        for (Class c:JOUABLES){
+                if (pClass.equals(c.getSimpleName())){
+                    try {
+                        try {
+                            player = (Personnage) (c.getDeclaredConstructor().newInstance());
+                        } catch (NoSuchMethodException ex) {
+                            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SecurityException ex) {
+                            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } catch (InstantiationException ex) {
+                        Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalArgumentException ex) {
+                        Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
+                        Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        player.setNom(this.name);
     }
     
     public Personnage chooseClass() throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException{
@@ -86,6 +106,18 @@ public class Joueur {
         
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+    
+    
+    public Personnage getPlayer() {
+        return player;
+    }
+    
+    
     
     public void combattre(Creature c){
         if (player instanceof Combattant){

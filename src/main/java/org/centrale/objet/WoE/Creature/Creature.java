@@ -197,8 +197,8 @@ public abstract class Creature extends Entite implements Deplacable {
         this.degAtt = degAtt;
     }
 
-    @Override
-    public void deplacer(World monde) {
+    
+    public void deplacer() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
