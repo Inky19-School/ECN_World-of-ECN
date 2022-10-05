@@ -99,6 +99,7 @@ public class Joueur {
                 monde.mapCreature[(pos.getX()+dx)][(pos.getY()+dy)] = player;
                 monde.mapCreature[(pos.getX())][(pos.getY())] = null;
                 player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
+                monde.interactionObjet(this.player);
             }   
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("Invalide Position");

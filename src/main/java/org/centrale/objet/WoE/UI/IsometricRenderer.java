@@ -137,18 +137,5 @@ public class IsometricRenderer {
                 }
             }
         }
-
-        /*
-        for (Entite p : monde.entites) {
-            pos = this.toWindowPos(p.getPos().getX(), p.getPos().getY());
-            
-        }
-         */
-        float wolfx = monde.wolfie.getPos().getX();
-        float wolfy = monde.wolfie.getPos().getY();
-        //batch.draw(wolf, (wolfx - wolfy) * (TILE_WIDTH / 2f), (wolfx + wolfy) * (TILE_HEIGHT / 2f) + TILE_HEIGHT / 4, TILE_WIDTH, TILE_HEIGHT);
-
-        //pos = this.toWindowPos(monde.peon.getPos().getX(), monde.peon.getPos().getY());
-        //batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT/4f, TILE_WIDTH, TILE_HEIGHT*2);
     }
 }
