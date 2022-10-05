@@ -9,6 +9,7 @@ org\centrale\objet\WoE\UI\WorldCreation$1.class
 org\centrale\objet\WoE\Joueur.class
 org\centrale\objet\WoE\TestWoE.class
 org\centrale\objet\WoE\UI\InfoMenu.class
+org\centrale\objet\WoE\NuageToxique.class
 org\centrale\objet\WoE\Creature\Lapin.class
 org\centrale\objet\WoE\UI\EntityInfo.class
 org\centrale\objet\WoE\UI\GameScreen.class
@@ -17,7 +18,6 @@ org\centrale\objet\WoE\UI\MainMenu.class
 org\centrale\objet\WoE\sql\DatabaseTools.class
 org\centrale\objet\WoE\Creature\Monstre.class
 org\centrale\objet\WoE\sql\WorldOfECN.class
-.netbeans_automatic_build
 org\centrale\objet\WoE\Creature\Archer.class
 org\centrale\objet\WoE\Creature\Loup.class
 org\centrale\objet\WoE\UI\IsometricRenderer.class

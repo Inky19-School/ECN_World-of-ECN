@@ -152,6 +152,18 @@
          "font":"default-font",
          "fontColor":"white",
          "disabledFontColor":"grey"
+      },
+        "small":{
+         "background":"default-select",
+         "scrollStyle":"default",
+         "listStyle":{
+            "font":"small-font",
+            "selection":"padded-list-selection",
+            "background":"select-box-list-bg"
+         },
+         "font":"small-font",
+         "fontColor":"white",
+         "disabledFontColor":"grey"
       }
    },
    "com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle":{
@@ -275,6 +287,12 @@
          "selection":"padded-list-selection",
          "fontColorSelected":"white",
          "font":"default-font"
+      },
+      "small":{
+         "fontColorUnselected":"white",
+         "selection":"padded-list-selection",
+         "fontColorSelected":"white",
+         "font":"small-font"
       }
    },
    "com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle":{
