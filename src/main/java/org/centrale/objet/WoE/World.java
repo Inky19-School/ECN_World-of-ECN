@@ -81,9 +81,6 @@ public class World {
         wolfie = new Loup();
         wolfie.setPos(new Point2D(3,4));
         entites.add(wolfie);
-        entites.add(wolfie);
-        System.out.println(p.getName());
-        System.out.println("AAAAAAAAAAAAAAAAAa");
         this.player = p;
         entites.add(player.getPlayer());
         mapCreature[player.getPlayer().getPos().getX()][player.getPlayer().getPos().getY()]  = player.getPlayer();
@@ -113,37 +110,37 @@ public class World {
         // Générateur de nombre aléatoire
         Random alea = new Random();
         int rand;
-        
+        int max = SIZE;
         // Génération d'un nombre de créatures aléatoires
-        rand = alea.nextInt(100); 
+        rand = alea.nextInt(max); 
         System.out.println("Nb Archer :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Archer());
         }
-        rand = alea.nextInt(100); 
+        rand = alea.nextInt(max); 
         System.out.println("Nb Paysan :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Paysan());
         }
         
-        rand = alea.nextInt(100); 
+        rand = alea.nextInt(max); 
         System.out.println("Nb Lapin :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Lapin());
         }
         
-        rand = alea.nextInt(100); 
+        rand = alea.nextInt(max); 
         System.out.println("Nb Guerrier :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Guerrier());
         }
-        rand = alea.nextInt(100); 
+        rand = alea.nextInt(max); 
         System.out.println("Nb Loup :" + rand);
         for (int i=0; i<rand; i++){
             entites.add(new Loup());
         }
         
-        rand = alea.nextInt(10);
+        rand = alea.nextInt(max);
         System.out.println("Nb Potion de soin :" + rand);
         for (int i = 0; i < rand; i++) {
             entites.add(new PotionSoin());
