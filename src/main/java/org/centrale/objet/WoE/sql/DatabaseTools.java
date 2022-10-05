@@ -23,7 +23,7 @@ import org.centrale.objet.WoE.Objet.PotionSoin;
 import org.centrale.objet.WoE.Point2D;
 import org.centrale.objet.WoE.UI.EntityInfo;
 
-import org.centrale.objet.WoE.World;
+import org.centrale.objet.WoE.World.World;
 
 /**
  *

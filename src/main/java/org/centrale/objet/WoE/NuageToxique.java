@@ -4,6 +4,7 @@
  */
 package org.centrale.objet.WoE;
 
+import org.centrale.objet.WoE.World.World;
 import org.centrale.objet.WoE.Action.Deplacable;
 
 /**

@@ -8,7 +8,7 @@ import org.centrale.objet.WoE.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import org.centrale.objet.WoE.Action.Deplacable;
-import org.centrale.objet.WoE.World;
+import org.centrale.objet.WoE.World.World;
 
 /**
  *
