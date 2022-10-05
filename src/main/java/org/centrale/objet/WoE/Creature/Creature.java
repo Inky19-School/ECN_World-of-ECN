@@ -87,7 +87,7 @@ public abstract class Creature extends Entite implements Deplacable {
      * Déplace la créature de manière aléatoire.
      * @param monde
      */
-    public void deplace(World monde){
+    public void deplacer(World monde){
         ArrayList<Point2D> casesCibles = new ArrayList<>();
         int x = this.getPos().getX();
         int y = this.getPos().getY();
@@ -197,8 +197,8 @@ public abstract class Creature extends Entite implements Deplacable {
         this.degAtt = degAtt;
     }
 
-    @Override
-    public void deplacer(World monde) {
+    
+    public void deplacer() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

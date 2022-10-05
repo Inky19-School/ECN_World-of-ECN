@@ -99,6 +99,7 @@ public class WorldCreation implements Screen {
                
         TextButton createButton = new TextButton("Create New World",textButtonStyle);
         createButton.addListener(new ChangeListener() {
+            
 	@Override
 	public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             Joueur player = new Joueur((String) selectBox.getSelected(),playerNameField.getText());

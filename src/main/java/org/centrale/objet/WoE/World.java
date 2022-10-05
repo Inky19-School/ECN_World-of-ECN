@@ -4,12 +4,15 @@
  */
 package org.centrale.objet.WoE;
 
+import java.lang.reflect.InvocationTargetException;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -33,6 +36,10 @@ public class World {
      * Matrice des objets pour un accès rapide à partir d'une position
      */
     public Objet[][] mapObjets;
+    
+    private Joueur joueur;
+    
+    
     /**
      * Taille du monde.
      */
@@ -53,11 +60,12 @@ public class World {
     public Loup wolfie;
 
     public World() {
+        joueur = new Joueur();
         entites = new LinkedList<>();
         mapCreature = new Entite[SIZE][SIZE];
         mapObjets = new Objet[SIZE][SIZE];
         wolfie = new Loup();
-        player = new Joueur(this);
+        player = new Joueur();
         try {
             ajoutCreature(player.chooseClass());
         } catch(Exception e) {   
@@ -65,7 +73,7 @@ public class World {
         //mapCreatures[0][0] = wolfie;
     }
     
-    public World(int size, Joueur player) {
+    public World(int size, Joueur p) {
         SIZE = size;
         entites = new LinkedList<>();
         mapCreature = new Entite[SIZE][SIZE];
@@ -74,22 +82,26 @@ public class World {
         wolfie.setPos(new Point2D(3,4));
         entites.add(wolfie);
         entites.add(wolfie);
-        entites.add(player.character);
-        mapCreature[player.character.getPos().getX()][player.character.getPos().getY()]  = player.character;
+        System.out.println(p.getName());
+        System.out.println("AAAAAAAAAAAAAAAAAa");
+        this.player = p;
+        entites.add(player.getPlayer());
+        mapCreature[player.getPlayer().getPos().getX()][player.getPlayer().getPos().getY()]  = player.getPlayer();
         //mapCreatures[0][0] = wolfie;
     } 
     
     
     
-    public void ajoutCreature(Creature c) {
-        
-        //this.mapCreature[c.getPos().getX()][c.getPos().getY()]  = c;
-        this.entites.add(c);
-    }
     
     
     public void creerPlayer(Joueur player, int size) {
         
+    }
+    
+    public void ajoutCreature(Creature c){
+        Point2D posC = c.getPos();
+        mapCreature[posC.getX()][posC.getY()] = c;
+        entites.add(c);
     }
     
     /**
@@ -138,8 +150,22 @@ public class World {
         }
         System.out.println("Nb total de personnage : " + entites.size());
         
-        
-        
+        /*
+        Personnage pJ = null;
+        try {
+            pJ = joueur.chooseClass();
+        } catch (InstantiationException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
         // Placement aléatoire des entités
         boolean notValide;
         for (Entite p: entites){
@@ -161,12 +187,22 @@ public class World {
                 }
             }
         }
+        
+        /*
+        
+        System.out.println(pJ.getClass().getName());
+        ajoutCreature(pJ);
+        System.out.println(mapCreature[2][2].getClass().getName());
+        System.out.println(pJ.getPos().getX() + " " + pJ.getPos().getY());
+        System.out.println(entites.get(entites.size()-1).getClass().getName());
+        */
         PotionSoin p = new PotionSoin(new Point2D(1,1), 1, 6);
         entites.add(p);
         mapObjets[1][1] = p;
-        Loup w = new Loup(new Point2D(1,1), 20, 20, 20, 20, 20);
-        entites.add(w);
-        mapCreature[1][1] = w;
+        ajoutCreature(new Loup(new Point2D(1,1), 20, 20, 20, 20, 20));
+        //Loup w = ;
+        //entites.add(w);
+        //mapCreature[1][1] = w;
         
     }
     
@@ -205,4 +241,10 @@ public class World {
     public void afficheWorld(){
         
     }
+
+    public Joueur getJoueur() {
+        return player;
+    }
+    
+    
 }

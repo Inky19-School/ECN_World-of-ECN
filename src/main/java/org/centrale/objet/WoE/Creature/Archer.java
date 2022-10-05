@@ -5,6 +5,7 @@
 package org.centrale.objet.WoE.Creature;
 
 import java.util.Random;
+import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Creature.Personnage;
 import org.centrale.objet.WoE.Point2D;
 
@@ -12,7 +13,7 @@ import org.centrale.objet.WoE.Point2D;
  *
  * @author inky19
  */
-public class Archer extends Personnage {
+public class Archer extends Personnage implements Combattant {
 
     private int nbFleches;
     private int degAttDist;

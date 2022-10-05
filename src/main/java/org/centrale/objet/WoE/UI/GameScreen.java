@@ -14,12 +14,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.centrale.objet.WoE.Creature.Creature;
+import org.centrale.objet.WoE.Creature.Entite;
 import org.centrale.objet.WoE.TestWoE;
 import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
 import org.centrale.objet.WoE.World;
+import org.centrale.objet.WoE.sql.DatabaseTools;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -51,15 +54,23 @@ public class GameScreen extends ScreenAdapter{
     
     private long timer;
     private long timerCamera;
+    private long timerTurn;
+    
+    private boolean z;
+    private boolean q;
+    private boolean s;
+    private boolean d;
     
     
     
     public GameScreen(SpriteBatch batch, World monde){
+        z = false; q = false; s = false; d = false;
         this.batch = batch;
         this.input = new PlayerInput(this);
         this.monde = monde;
         timer = System.currentTimeMillis();
         timerCamera = System.currentTimeMillis();
+        timerTurn = System.currentTimeMillis();
         mousePos = new Vector3();
         infobox = new InfoMenu();
         selectedTile = new Vector2();
@@ -68,7 +79,38 @@ public class GameScreen extends ScreenAdapter{
 
     @Override
     public void show(){
-                
+        boolean sql = false;
+        
+        if (sql){
+            DatabaseTools database = new DatabaseTools();
+            database.connect();
+            System.out.println("getname");
+            Integer playerId=0;
+            try {
+                playerId = database.getPlayerID("Saegusa", "Mayumi");
+            } catch (SQLException ex) {
+                Logger.getLogger(TestWoE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /*
+            System.out.println(playerId);
+            try {
+                database.saveWorld(playerId, "Test Game 1", "Test1", monde);
+            } catch (SQLException ex) {
+                Logger.getLogger(TestWoE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+
+            try {
+                // Retreive World
+                database.readWorld(playerId, "Test Game 1", "Test1", monde);
+                database.removeWorld(0, "Test Game 1", "Start");
+            } catch (SQLException ex) {
+                Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+            database.disconnect();
+        }
 
         
     
@@ -85,7 +127,6 @@ public class GameScreen extends ScreenAdapter{
         Gdx.input.setInputProcessor(input);
         
         renderer = new IsometricRenderer(monde);
-        
         
     }
     
@@ -139,9 +180,15 @@ public class GameScreen extends ScreenAdapter{
         
         camera.translate((x - (float)camera.position.x)/SMOOTHNESS, (y - (float)camera.position.y)/SMOOTHNESS);
         
-        //monde.wolfie.deplace();
+        if (System.currentTimeMillis()>timerTurn+300){
+            timerTurn = System.currentTimeMillis();
+            monde.getJoueur().deplacer(monde);
+        }
+        
+        //monde.wolfie.deplacer();
         if (System.currentTimeMillis()>timer+500){
-            monde.wolfie.deplace(monde);
+            movePlayer();
+            monde.wolfie.deplacer(monde);
             
             //((Creature)(monde.entites.get(2))).deplace(monde);
             timer = timer = System.currentTimeMillis();
@@ -151,6 +198,42 @@ public class GameScreen extends ScreenAdapter{
     @Override
     public void dispose(){
         
+    }
+    
+    private void movePlayer(){
+        if (z){
+            monde.getJoueur().setDy(1);
+            monde.getJoueur().setDx(1);
+        } else if (s) {
+            monde.getJoueur().setDy(-1);
+            monde.getJoueur().setDx(-1);
+        } else {
+            monde.getJoueur().setDy(0);
+            monde.getJoueur().setDx(0);
+        }
+        
+        if (d){
+            monde.getJoueur().addDx(1);
+            monde.getJoueur().addDy(-1);
+        } else if (q) {
+            monde.getJoueur().addDx(-1);
+            monde.getJoueur().addDy(1);
+        }
+    }
+    
+    void fightPlayer(){
+        Entite e = monde.mapCreature[(int)selectedTile.x][(int)selectedTile.y];
+        if (e instanceof Creature){
+            monde.getJoueur().combattre((Creature) e);
+        }
+    }
+    
+    public void movePlayerVertical(int dy){
+        monde.getJoueur().setDy(dy);
+    }
+    
+    public void movePlayerHorizontal(int dx){
+        monde.getJoueur().setDy(dx);
     }
     
     public void moveCameraVertical(float dy){ 
@@ -188,6 +271,22 @@ public class GameScreen extends ScreenAdapter{
 
     public Vector3 getMousePos() {
         return mousePos;
+    }
+
+    public void setZ(boolean z) {
+        this.z = z;
+    }
+
+    public void setQ(boolean q) {
+        this.q = q;
+    }
+
+    public void setS(boolean s) {
+        this.s = s;
+    }
+
+    public void setD(boolean d) {
+        this.d = d;
     }
     
     

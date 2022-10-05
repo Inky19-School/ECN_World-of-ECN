@@ -8,7 +8,7 @@ import org.centrale.objet.WoE.Creature.Creature;
 
 /**
  *
- * @author Rémi
+ * @author inky19
  */
 public interface Combattant {
     public void combattre(Creature c);
