@@ -21,7 +21,7 @@ import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.Creature.Entite;
 import org.centrale.objet.WoE.TestWoE;
 import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
-import org.centrale.objet.WoE.World;
+import org.centrale.objet.WoE.World.World;
 import org.centrale.objet.WoE.sql.DatabaseTools;
 import org.lwjgl.input.Mouse;
 
@@ -155,7 +155,7 @@ public class GameScreen extends ScreenAdapter{
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         infobox.begin(ShapeType.Filled);
         infobox.setColor(0.8f, 0.8f, 0.8f, 0.7f);
-        infobox.update(selectedTile, monde.mapCreature, monde.mapObjets);
+        infobox.update(selectedTile, monde);
         
         infobox.draw();
         infobox.end();
@@ -180,15 +180,16 @@ public class GameScreen extends ScreenAdapter{
         
         camera.translate((x - (float)camera.position.x)/SMOOTHNESS, (y - (float)camera.position.y)/SMOOTHNESS);
         
-        if (System.currentTimeMillis()>timerTurn+300){
+        if ((z||q||s||d) && System.currentTimeMillis()>timerTurn+300){
+            movePlayer();
             timerTurn = System.currentTimeMillis();
             monde.getJoueur().deplacer(monde);
         }
         
         //monde.wolfie.deplacer();
         if (System.currentTimeMillis()>timer+500){
-            movePlayer();
-            monde.wolfie.deplacer(monde);
+            
+            //monde.wolfie.deplacer(monde);
             
             //((Creature)(monde.entites.get(2))).deplace(monde);
             timer = timer = System.currentTimeMillis();
@@ -222,7 +223,7 @@ public class GameScreen extends ScreenAdapter{
     }
     
     void fightPlayer(){
-        Entite e = monde.mapCreature[(int)selectedTile.x][(int)selectedTile.y];
+        Entite e = monde.getEnt((int)selectedTile.x,(int)selectedTile.y);
         if (e instanceof Creature){
             monde.getJoueur().combattre((Creature) e);
         }

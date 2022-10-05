@@ -12,7 +12,9 @@ import com.badlogic.gdx.math.Vector3;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.PotionSoin;
-import org.centrale.objet.WoE.World;
+import org.centrale.objet.WoE.Point2D;
+import org.centrale.objet.WoE.World.Chunk;
+import org.centrale.objet.WoE.World.World;
 
 /**
  *
@@ -26,6 +28,7 @@ public class IsometricRenderer {
     //private final Texture empty;
     private final Texture tileGrass1;
     private final Texture tileStoneConcentric;
+    private final Texture tileStoneChiseled;
     private final World monde;
     private final Texture wolf;
     private final Texture paysan;
@@ -38,6 +41,7 @@ public class IsometricRenderer {
     public IsometricRenderer(World monde) {
         tileGrass1 = new Texture(Gdx.files.internal("data/textures/tiles/grass1.png"));
         tileStoneConcentric = new Texture(Gdx.files.internal("data/textures/tiles/stone_concentric.png"));
+        tileStoneChiseled = new Texture(Gdx.files.internal("data/textures/tiles/stone_chiseled.png"));
         wolf = new Texture(Gdx.files.internal("data/textures/entity/monster/wolf.png"));
         paysan = new Texture(Gdx.files.internal("data/textures/entity/personnage/paysan.png"));
         archer = new Texture(Gdx.files.internal("data/textures/entity/personnage/archer.png"));
@@ -66,8 +70,10 @@ public class IsometricRenderer {
         return new Vector2((int) tileX, (int) tileY);
     }
 
-    public void drawEntite(Entite e, SpriteBatch batch) {
-        Vector2 pos = this.toWindowPos(e.getPos().getX(), e.getPos().getY());
+    public void drawEntite(Entite e, SpriteBatch batch, Point2D chPos) {
+        int chx = chPos.getX()*Chunk.SIZE;
+        int chy = chPos.getY()*Chunk.SIZE;
+        Vector2 pos = this.toWindowPos(e.getPos().getX()+chx, e.getPos().getY()+chy);
         if (e instanceof Loup) {
             batch.draw(wolf, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         } else if (e instanceof Paysan) {
@@ -88,55 +94,77 @@ public class IsometricRenderer {
 
     public void drawGrid(SpriteBatch batch, Vector3 mousePos) {
         Vector2 pos;
-        for (int i = monde.SIZE - 1; i >= 0; i--) { // Ancien Y = ligne
-            for (int j = monde.SIZE - 1; j >= 0; j--) { // Ancien X = colonne
-                pos = this.toWindowPos(j, i);
-                if (i == 0 && j == 0) {
-                    batch.draw(tileStoneConcentric, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
-                } else {
-                    batch.draw(tileGrass1, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
-                }
+        Chunk[][] activeChunks = monde.getActiveChunks();
+        Chunk ch;
+        Point2D chPos;
+        int chx;
+        int chy;
+        for (int cx=0; cx<3; cx++){
+            for (int cy=0; cy<3; cy++){
+                ch = activeChunks[cx][cy];
+                chPos = ch.getPos();
+                chx = chPos.getX()*Chunk.SIZE;
+                chy = chPos.getY()*Chunk.SIZE;
+                for (int i = Chunk.SIZE - 1+chx; i >= chx; i--) { // Ancien Y = ligne
+                    for (int j = Chunk.SIZE - 1+chy; j >= chy; j--) { // Ancien X = colonne
+                        pos = this.toWindowPos(j, i);
+                        if ((i == 0 || j == 0) || (i == 31 || j == 31)) {
+                            batch.draw(tileStoneConcentric, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
+                            if (i==0 && j==0){
+                                batch.draw(tileStoneChiseled, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
+                            }
+                        } else {
+                            batch.draw(tileGrass1, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
+                        }
 
+                    }
+                }
             }
-        }
+        }    
         pos = this.toIsometric(mousePos.x-TILE_WIDTH/2, mousePos.y);
         pos = this.toWindowPos(pos.x, pos.y);
         batch.draw(selected, pos.x, pos.y, TILE_WIDTH, TILE_HEIGHT);
-        
-        // Affichage des entités
-        // start = x de départ (point ([x,SIZE])
-        // x = x le long de la diagonale
-        // Diagonale haute
-        for (int start = monde.SIZE - 1; start >= 0; start--) {
-            for (int x = start; x < monde.SIZE; x++) {
-                //affichage créature
-                if (monde.mapCreature[x][monde.SIZE - 1 - x + start] != null) {
-                    Entite e = monde.mapCreature[x][monde.SIZE - 1 - x + start];
-                    this.drawEntite(e, batch);
+        for (int cx=0; cx<3; cx++){
+            for (int cy=0; cy<3; cy++){
+                ch = activeChunks[cx][cy];
+                // Affichage des entités
+                // start = x de départ (point ([x,SIZE])
+                // x = x le long de la diagonale
+                // Diagonale haute
+                for (int start = Chunk.SIZE - 1; start >= 0; start--) {
+                    for (int x = start; x < Chunk.SIZE; x++) {
+                        //affichage créature
+                        if (ch.chCrea[x][Chunk.SIZE - 1 - x + start] != null) {
+                            Entite e = ch.chCrea[x][Chunk.SIZE - 1 - x + start];
+                            this.drawEntite(e, batch, ch.getPos());
+                        }
+                        //affichage objet
+                        if (ch.chObj[x][Chunk.SIZE - 1 - x + start] != null) {
+                            Objet e = ch.chObj[x][Chunk.SIZE - 1 - x + start];
+                            this.drawEntite(e, batch, ch.getPos());
+                        }
+                    }
                 }
-                //affichage objet
-                if (monde.mapObjets[x][monde.SIZE - 1 - x + start] != null) {
-                    Objet e = monde.mapObjets[x][monde.SIZE - 1 - x + start];
-                    this.drawEntite(e, batch);
+                
+                // Diagonale basse
+                for (int start = Chunk.SIZE - 2; start >= 0; start--) {
+                    for (int x = 0; x <= start; x++) {
+                        //affichage créature
+                        if (ch.chCrea[x][start - x] != null) {
+                            Entite e = ch.chCrea[x][start - x];
+                            this.drawEntite(e, batch, ch.getPos());
+                        }
+                        //affichage objet
+                        if (ch.chObj[x][start-x] != null) {
+                            Objet e = ch.chObj[x][start-x];
+                            this.drawEntite(e, batch, ch.getPos());
+                        }
+                    }
                 }
             }
+
         }
 
-        // Diagonale basse
-        for (int start = monde.SIZE - 2; start >= 0; start--) {
-            for (int x = 0; x <= start; x++) {
-                //affichage créature
-                if (monde.mapCreature[x][start - x] != null) {
-                    Entite e = monde.mapCreature[x][start - x];
-                    this.drawEntite(e, batch);
-                }
-                //affichage objet
-                if (monde.mapObjets[x][start-x] != null) {
-                    Objet e = monde.mapObjets[x][start-x];
-                    this.drawEntite(e, batch);
-                }
-            }
-        }
 
         /*
         for (Entite p : monde.entites) {
@@ -144,8 +172,8 @@ public class IsometricRenderer {
             
         }
          */
-        float wolfx = monde.wolfie.getPos().getX();
-        float wolfy = monde.wolfie.getPos().getY();
+        //float wolfx = monde.wolfie.getPos().getX();
+        //float wolfy = monde.wolfie.getPos().getY();
         //batch.draw(wolf, (wolfx - wolfy) * (TILE_WIDTH / 2f), (wolfx + wolfy) * (TILE_HEIGHT / 2f) + TILE_HEIGHT / 4, TILE_WIDTH, TILE_HEIGHT);
 
         //pos = this.toWindowPos(monde.peon.getPos().getX(), monde.peon.getPos().getY());

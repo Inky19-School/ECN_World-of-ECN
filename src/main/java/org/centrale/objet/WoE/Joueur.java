@@ -4,6 +4,7 @@
  */
 package org.centrale.objet.WoE;
 
+import org.centrale.objet.WoE.World.World;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -58,46 +59,14 @@ public class Joueur {
         player.setNom(this.name);
     }
     
-    public Personnage chooseClass() throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException{
-        Personnage p = null;
-        String choix;
-        Scanner sc;
-        sc = new Scanner(System.in);
-        System.out.println("Entrer un nom :");
-        String name = sc.next();
-        System.out.println(" ");
-        boolean invalide = true;
-        while (invalide){
-            System.out.print("Bonjour, entrez un nom de classe parmi :");
-            for (Class c:JOUABLES){
-                System.out.print(c.getSimpleName()+ " ");
-            }
-            System.out.println("");
-            choix = sc.next();
-            for (Class c:JOUABLES){
-                if (choix.equals(c.getSimpleName())){
-                    p = (Personnage) (c.getDeclaredConstructor().newInstance());
-                    invalide = false;
-                }
-            }
-        }
-        p.setPos(new Point2D(2,2));
-        p.setNom(name);
-        player = p;
-        System.out.println(player.getNom());
-        return p;
-    }
     
     public void deplacer(World monde){
-        System.out.println(player.getNom());
 
-        System.out.println(dx + " " + dy);
         Point2D pos = player.getPos();
         try {
-            if (monde.mapCreature[(pos.getX()+dx)][(pos.getY()+dy)] == null){
-                System.out.println("B");
-                monde.mapCreature[(pos.getX()+dx)][(pos.getY()+dy)] = player;
-                monde.mapCreature[(pos.getX())][(pos.getY())] = null;
+            if (monde.getEnt((pos.getX()+dx),(pos.getY()+dy)) == null){
+                monde.setEnt((pos.getX()+dx),(pos.getY()+dy),player);
+                monde.setEnt((pos.getX()),(pos.getY()),null);
                 player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
             }   
         } catch (ArrayIndexOutOfBoundsException ex) {

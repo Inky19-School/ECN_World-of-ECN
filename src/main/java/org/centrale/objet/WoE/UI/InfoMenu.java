@@ -11,19 +11,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
 import java.util.List;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
+import org.centrale.objet.WoE.Point2D;
+import org.centrale.objet.WoE.World.Chunk;
+import org.centrale.objet.WoE.World.World;
 
 /**
  *
  * @author inky19
  */
 public class InfoMenu extends ShapeRenderer {
-
-    private FitViewport infoViewport;
 
     private Vector2 pos;
     private float width;
@@ -41,7 +41,6 @@ public class InfoMenu extends ShapeRenderer {
     private BitmapFont font;
 
     public InfoMenu() {
-        infoViewport = new FitViewport(1280, 640);
         width = 100;
         height = 100;
         radius = 10;
@@ -141,13 +140,22 @@ public class InfoMenu extends ShapeRenderer {
         }
     }
 
-    public void update(Vector2 tile, Entite[][] mapEntites, Objet[][] mapObjets) {
+    public void update(Vector2 tile, World monde) {
         height = 0;
         width = 0;
-        if ((tile.x >= 0 && tile.x < mapEntites.length) && (tile.y >= 0 && tile.y < mapEntites[0].length)) {
+        Point2D posCh = monde.getActiveChunks()[1][1].getPos();
+        int chx = posCh.getX();
+        int chy = posCh.getY();
+        if ((tile.x >= (chx-1)*Chunk.SIZE && tile.x < (chx+1)*Chunk.SIZE*2) && (tile.y >= (chy-1)*Chunk.SIZE && tile.y < (chy+1)*Chunk.SIZE*2)) {
+            Entite e = monde.getEnt((int) (tile.x), (int) (tile.y));
+            Objet o = monde.getObj((int) (tile.x),(int) (tile.y));
             
-            Entite e = mapEntites[(int) (tile.x)][(int) (tile.y)];
-            Objet o = mapObjets[(int) (tile.x)][(int) (tile.y)];
+            if (e == null){
+                System.out.println("null");
+            } else {
+                            System.out.println(e.getClass());
+            }
+
             if (e instanceof Creature) {
                 boxCrea.update((Creature)(e));
                 height += boxCrea.getHeight() + 20;

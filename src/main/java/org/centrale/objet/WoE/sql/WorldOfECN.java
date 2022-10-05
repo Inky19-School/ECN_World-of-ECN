@@ -8,6 +8,7 @@
 
 package org.centrale.objet.WoE.sql;
 
+import org.centrale.objet.WoE.World.World;
 import java.sql.SQLException;
 import org.centrale.objet.WoE.*;
 

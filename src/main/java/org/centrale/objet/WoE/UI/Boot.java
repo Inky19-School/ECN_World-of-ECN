@@ -7,7 +7,7 @@ package org.centrale.objet.WoE.UI;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.centrale.objet.WoE.Joueur;
-import org.centrale.objet.WoE.World;
+import org.centrale.objet.WoE.World.World;
 /**
  *
  * @author inky19

@@ -1,16 +1,26 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+<<<<<<< HEAD
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
+=======
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+>>>>>>> e6725529d80e4d36e529f73632a25a68ad2642d9
  */
 package org.centrale.objet.WoE.Action;
 
-import org.centrale.objet.WoE.World.World;
+import org.centrale.objet.WoE.World;
 
 /**
  *
+<<<<<<< HEAD
  * @author inky19
  */
 public interface Deplacable {
 
+=======
+ * @author Rémi
+ */
+public interface Deplacable {
+>>>>>>> e6725529d80e4d36e529f73632a25a68ad2642d9
     public void deplacer(World monde);
 }
