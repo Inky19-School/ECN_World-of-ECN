@@ -66,7 +66,7 @@ public class MainMenu implements Screen {
         //create buttons and image
         Image logo = new Image(img);
         TextButton newGame = new TextButton("New Game",textButtonStyle);
-        TextButton openGame = new TextButton("OpenGame", textButtonStyle);
+        TextButton openGame = new TextButton("Open Game", textButtonStyle);
         TextButton exit = new TextButton("Exit", textButtonStyle);
 
         //add buttons and image to table
@@ -126,6 +126,8 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
+        img.dispose();
+        skin.dispose();
         stage.dispose();
     }
     

@@ -119,6 +119,7 @@ public class IsometricRenderer {
 
                     }
                 }
+
             }
         }    
         pos = this.toIsometric(mousePos.x-TILE_WIDTH/2, mousePos.y);
@@ -162,9 +163,23 @@ public class IsometricRenderer {
                     }
                 }
             }
-
         }
 
+        // Diagonale basse
+        for (int start = monde.SIZE - 2; start >= 0; start--) {
+            for (int x = 0; x <= start; x++) {
+                //affichage créature
+                if (monde.mapCreature[x][start - x] != null) {
+                    Entite e = monde.mapCreature[x][start - x];
+                    this.drawEntite(e, batch);
+                }
+                //affichage objet
+                if (monde.mapObjets[x][start-x] != null) {
+                    Objet e = monde.mapObjets[x][start-x];
+                    this.drawEntite(e, batch);
+                }
+            }
+        }
 
         /*
         for (Entite p : monde.entites) {
@@ -172,8 +187,8 @@ public class IsometricRenderer {
             
         }
          */
-        //float wolfx = monde.wolfie.getPos().getX();
-        //float wolfy = monde.wolfie.getPos().getY();
+        float wolfx = monde.wolfie.getPos().getX();
+        float wolfy = monde.wolfie.getPos().getY();
         //batch.draw(wolf, (wolfx - wolfy) * (TILE_WIDTH / 2f), (wolfx + wolfy) * (TILE_HEIGHT / 2f) + TILE_HEIGHT / 4, TILE_WIDTH, TILE_HEIGHT);
 
         //pos = this.toWindowPos(monde.peon.getPos().getX(), monde.peon.getPos().getY());
