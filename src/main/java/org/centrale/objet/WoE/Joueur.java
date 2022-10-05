@@ -68,7 +68,7 @@ public class Joueur {
                 monde.setEnt((pos.getX()+dx),(pos.getY()+dy),player);
                 monde.setEnt((pos.getX()),(pos.getY()),null);
                 player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
-                monde.interactionObjet(this.player);
+                //monde.interactionObjet(this.player);
             }   
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("Invalide Position");
