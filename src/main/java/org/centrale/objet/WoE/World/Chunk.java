@@ -88,6 +88,10 @@ public class Chunk {
         for (int i = 0; i < rand; i++) {
             ch.entites.add(new PotionSoin());
         }
+        rand = alea.nextInt(maxType/2);
+        for (int i = 0; i < rand; i++) {
+            ch.entites.add(new NuageToxique());
+        }
         
         // Placement aléatoire des entités
         boolean notValide;
@@ -143,7 +147,7 @@ public class Chunk {
     }
 
     public void setCrea(int x, int y, Creature e){
-        chCrea[x][y] = e;
+        chCrea[x][y] = e;      
     }
     
     public Objet[][] getChObj() {

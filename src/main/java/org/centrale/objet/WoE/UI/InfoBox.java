@@ -18,13 +18,13 @@ import org.centrale.objet.WoE.Objet.*;
  */
 public class InfoBox {
     
-    private static Texture heart = new Texture(Gdx.files.internal("data/textures/ui/heart.png"));
-    private static Texture shield = new Texture(Gdx.files.internal("data/textures/ui/shield.png"));
-    private static Texture shield_luck = new Texture(Gdx.files.internal("data/textures/ui/shield_luck.png"));
-    private static Texture sword = new Texture(Gdx.files.internal("data/textures/ui/sword.png"));
-    private static Texture sword_luck = new Texture(Gdx.files.internal("data/textures/ui/sword_luck.png"));
-    private static Texture bow = new Texture(Gdx.files.internal("data/textures/ui/bow.png"));
-    private static Texture arrow = new Texture(Gdx.files.internal("data/textures/ui/arrow.png"));
+    private static final Texture heart = new Texture(Gdx.files.internal("data/textures/ui/heart.png"));
+    private static final Texture shield = new Texture(Gdx.files.internal("data/textures/ui/shield.png"));
+    private static final Texture shield_luck = new Texture(Gdx.files.internal("data/textures/ui/shield_luck.png"));
+    private static final Texture sword = new Texture(Gdx.files.internal("data/textures/ui/sword.png"));
+    private static final Texture sword_luck = new Texture(Gdx.files.internal("data/textures/ui/sword_luck.png"));
+    private static final Texture bow = new Texture(Gdx.files.internal("data/textures/ui/bow.png"));
+    private static final Texture arrow = new Texture(Gdx.files.internal("data/textures/ui/arrow.png"));
     
     private Texture texture;
     private ArrayList<ArrayList<Texture>> icons;

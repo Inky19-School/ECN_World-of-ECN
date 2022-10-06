@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import java.sql.SQLException;
@@ -19,11 +20,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.Creature.Entite;
+import org.centrale.objet.WoE.Point2D;
 import org.centrale.objet.WoE.TestWoE;
 import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
 import org.centrale.objet.WoE.World.World;
 import org.centrale.objet.WoE.sql.DatabaseTools;
-import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -61,6 +62,7 @@ public class GameScreen extends ScreenAdapter{
     private boolean s;
     private boolean d;
     
+    private float zoom;
     
     
     public GameScreen(SpriteBatch batch, World monde){
@@ -74,6 +76,7 @@ public class GameScreen extends ScreenAdapter{
         mousePos = new Vector3();
         infobox = new InfoMenu();
         selectedTile = new Vector2();
+        zoom = 0.5f;
     }
     
 
@@ -179,6 +182,7 @@ public class GameScreen extends ScreenAdapter{
         }
         
         camera.translate((x - (float)camera.position.x)/SMOOTHNESS, (y - (float)camera.position.y)/SMOOTHNESS);
+        camera.zoom += (zoom - camera.zoom)/SMOOTHNESS;
         
         if ((z||q||s||d) && System.currentTimeMillis()>timerTurn+300){
             movePlayer();
@@ -229,6 +233,15 @@ public class GameScreen extends ScreenAdapter{
         }
     }
     
+    void goToPlayer() {
+        Point2D tile_pos = this.monde.getJoueur().getPlayer().getPos();
+        Vector2 pos = renderer.toWindowPos(tile_pos.getX(),tile_pos.getY());
+        this.x = (int)pos.x;
+        this.y = (int)pos.y;
+        zoom = 0.5f;
+        
+    }
+    
     public void movePlayerVertical(int dy){
         monde.getJoueur().setDy(dy);
     }
@@ -252,9 +265,9 @@ public class GameScreen extends ScreenAdapter{
         
     public void zoomCamera(float delta){
         if (delta > 0){
-            camera.zoom /=0.8;
+            zoom /=0.8;
         } else {
-            camera.zoom *=0.8;
+            zoom *=0.8;
         }
     }
 

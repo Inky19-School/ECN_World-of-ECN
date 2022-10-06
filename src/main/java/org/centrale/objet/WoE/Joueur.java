@@ -61,7 +61,6 @@ public class Joueur {
     
     
     public void deplacer(World monde){
-
         Point2D pos = player.getPos();
         try {
             if (monde.getEnt((pos.getX()+dx),(pos.getY()+dy)) == null){
