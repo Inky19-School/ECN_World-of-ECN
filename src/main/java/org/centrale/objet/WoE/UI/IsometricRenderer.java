@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import org.centrale.objet.WoE.Creature.*;
+import org.centrale.objet.WoE.Objet.NuageToxique;
 import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.PotionSoin;
 import org.centrale.objet.WoE.Point2D;
@@ -38,6 +39,7 @@ public class IsometricRenderer {
     private final Texture archer;
     private final Texture selected;
     private final Texture healPotion;
+    private final Texture toxicCloud;
 
     public IsometricRenderer(World monde) {
         tileGrass1 = new Texture(Gdx.files.internal("data/textures/tiles/grass1.png"));
@@ -50,6 +52,7 @@ public class IsometricRenderer {
         lapin = new Texture(Gdx.files.internal("data/textures/entity/monster/lapin.png"));
         selected = new Texture(Gdx.files.internal("data/textures/tiles/select.png"));
         healPotion = new Texture(Gdx.files.internal("data/textures/entity/object/healPotion.png"));
+        toxicCloud = new Texture(Gdx.files.internal("data/textures/entity/object/toxicCloud.png"));
         this.monde = monde;
     }
 
@@ -89,6 +92,8 @@ public class IsometricRenderer {
             batch.draw(lapin, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         } else if (e instanceof PotionSoin) {
             batch.draw(healPotion, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+        } else if (e instanceof NuageToxique) {
+            batch.draw(toxicCloud, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         }
         
     }
