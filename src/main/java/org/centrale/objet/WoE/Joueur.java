@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Action.Deplacable;
 import org.centrale.objet.WoE.Creature.*;
+import org.centrale.objet.WoE.World.Chunk;
 
 /**
  *
