@@ -106,11 +106,11 @@ public class World {
     
     public Entite getEnt(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
-        System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
+        //System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
-            System.out.println( " pos coord : "+ x+" "+ y);
-            System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
+            //System.out.println( " pos coord : "+ x+" "+ y);
+            //System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChCrea()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
             System.out.println("ça déconne getEnt");
@@ -124,7 +124,7 @@ public class World {
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
             System.out.println( " pos coord : "+ x+" "+ y);
-            System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
+            System.out.println( " RelPos : "+ (x - relPos.getX()*Chunk.SIZE) +" "+(y-relPos.getY()*Chunk.SIZE));
             activeChunks[relPos.getX()+1][relPos.getY()+1].setCrea(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE, (Creature) e);
         } else {
             System.out.println("ça déconne setEnt");
@@ -133,11 +133,11 @@ public class World {
     
     public Objet getObj(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
-        System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
+        //System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
-            System.out.println( " pos coord : "+ x+" "+ y);
-            System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
+            //System.out.println( " pos coord : "+ x+" "+ y);
+            //System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChObj()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
             return null;
