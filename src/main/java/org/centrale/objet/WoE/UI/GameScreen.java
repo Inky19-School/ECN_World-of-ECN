@@ -20,9 +20,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.Creature.Entite;
+import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Point2D;
 import org.centrale.objet.WoE.TestWoE;
 import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
+import org.centrale.objet.WoE.World.Chunk;
 import org.centrale.objet.WoE.World.World;
 import org.centrale.objet.WoE.sql.DatabaseTools;
 
@@ -85,9 +87,10 @@ public class GameScreen extends ScreenAdapter{
 
     @Override
     public void show(){
-        boolean sql = false;
+        boolean sql = true;
         
         if (sql){
+            monde.getActiveChunks()[1][1] = new Chunk(0,0);
             DatabaseTools database = new DatabaseTools();
             database.connect();
             System.out.println("getname");
@@ -105,7 +108,7 @@ public class GameScreen extends ScreenAdapter{
                 Logger.getLogger(TestWoE.class.getName()).log(Level.SEVERE, null, ex);
             }
             */
-
+            
             try {
                 // Retreive World
                 database.readWorld(playerId, "Test Game 1", "Test1", monde);
@@ -113,7 +116,7 @@ public class GameScreen extends ScreenAdapter{
             } catch (SQLException ex) {
                 Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
 
             database.disconnect();
         }
@@ -237,14 +240,24 @@ public class GameScreen extends ScreenAdapter{
         return !pos.equals(monde.getJoueur().getPlayer().getPos());
     }
     
-    void fightPlayer(){
-        Entite e = monde.getEnt((int)selectedTile.x,(int)selectedTile.y);
-        if (e instanceof Creature){
-            turnPassed = monde.getJoueur().combattre((Creature) e) || turnPassed;
+    public void interact(){
+        Creature c = monde.getCrea((int)selectedTile.x,(int)selectedTile.y);
+        Objet o = monde.getObj((int)selectedTile.x,(int)selectedTile.y);
+        if (c != null){
+            turnPassed = monde.getJoueur().combattre(c) || turnPassed;
         }
+        if (o != null){
+            turnPassed = monde.getJoueur().useMap(o, monde) || turnPassed;
+        }
+        
+        
     }
     
-    void goToPlayer() {
+    public void useInventory(){
+        monde.getJoueur().useInventory();
+    }
+    
+    public void goToPlayer() {
         Point2D tile_pos = this.monde.getJoueur().getPlayer().getPos();
         Vector2 pos = renderer.toWindowPos(tile_pos.getX(),tile_pos.getY());
         this.x = (int)pos.x;

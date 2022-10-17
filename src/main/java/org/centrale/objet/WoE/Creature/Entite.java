@@ -13,6 +13,7 @@ import org.centrale.objet.WoE.Point2D;
 public abstract class Entite {
 
     private Point2D pos;
+    private Point2D chPos;
     
     /**
      *
@@ -25,8 +26,9 @@ public abstract class Entite {
      *
      * @param pos Position de l'entité
      */
-    public Entite(Point2D pos) {
+    public Entite(Point2D pos, Point2D chPos) {
         this.pos = new Point2D(pos);
+        this.chPos = chPos;
     }
     
     /**
@@ -52,6 +54,15 @@ public abstract class Entite {
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
+
+    public Point2D getChPos() {
+        return chPos;
+    }
+
+    public void setChPos(Point2D chPos) {
+        this.chPos = chPos;
+    }
+   
     
     /**
      * Affiche des informations sur l'entité

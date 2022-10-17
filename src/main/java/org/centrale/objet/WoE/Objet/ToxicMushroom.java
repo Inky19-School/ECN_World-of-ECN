@@ -14,4 +14,9 @@ public class ToxicMushroom extends Nourriture{
     public ToxicMushroom(){
         super(4,Effect.ATK,-10);
     }
+
+    @Override
+    public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

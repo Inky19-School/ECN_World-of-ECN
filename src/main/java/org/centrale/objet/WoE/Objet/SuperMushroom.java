@@ -10,11 +10,14 @@ import org.centrale.objet.WoE.Action.Effect;
  * @author inky19
  */
 public class SuperMushroom extends Nourriture {
-    
-    private int modAtk;
-    
+        
     public SuperMushroom(){
         super(4,Effect.HP,5);
+    }
+
+    @Override
+    public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

@@ -55,8 +55,8 @@ public class Archer extends Personnage implements Combattant {
      * @param nbFleches Nombre de flèches
      * @param degAttDist Dégâts infligés à distance
      */
-    public Archer(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos, int nbFleches, int degAttDist) {
-        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
+    public Archer(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos, Point2D chPos, int nbFleches, int degAttDist) {
+        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, chPos);
         this.nbFleches = nbFleches;
         this.degAttDist = degAttDist;
     }

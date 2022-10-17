@@ -37,15 +37,16 @@ public class Loup extends Monstre implements Combattant {
 
     /**
      *
-     * @param pos Position
+     * @param pos Position de la créature dans le chunk
+     * @param chPos Position du chunk de la créature
      * @param ptVie Points de vie
      * @param ptPar Points de parade
      * @param pagePar Pourcentage de parade
      * @param pageAtt Pourcentage d'attaque
      * @param degAtt Dégâts 
      */
-    public Loup(Point2D pos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt) {
-        super(pos, ptVie, ptPar, pagePar, pageAtt, degAtt);
+    public Loup(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt) {
+        super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt);
     }
 
     /**
