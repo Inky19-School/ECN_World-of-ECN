@@ -22,6 +22,8 @@ public class EntityInfo {
     static private final Texture lapin = new Texture(Gdx.files.internal("data/textures/entity/monster/lapin.png"));
     
     static private final Texture healthPotion = new Texture(Gdx.files.internal("data/textures/entity/object/healPotion.png"));
+    static private final Texture superMushroom = new Texture(Gdx.files.internal("data/textures/entity/object/super_mushroom.png"));
+    static private final Texture toxicMushroom = new Texture(Gdx.files.internal("data/textures/entity/object/toxic_mushroom.png"));
     static private final Texture toxicCloud = new Texture(Gdx.files.internal("data/textures/entity/object/toxicCloud.png"));    
     
     void EntityTexture()
@@ -49,6 +51,10 @@ public class EntityInfo {
                 return healthPotion;
             } else if (e instanceof NuageToxique){
                 return toxicCloud;
+            } else if (e instanceof SuperMushroom){
+                return superMushroom;
+            } else if (e instanceof ToxicMushroom){
+                return toxicMushroom;
             }
         }
         return null;
@@ -74,6 +80,13 @@ public class EntityInfo {
             if (e instanceof NuageToxique){
                 return "Nuage Toxique";
             }
+            if (e instanceof SuperMushroom){
+                return "Super Champi";
+            }
+            if (e instanceof ToxicMushroom){
+                return "Champi Toxique";
+            }
+            
         }
         return null;
     }

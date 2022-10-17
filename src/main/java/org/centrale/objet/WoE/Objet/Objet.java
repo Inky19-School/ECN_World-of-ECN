@@ -11,7 +11,7 @@ import org.centrale.objet.WoE.Point2D;
  *
  * @author inky19
  */
-public class Objet extends Entite{
+public abstract class Objet extends Entite{
 
     private Point2D pos;
     private int qte;
