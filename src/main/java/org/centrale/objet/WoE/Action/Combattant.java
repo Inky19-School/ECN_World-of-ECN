@@ -11,5 +11,5 @@ import org.centrale.objet.WoE.Creature.Creature;
  * @author inky19
  */
 public interface Combattant {
-    public void combattre(Creature c);
+    public boolean combattre(Creature c);
 }

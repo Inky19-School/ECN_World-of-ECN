@@ -65,7 +65,8 @@ public class Archer extends Personnage implements Combattant {
      * Combat contre une autre créature et inflige des dégâts
      * @param c Crétature à combattre
      */
-    public void combattre(Creature c){
+    public boolean combattre(Creature c){
+        
         float distance = c.getPos().distance(this.getPos());
         if (distance ==1){
             Random alea = new Random();
@@ -82,14 +83,17 @@ public class Archer extends Personnage implements Combattant {
                     c.addPV(-this.getDegAtt());
                 }
             }
+            return true;
         } else if (distance>1 && distance < this.getDistAttMax() && nbFleches > 0){
             Random alea = new Random();
             nbFleches --;
             int rand = alea.nextInt(100)+1;
             if (rand <= this.getPageAtt()){
                     c.addPV(-degAttDist);
-                }
+            }
+            return true;
         }
+        return false;
     }
 
     /**
