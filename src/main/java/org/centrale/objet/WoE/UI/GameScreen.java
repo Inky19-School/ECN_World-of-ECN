@@ -40,6 +40,8 @@ public class GameScreen extends ScreenAdapter{
     private float cameraSpeedY = 0;
     private float cameraBaseSpeed = 10;
     
+    private boolean turnPassed;
+    
     
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -77,6 +79,7 @@ public class GameScreen extends ScreenAdapter{
         infomenu = new InfoMenu();
         selectedTile = new Vector2();
         zoom = 0.5f;
+        turnPassed = false;
     }
     
 
@@ -185,14 +188,19 @@ public class GameScreen extends ScreenAdapter{
         camera.zoom += (zoom - camera.zoom)/SMOOTHNESS;
         
         if ((z||q||s||d) && System.currentTimeMillis()>timerTurn+300){
-            movePlayer();
+            boolean temp = movePlayer();
+            turnPassed = temp || turnPassed;
             timerTurn = System.currentTimeMillis();
-            monde.getJoueur().deplacer(monde);
-        }
-        
-        //monde.wolfie.deplacer();
-        if (System.currentTimeMillis()>timer+500){
             
+
+        }
+        if (turnPassed){
+                monde.tourDeJeu();
+                turnPassed = false;
+        }
+        //monde.wolfie.deplacer();
+        if (turnPassed && System.currentTimeMillis()>timer+500){
+            turnPassed = false;
             //monde.wolfie.deplacer(monde);
             
             //((Creature)(monde.entites.get(2))).deplace(monde);
@@ -205,7 +213,8 @@ public class GameScreen extends ScreenAdapter{
         
     }
     
-    private void movePlayer(){
+    private boolean movePlayer(){
+        Point2D pos = new Point2D(monde.getJoueur().getPlayer().getPos());
         if (z){
             monde.getJoueur().setDy(1);
             monde.getJoueur().setDx(1);
@@ -224,12 +233,14 @@ public class GameScreen extends ScreenAdapter{
             monde.getJoueur().addDx(-1);
             monde.getJoueur().addDy(1);
         }
+        monde.getJoueur().deplacer(monde);
+        return !pos.equals(monde.getJoueur().getPlayer().getPos());
     }
     
     void fightPlayer(){
         Entite e = monde.getEnt((int)selectedTile.x,(int)selectedTile.y);
         if (e instanceof Creature){
-            monde.getJoueur().combattre((Creature) e);
+            turnPassed = monde.getJoueur().combattre((Creature) e) || turnPassed;
         }
     }
     

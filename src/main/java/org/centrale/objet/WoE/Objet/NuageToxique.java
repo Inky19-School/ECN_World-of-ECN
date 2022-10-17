@@ -6,6 +6,7 @@ package org.centrale.objet.WoE.Objet;
  */
 
 import org.centrale.objet.WoE.Action.Deplacable;
+import org.centrale.objet.WoE.World.Chunk;
 import org.centrale.objet.WoE.World.World;
 
 /**
@@ -15,8 +16,8 @@ import org.centrale.objet.WoE.World.World;
 public class NuageToxique extends Objet implements Deplacable{
 
     @Override
-    public void deplacer(World monde) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void deplacer(Chunk chunk) {
+        q
     }
     
 }

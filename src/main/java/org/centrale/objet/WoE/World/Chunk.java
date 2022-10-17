@@ -153,8 +153,9 @@ public class Chunk {
     public Objet[][] getChObj() {
         return chObj;
     }
-    
-    
-    
+
+    public List<Entite> getEntites() {
+        return entites;
+    }
     
 }

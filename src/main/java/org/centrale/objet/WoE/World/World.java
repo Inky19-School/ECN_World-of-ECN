@@ -139,7 +139,6 @@ public class World {
 
             if (e != null){
                 e.setPos(new Point2D(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE));
-                System.out.println(e.getPos().getX());
                 activeChunks[relPos.getX()+1][relPos.getY()+1].entites.add((Creature) e);
             }
             
@@ -199,7 +198,12 @@ public class World {
      * Non implémentée
      */
     public void tourDeJeu(){
-        
+        for (Entite e: activeChunks[1][1].getEntites()){
+            if (e instanceof Creature && e!=player.getPlayer()){
+                
+                ((Creature) e).deplacer(activeChunks[1][1]);
+            }
+        }
     }
     
     /**

@@ -53,7 +53,7 @@ public class Loup extends Monstre implements Combattant {
      * @param c Crétature à combattre
      */
     @Override
-    public void combattre(Creature c){
+    public boolean combattre(Creature c){
         if (c.getPos().distance(this.getPos())==1){
             Random alea = new Random();
             int rand = alea.nextInt(100)+1; // Lance le dé pour savoir si l'attaque a lieu
@@ -73,7 +73,9 @@ public class Loup extends Monstre implements Combattant {
             } else {
                 System.out.println("Attaque ratée");
             }
+            return true;
         }
+        return false;
     }
     
     /**

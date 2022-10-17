@@ -89,11 +89,11 @@ public class Joueur {
     
     
     
-    public void combattre(Creature c){
+    public boolean combattre(Creature c){
         if (player instanceof Combattant){
-            ((Combattant)(player)).combattre(c);
+            return ((Combattant)(player)).combattre(c);
         }
-
+        return false;
     }
 
     public int getDx() {

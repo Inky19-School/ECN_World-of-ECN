@@ -8,6 +8,7 @@ import org.centrale.objet.WoE.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import org.centrale.objet.WoE.Action.Deplacable;
+import org.centrale.objet.WoE.World.Chunk;
 import org.centrale.objet.WoE.World.World;
 
 /**
@@ -87,13 +88,15 @@ public abstract class Creature extends Entite implements Deplacable {
      * Déplace la créature de manière aléatoire.
      * @param monde
      */
-    public void deplacer(World monde){
+    public void deplacer(Chunk chunk){
+        
+        
         ArrayList<Point2D> casesCibles = new ArrayList<>();
         int x = this.getPos().getX();
         int y = this.getPos().getY();
         for (int i=-1;i<2;i++){
             for (int j=-1;j<2;j++){
-                if (!(j==0 && i==0)&&(inBounds(x+i,monde.SIZE))&&(inBounds(y+j,monde.SIZE)&&(monde.mapCreature[x+i][y+j]==null))){
+                if (!(j==0 && i==0)&&(inBounds(x+i,chunk.SIZE))&&(inBounds(y+j,chunk.SIZE)&&(chunk.getChCrea()[x+i][y+j]==null))){
                     casesCibles.add(new Point2D(i,j));
                 }
             }
@@ -105,12 +108,11 @@ public abstract class Creature extends Entite implements Deplacable {
             Point2D newPos = new Point2D(this.getPos());
             newPos.translate(cible.getX(),cible.getY());
             //mise à jour de la position
-            monde.mapCreature[x][y]=null;
-            monde.mapCreature[newPos.getX()][newPos.getY()] = this;
+            chunk.getChCrea()[x][y]=null;
+            chunk.getChCrea()[newPos.getX()][newPos.getY()] = this;
             this.setPos(newPos);
         }
-        monde.interactionObjet(this);
-        
+        //chunk.interactionObjet(this);
     }
     
     private boolean inBounds(int i,int u) {

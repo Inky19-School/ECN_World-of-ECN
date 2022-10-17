@@ -55,7 +55,7 @@ public class Guerrier extends Personnage implements Combattant {
      * @param c Crétature à combattre
      */
     @Override
-    public void combattre(Creature c){
+    public boolean combattre(Creature c){
         if (c.getPos().distance(this.getPos())==1){
             Random alea = new Random();
             int rand = alea.nextInt(100)+1; // Lance le dé pour savoir si l'attaque a lieu
@@ -70,7 +70,9 @@ public class Guerrier extends Personnage implements Combattant {
                     c.addPV(-this.getDegAtt());
                 }
             }
+            return true;
         }
+        return false;
     }
     
     /**

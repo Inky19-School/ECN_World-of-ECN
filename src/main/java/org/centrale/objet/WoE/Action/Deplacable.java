@@ -4,6 +4,7 @@
  */
 package org.centrale.objet.WoE.Action;
 
+import org.centrale.objet.WoE.World.Chunk;
 import org.centrale.objet.WoE.World.World;
 
 /**
@@ -12,5 +13,5 @@ import org.centrale.objet.WoE.World.World;
  */
 public interface Deplacable {
 
-    public void deplacer(World monde);
+    public void deplacer(Chunk chunk);
 }
