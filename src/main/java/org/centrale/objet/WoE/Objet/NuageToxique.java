@@ -17,7 +17,7 @@ public class NuageToxique extends Objet implements Deplacable{
 
     @Override
     public void deplacer(Chunk chunk) {
-        q
+        
     }
     
 }

@@ -66,10 +66,10 @@ public class InfoBox {
         icons = new ArrayList<>();
         infos = new ArrayList<>();
         texture = EntityInfo.getTexture(e);
+        height = 20;
         try {
-                height = texture.getHeight()*2;
+                height += texture.getHeight()*2;
             } catch (NullPointerException ex) {
-                height = 0;
                 System.out.println("Texture invalide !");
             }
         

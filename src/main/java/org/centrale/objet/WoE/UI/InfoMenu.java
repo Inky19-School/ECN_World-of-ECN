@@ -100,10 +100,10 @@ public class InfoMenu extends ShapeRenderer {
                 font.draw(batch, b.getName(), x-width+(b.getClassName().length()/2)*12, y-50-txtrHeight * 2);
                 line++;
             }
-            batch.draw(texture, x - width / 2 - 10 - texture.getWidth(), y - 30 - txtrHeight * 2, texture.getWidth() * 2, txtrHeight * 2);
+            batch.draw(texture, x - width / 2 - 10 - texture.getWidth(), y - 50 - txtrHeight * 2, texture.getWidth() * 2, txtrHeight * 2);
             ArrayList<ArrayList<Texture>> icons = b.getIcons();
             ArrayList<ArrayList<String>> infos = b.getInfos();
-            float textY = y-30-(txtrHeight*2);
+            float textY = y-50-(txtrHeight*2);
             for (int i=0; i<icons.size(); i++){
                 
                 batch.draw(icons.get(i).get(0), x-width, textY-(line)*LINE_SIZE, 32, 32);
