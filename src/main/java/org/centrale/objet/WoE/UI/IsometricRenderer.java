@@ -14,6 +14,8 @@ import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.NuageToxique;
 import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.PotionSoin;
+import org.centrale.objet.WoE.Objet.SuperMushroom;
+import org.centrale.objet.WoE.Objet.ToxicMushroom;
 import org.centrale.objet.WoE.Point2D;
 import org.centrale.objet.WoE.World.Chunk;
 import org.centrale.objet.WoE.World.World;
@@ -53,6 +55,8 @@ public class IsometricRenderer {
         selected = new Texture(Gdx.files.internal("data/textures/tiles/select.png"));
         healPotion = new Texture(Gdx.files.internal("data/textures/entity/object/healPotion.png"));
         toxicCloud = new Texture(Gdx.files.internal("data/textures/entity/object/toxicCloud.png"));
+        //superMushroom = new Texture(Gdx.files.internal("data/textures/entity/object/super_mushroom.png"));
+        //toxicM = new Texture(Gdx.files.internal("data/textures/entity/object/toxicCloud.png"));
         this.monde = monde;
     }
 
@@ -77,23 +81,28 @@ public class IsometricRenderer {
     public void drawEntite(Entite e, SpriteBatch batch, Point2D chPos) {
         int chx = chPos.getX()*Chunk.SIZE;
         int chy = chPos.getY()*Chunk.SIZE;
+        Texture texture = EntityInfo.getTexture(e);
         Vector2 pos = this.toWindowPos(e.getPos().getX()+chx, e.getPos().getY()+chy);
         if (e instanceof Loup) {
-            batch.draw(wolf, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+            batch.draw(texture, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         } else if (e instanceof Paysan) {
-            batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
+            batch.draw(texture, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
         } else if (e instanceof Paysan) {
-            batch.draw(paysan, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
+            batch.draw(texture, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
         } else if (e instanceof Guerrier) {
-            batch.draw(guerrier, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
+            batch.draw(texture, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
         } else if (e instanceof Archer) {
-            batch.draw(archer, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
+            batch.draw(texture, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT * 2);
         } else if (e instanceof Lapin) {
-            batch.draw(lapin, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+            batch.draw(texture, pos.x, pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         } else if (e instanceof PotionSoin) {
-            batch.draw(healPotion, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+            batch.draw(texture, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         } else if (e instanceof NuageToxique) {
-            batch.draw(toxicCloud, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+            batch.draw(texture, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+        } else if (e instanceof SuperMushroom) {
+            batch.draw(texture, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
+        } else if (e instanceof ToxicMushroom) {
+            batch.draw(texture, pos.x , pos.y + TILE_HEIGHT / 4f, TILE_WIDTH, TILE_HEIGHT);
         }
         
     }

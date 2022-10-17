@@ -92,6 +92,14 @@ public class Chunk {
         for (int i = 0; i < rand; i++) {
             ch.entites.add(new NuageToxique());
         }
+        rand = alea.nextInt(maxType);
+        for (int i = 0; i < rand; i++) {
+            ch.entites.add(new SuperMushroom());
+        }
+        rand = alea.nextInt(maxType);
+        for (int i = 0; i < rand; i++) {
+            ch.entites.add(new ToxicMushroom());
+        }
         
         // Placement aléatoire des entités
         boolean notValide;
