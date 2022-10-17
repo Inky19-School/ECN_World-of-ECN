@@ -198,9 +198,9 @@ public class World {
      * Non implémentée
      */
     public void tourDeJeu(){
+        player.updateEffects();
         for (Entite e: activeChunks[1][1].getEntites()){
             if (e instanceof Creature && e!=player.getPlayer()){
-                
                 ((Creature) e).deplacer(activeChunks[1][1]);
             }
         }

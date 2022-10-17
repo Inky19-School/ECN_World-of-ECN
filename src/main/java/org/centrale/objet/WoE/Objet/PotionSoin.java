@@ -11,9 +11,9 @@ import org.centrale.objet.WoE.Point2D;
  *
  * @author inky19
  */
-public class PotionSoin extends Objet {
-
-
+public class PotionSoin extends Objet implements Utilisable{
+    
+      
     private int ptVieRegen;
 
     /**
@@ -64,6 +64,11 @@ public class PotionSoin extends Objet {
      */
     public void setPtVieRegen(int ptVieRegen) {
         this.ptVieRegen = ptVieRegen;
+    }
+
+    @Override
+    public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     
