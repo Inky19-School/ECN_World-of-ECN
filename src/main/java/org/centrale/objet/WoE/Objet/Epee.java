@@ -10,7 +10,7 @@ import org.centrale.objet.WoE.Point2D;
  *
  * @author inky19
  */
-public class Epee extends Objet{
+public class Epee extends Objet implements Utilisable {
 
     private int ptDgt;
     private int coolDown;
@@ -99,6 +99,11 @@ public class Epee extends Objet{
      */
     public void setDurabilite(int durabilite) {
         this.durabilite = durabilite;
+    }
+
+    @Override
+    public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

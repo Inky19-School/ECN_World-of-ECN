@@ -6,12 +6,17 @@ package org.centrale.objet.WoE;
 
 import org.centrale.objet.WoE.World.World;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Action.Deplacable;
+import org.centrale.objet.WoE.Action.Effect;
 import org.centrale.objet.WoE.Creature.*;
+import org.centrale.objet.WoE.Objet.Utilisable;
 import org.centrale.objet.WoE.World.Chunk;
 
 /**
@@ -27,6 +32,7 @@ public class Joueur {
     
     private int dx;
     private int dy;
+    private LinkedList<Effect> effects;
     
     public Joueur(){
         name = "";
@@ -36,6 +42,7 @@ public class Joueur {
     
     public Joueur(String pClass, String name){
         this.name = name;
+        this.effects = new LinkedList<>();
         for (Class c:JOUABLES){
                 if (pClass.equals(c.getSimpleName())){
                     try {
@@ -59,6 +66,20 @@ public class Joueur {
             }
         player.setNom(this.name);
     }
+    
+    public void updateEffects() {
+        for (Effect effect : effects) {
+            effect.decreaseDuration();
+            if (effect.isFinished()) {
+                effects.remove(effect);
+            } else {
+                if (effect.getEffect() == Effect.HP) {
+                    this.getPlayer().addPV(effect.getModifier());
+                }
+            }
+        }
+    }
+    
     
     
     public void deplacer(World monde){
