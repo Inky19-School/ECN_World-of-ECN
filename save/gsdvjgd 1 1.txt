@@ -1,0 +1,20 @@
+Archer 18 23 27 4 5 90 6  4 20
+Paysan 21 28 22 0 0 0 0 
+Paysan 15 30 22 0 0 0 0 
+Paysan 12 5 22 0 0 0 0 
+Lapin 5 3 13 2 13 93 2
+Lapin 12 25 13 2 13 93 2
+Lapin 6 10 13 2 13 93 2
+Guerrier 4 1 42 7 8 83 10 Robert
+Loup 25 2 25 6 9 59 15
+Loup 14 20 25 6 9 59 15
+Loup 26 6 25 6 9 59 15
+PotionSoin 18 18 5 Effect 1 1 5
+SuperMushroom 25 0 Effect 4 1 5
+ToxicMushroom 3 13 Effect 4 0 -10
+ToxicMushroom 8 25 Effect 4 0 -10
+ToxicMushroom 10 24 Effect 4 0 -10
+PotionSoin 1 1 6 Effect 1 1 6
+Loup 1 1 20 20 20 20 20
+Loup 3 4 25 6 9 59 15
+Player Guerrier 0 0 42 7 8 83 10 

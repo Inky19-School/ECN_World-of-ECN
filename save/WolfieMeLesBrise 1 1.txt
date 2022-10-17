@@ -1,0 +1,18 @@
+Archer 13 17 27 4 5 90 6  4 20
+Paysan 5 28 22 0 0 0 0 
+Paysan 29 10 22 0 0 0 0 
+Paysan 3 18 22 0 0 0 0 
+Guerrier 11 12 42 7 8 83 10 Robert
+Loup 0 25 25 6 9 59 15
+Loup 5 16 25 6 9 59 15
+NuageToxique 21 20
+SuperMushroom 29 5 Effect 4 1 5
+SuperMushroom 22 0 Effect 4 1 5
+SuperMushroom 30 5 Effect 4 1 5
+ToxicMushroom 20 10 Effect 4 0 -10
+ToxicMushroom 7 22 Effect 4 0 -10
+ToxicMushroom 26 31 Effect 4 0 -10
+PotionSoin 1 1 6 Effect 1 1 6
+Loup 1 1 20 20 20 20 20
+Loup 3 4 25 6 9 59 15
+Player Archer 0 0 27 4 5 90 6 Wolfie 4 20
