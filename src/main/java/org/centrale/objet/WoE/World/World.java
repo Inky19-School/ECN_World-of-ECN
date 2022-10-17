@@ -120,13 +120,24 @@ public class World {
     }
     
     
-    public Entite getEnt(int x, int y){
+    public Creature getCrea(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChCrea()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
-            System.out.println("ça déconne getEnt");
+            System.out.println("ça déconne getCrea");
+            return null;
+        }
+    }
+    
+    public Objet getObj(int x, int y){
+        Point2D chPos = Chunk.toChunkCoordinates(x, y);
+        if (isActive(chPos)){
+            Point2D relPos = chRelativePos(chPos);
+            return activeChunks[relPos.getX()+1][relPos.getY()+1].getChObj()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
+        } else {
+            System.out.println("ça déconne getObj");
             return null;
         }
     }
@@ -147,16 +158,25 @@ public class World {
         }
     }
     
-    public Objet getObj(int x, int y){
-        Point2D chPos = Chunk.toChunkCoordinates(x, y);
+    
+    public void delEnt(Entite e){
+       Point2D chPos = e.getChPos();
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
-            return activeChunks[relPos.getX()+1][relPos.getY()+1].getChObj()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
+            Chunk ch = activeChunks[relPos.getX()+1][relPos.getY()+1];
+            ch.getEntites().remove(e);
+            System.out.println("oui oui luuig");
+            if (e instanceof Objet){
+                ch.getChObj()[e.getPos().getX()][e.getPos().getY()] = null;
+            } else if (e instanceof Creature){
+                ch.getChCrea()[e.getPos().getX()][e.getPos().getY()] = null;
+            }
+            
+            
         } else {
-            return null;
+            System.out.println("ça déconne delEnt");
         }
     }
-    
     
     public void creerPlayer(Joueur player, int size) {
         
@@ -186,7 +206,7 @@ public class World {
         PotionSoin p = new PotionSoin(new Point2D(1,1), 1, 6);
         activeChunks[1][1].entites.add(p);
         activeChunks[1][1].chObj[1][1] = p;
-        Loup l1 = new Loup(new Point2D(1,1), 20, 20, 20, 20, 20);
+        Loup l1 = new Loup(new Point2D(1,1), new Point2D(0,0), 20, 20, 20, 20, 20);
         activeChunks[1][1].chCrea[1][1] = l1;
         activeChunks[1][1].entites.add(l1);
         

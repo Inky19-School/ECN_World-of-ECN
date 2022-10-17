@@ -47,7 +47,10 @@ public class PlayerInput implements InputProcessor{
                 gScreen.setD(true);
                 break;
             case Input.Keys.E:
-                gScreen.fightPlayer();
+                gScreen.interact();
+                break;
+            case Input.Keys.I:
+                gScreen.useInventory();
                 break;
             case Input.Keys.P:
                 gScreen.goToPlayer();

@@ -109,6 +109,7 @@ public class Chunk {
                 // Tirage d'une position aléatoire sur la carte
                 int x = alea.nextInt(SIZE);
                 int y = alea.nextInt(SIZE);
+                p.setChPos(ch.getPos());
                 // Vérification que la case est libre
                 if ((p instanceof Creature)&&(ch.chCrea[x][y] == null)) {
                     p.setPos(new Point2D(x, y));
