@@ -47,7 +47,7 @@ public class GameScreen extends ScreenAdapter{
     private IsometricRenderer renderer;
     private PlayerInput input;
     private World monde;
-    private InfoMenu infobox;
+    private InfoMenu infomenu;
     private int x, y; // Vraie position caméra
     
     private Vector3 mousePos;
@@ -74,7 +74,7 @@ public class GameScreen extends ScreenAdapter{
         timerCamera = System.currentTimeMillis();
         timerTurn = System.currentTimeMillis();
         mousePos = new Vector3();
-        infobox = new InfoMenu();
+        infomenu = new InfoMenu();
         selectedTile = new Vector2();
         zoom = 0.5f;
     }
@@ -125,7 +125,7 @@ public class GameScreen extends ScreenAdapter{
         fixedCamera.position.set(-WIDTH, WIDTH, 0);
         fixedCamera.zoom = 0.5f;
         
-        infobox.setPos(new Vector2(WIDTH-20,HEIGHT-20));
+        infomenu.setPos(new Vector2(WIDTH-20,HEIGHT-20));
         
         Gdx.input.setInputProcessor(input);
         
@@ -156,17 +156,17 @@ public class GameScreen extends ScreenAdapter{
         batch.setProjectionMatrix(fixedCamera.combined);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        infobox.begin(ShapeType.Filled);
-        infobox.setColor(0.8f, 0.8f, 0.8f, 0.7f);
-        infobox.update(selectedTile, monde);
+        infomenu.begin(ShapeType.Filled);
+        infomenu.setColor(0.8f, 0.8f, 0.8f, 0.7f);
+        infomenu.update(selectedTile, monde);
         
-        infobox.draw();
-        infobox.end();
+        infomenu.draw();
+        infomenu.end();
         
         Gdx.gl.glDisable(GL20.GL_BLEND);
         
         batch.begin();
-        infobox.drawTextures(batch);
+        infomenu.drawTextures(batch);
         batch.end();
         
         

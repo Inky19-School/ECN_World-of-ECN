@@ -103,14 +103,27 @@ public class World {
         return new Point2D(active.getX()-x, active.getY()-y);
     }
     
+    private Point2D toLocalCoordinates(int x, int y){
+        int nX = x%Chunk.SIZE;
+        int nY = y%Chunk.SIZE;
+        if (nX < 0){
+            nX = -nX;
+        }
+        if (nY < 0){
+            nY = -nY;
+        }
+        return new Point2D(nX, nY);
+    }
+    
+    private Point2D toLocalCoordinates(Point2D p){
+        return toLocalCoordinates(p.getX(), p.getY());
+    }
+    
     
     public Entite getEnt(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
-        //System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
-            //System.out.println( " pos coord : "+ x+" "+ y);
-            //System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChCrea()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
             System.out.println("ça déconne getEnt");
@@ -120,12 +133,16 @@ public class World {
     
     public void setEnt(int x, int y, Entite e){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
-        System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
-            System.out.println( " pos coord : "+ x+" "+ y);
-            System.out.println( " RelPos : "+ (x - relPos.getX()*Chunk.SIZE) +" "+(y-relPos.getY()*Chunk.SIZE));
             activeChunks[relPos.getX()+1][relPos.getY()+1].setCrea(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE, (Creature) e);
+
+            if (e != null){
+                e.setPos(new Point2D(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE));
+                System.out.println(e.getPos().getX());
+                activeChunks[relPos.getX()+1][relPos.getY()+1].entites.add((Creature) e);
+            }
+            
         } else {
             System.out.println("ça déconne setEnt");
         }
@@ -133,11 +150,8 @@ public class World {
     
     public Objet getObj(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
-        //System.out.println( " chPos : "+ chPos.getX() +" "+ chPos.getY());
         if (isActive(chPos)){
             Point2D relPos = chRelativePos(chPos);
-            //System.out.println( " pos coord : "+ x+" "+ y);
-            //System.out.println( " RelPos : "+ relPos.getX() +" "+ relPos.getY());
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChObj()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
             return null;
