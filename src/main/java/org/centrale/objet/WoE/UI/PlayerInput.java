@@ -49,6 +49,9 @@ public class PlayerInput implements InputProcessor{
             case Input.Keys.E:
                 gScreen.fightPlayer();
                 break;
+            case Input.Keys.P:
+                gScreen.goToPlayer();
+                break;
         }
         return true;
     }

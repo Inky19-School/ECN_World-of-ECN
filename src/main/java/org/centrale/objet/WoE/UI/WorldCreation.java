@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -31,62 +32,45 @@ import org.centrale.objet.WoE.Joueur;
  */
 public class WorldCreation implements Screen {
     protected Stage stage;
-    private final Skin skin;
     private final Boot game;
+    private final Table table;
+    private final Container cont;
     
     private final Slider sizeSlider;
     private final Label sizeLabel;
-    private final TextureAtlas buttonAtlas;
-    private final Skin skin2;
-    private final SelectBox selectBox;
-    private final TextField playerNameField;
-    private TextButtonStyle textButtonStyle;
-    //private final TextureAtlas buttonAtlas;
-    //private final SpriteBatch batch;
 
     public WorldCreation(Boot game)
     {
         this.game = game;
-        skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
         stage = new Stage(new ScreenViewport());
-                
+        Skin skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));        
         //Slider
         sizeSlider = new Slider(5, 100, 1, false, skin);
         //Label
         sizeLabel = new Label("0",skin);
         
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("data/textures/ui/button.atlas"));
-        skin2 = new Skin(buttonAtlas);
-        textButtonStyle = new TextButtonStyle();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("data/textures/ui/button.atlas"));
+        Skin skin2 = new Skin(buttonAtlas);
+        TextButtonStyle textButtonStyle = new TextButtonStyle();
         textButtonStyle.font = new BitmapFont();
         textButtonStyle.up = skin2.getDrawable("blue_button");
         textButtonStyle.over = skin2.getDrawable("blue_button_selected");
-        selectBox = new SelectBox(skin,"small");
-        playerNameField = new TextField("", skin);
+        SelectBox<String> selectBox = new SelectBox<>(skin,"small");
+        TextField worldNameField = new TextField("", skin);
+        worldNameField.setMaxLength(16);
+        TextField playerNameField = new TextField("", skin);
         playerNameField.setMaxLength(16);
-    }
-
-    
-    
-    
-    @Override
-    public void show() {
-	Gdx.input.setInputProcessor(stage);	
-        Table table = new Table();
+        
+        table = new Table();
 	table.setFillParent(true);
         table.setDebug(false);
+        cont = new Container();
+        cont.setFillParent(true);
+        cont.align(Align.topLeft);
+        cont.pad(20);
+        stage.addActor(cont);
         stage.addActor(table);
-        
-        //World     
-        table.add(new Label("World settings",skin,"default-font",Color.WHITE)).colspan(3).pad(40).row();
-        
-        table.add(new Label("Size ",skin,"small-font",Color.WHITE)).left();
-        table.add(sizeSlider).fill();
-        table.add(sizeLabel).width(50).right().row();
-        
-        //Player
-        table.add(new Label("Player settings", skin)).colspan(3).pad(40).row();
-        
+        //SelectBox
         selectBox.setAlignment(Align.left);
         selectBox.getList().setAlignment(Align.left);
         selectBox.getStyle().listStyle.selection.setRightWidth(10);
@@ -96,18 +80,38 @@ public class WorldCreation implements Screen {
             items[i] = Joueur.JOUABLES[i].getSimpleName();
         }
         selectBox.setItems(items);
-               
+        //Buttons      
         TextButton createButton = new TextButton("Create New World",textButtonStyle);
-        createButton.addListener(new ChangeListener() {
-            
+        TextButton backButton = new TextButton("Back",skin);
+        createButton.addListener(new ChangeListener() {     
 	@Override
 	public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-            Joueur player = new Joueur((String) selectBox.getSelected(),playerNameField.getText());
+            String playerType = selectBox.getSelected();
+            String worldName = worldNameField.getText();
+            String playerName = playerNameField.getText();
+            
+            Joueur player = new Joueur(playerType,playerName);
             game.createNewWorld((int) sizeSlider.getValue(),player);
-            //game.setScreen(game.gScreen);
-        }
-	});
+        }});
+        backButton.addListener(new ChangeListener() {     
+	@Override
+	public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            game.goToMenu();
+        }});
+        /* Layout */
+        //Back button
+        cont.setActor(backButton);
+        //World     
+        table.add(new Label("World settings",skin,"default-font",Color.WHITE)).colspan(3).pad(40).row();
+        table.add(new Label("Name ",skin,"small-font",Color.WHITE)).padBottom(20).left();
+        table.add(worldNameField).width(250).height(40).colspan(2).right().padBottom(20).row();
         
+        table.add(new Label("Size ",skin,"small-font",Color.WHITE)).left();
+        table.add(sizeSlider).fill();
+        table.add(sizeLabel).width(50).right().row();
+        
+        //Player
+        table.add(new Label("Player settings", skin)).colspan(3).pad(40).row();        
         
         table.add(new Label("Name ",skin,"small-font",Color.WHITE)).padBottom(20).left();
         table.add(playerNameField).width(250).height(40).colspan(2).right().padBottom(20).row();
@@ -116,8 +120,14 @@ public class WorldCreation implements Screen {
         table.add(selectBox).width(170).height(40).colspan(2).right().row();
         
         table.add(createButton).colspan(3).pad(60).bottom();
-        
+    }
 
+    
+    
+    
+    @Override
+    public void show() {
+	Gdx.input.setInputProcessor(stage);	
     }
 
     @Override
@@ -154,7 +164,6 @@ public class WorldCreation implements Screen {
 
     @Override
     public void dispose() {
-        skin.dispose();
         stage.dispose();
     }
         

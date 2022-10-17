@@ -19,6 +19,7 @@ public class Boot extends Game {
     private MainMenu menu;
     public World monde;
     public WorldCreation settings;
+    public WorldSelection worldSelection;
  
     public Boot(){
         super();
@@ -34,10 +35,15 @@ public class Boot extends Game {
     public void create(){
         batch = new SpriteBatch();
         menu = new MainMenu(this);
-        //gScreen = new GameScreen(batch, monde);
         settings = new WorldCreation(this);
+        worldSelection = new WorldSelection(this);
         setScreen(menu);
     }
+    
+    public void goToMenu() {
+        setScreen(menu);
+    }
+    
     
     @Override
     public void render(){

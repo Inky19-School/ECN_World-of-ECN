@@ -6,7 +6,6 @@ package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,8 +13,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -29,22 +26,12 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 public class MainMenu implements Screen {
     protected Stage stage;
-    private final Skin skin;
     private final Boot game;
-    private final TextureAtlas buttonAtlas;
-    private final Texture img;
     //private final SpriteBatch batch;
 
     public MainMenu(Boot game)
     {
         this.game = game;
-        skin = new Skin();
-        //batch = new SpriteBatch();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("data/textures/ui/button.atlas"));
-        skin.addRegions(buttonAtlas);
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
-        img = new Texture(Gdx.files.internal("data/gui/icon3.png"));
     }
 
     
@@ -52,7 +39,13 @@ public class MainMenu implements Screen {
     
     @Override
     public void show() {
-		
+	Skin skin = new Skin();
+        //batch = new SpriteBatch();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("data/textures/ui/button.atlas"));
+        skin.addRegions(buttonAtlas);
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+        Texture img = new Texture(Gdx.files.internal("data/gui/icon3.png"));	
         Table table = new Table();
 	table.setFillParent(true);
         table.setDebug(false);
@@ -91,6 +84,13 @@ public class MainMenu implements Screen {
 		game.setScreen(game.settings);
         }
 	});
+        
+        openGame.addListener(new ChangeListener() {
+	@Override
+	public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+		game.setScreen(game.worldSelection);
+        }
+	});
 		
     }
 
@@ -126,8 +126,6 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        img.dispose();
-        skin.dispose();
         stage.dispose();
     }
     

@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import java.util.ArrayList;
-import java.util.List;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
 import org.centrale.objet.WoE.Point2D;
@@ -46,7 +46,8 @@ public class InfoMenu extends ShapeRenderer {
         radius = 10;
         ptVie = -1;
         pos = new Vector2(50, 50);
-        font = new BitmapFont();
+        Skin skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
+        font = skin.getFont("small-font");
         font.setColor(Color.BLACK);
         
         boxCrea = new InfoBox();
@@ -150,7 +151,6 @@ public class InfoMenu extends ShapeRenderer {
             Entite e = monde.getEnt((int) (tile.x), (int) (tile.y));
             Objet o = monde.getObj((int) (tile.x),(int) (tile.y));
             
-
             if (e instanceof Creature) {
                 boxCrea.update((Creature)(e));
                 height += boxCrea.getHeight() + 20;

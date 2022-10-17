@@ -22,7 +22,7 @@ public class EntityInfo {
     static private final Texture lapin = new Texture(Gdx.files.internal("data/textures/entity/monster/lapin.png"));
     
     static private final Texture healthPotion = new Texture(Gdx.files.internal("data/textures/entity/object/healPotion.png"));
-    
+    static private final Texture toxicCloud = new Texture(Gdx.files.internal("data/textures/entity/object/toxicCloud.png"));    
     
     void EntityTexture()
     {
@@ -47,6 +47,8 @@ public class EntityInfo {
         } else if (e instanceof Objet){
             if (e instanceof PotionSoin){
                 return healthPotion;
+            } else if (e instanceof NuageToxique){
+                return toxicCloud;
             }
         }
         return null;
@@ -68,6 +70,9 @@ public class EntityInfo {
         } else if (e instanceof Objet){
             if (e instanceof PotionSoin){
                 return "Potion de soin";
+            }
+            if (e instanceof NuageToxique){
+                return "Nuage Toxique";
             }
         }
         return null;

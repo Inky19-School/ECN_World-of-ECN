@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Action.Deplacable;
 import org.centrale.objet.WoE.Creature.*;
+import org.centrale.objet.WoE.World.Chunk;
 
 /**
  *
@@ -61,7 +62,6 @@ public class Joueur {
     
     
     public void deplacer(World monde){
-
         Point2D pos = player.getPos();
         try {
             if (monde.getEnt((pos.getX()+dx),(pos.getY()+dy)) == null){

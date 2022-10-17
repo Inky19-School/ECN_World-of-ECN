@@ -92,7 +92,8 @@
       "toggle":{
          "checked":"button-down",
          "down":"button-down",
-         "up":"button"
+         "up":"button",
+         "over":"button-over"
       }
    },
    "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle":{
