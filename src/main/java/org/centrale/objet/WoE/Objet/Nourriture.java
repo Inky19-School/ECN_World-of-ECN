@@ -4,38 +4,27 @@
  */
 package org.centrale.objet.WoE.Objet;
 
+import org.centrale.objet.WoE.Action.Effect;
+import org.centrale.objet.WoE.Action.HasEffect;
+
 /**
  *
  * @author inky19
  */
-public abstract class Nourriture extends Objet {
+public abstract class Nourriture extends Objet implements Utilisable, HasEffect {
     
-    private int duration;
-    private int effect;
-    private int modifier;
+    Effect effect;
     
     public Nourriture(){
-        duration = 0;
-        effect = 0;
-        modifier = 0;
+        effect = new Effect();
     }
     
     public Nourriture(int duration, int effect, int modifier){
-        this.duration = duration;
-        this.effect = effect;
-        this.modifier = modifier;
+        this.effect = new Effect(duration, effect, modifier);
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public int getEffect() {
+    public Effect getEffect() {
         return effect;
-    }
-
-    public int getModifier() {
-        return modifier;
     }
     
     

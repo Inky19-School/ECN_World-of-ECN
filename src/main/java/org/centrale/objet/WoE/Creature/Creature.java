@@ -49,15 +49,16 @@ public abstract class Creature extends Entite implements Deplacable {
 
     /**
      *
-     * @param pos Position de la créature dans le monde
+     * @param pos Position de la créature dans le chunk
+     * @param chPos Position du chunk de la créature
      * @param ptVie Nombre de points de vie
      * @param ptPar Nombre de point de parade
      * @param pagePar Pourcentade de chance de parade
      * @param pageAtt Pourcentage de chance d'attaque
      * @param degAtt Dégâts infligés lors d'une attaque
      */
-    public Creature(Point2D pos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt) {
-        super(pos);
+    public Creature(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt) {
+        super(pos, chPos);
         this.ptVie = ptVie;
         this.ptPar = ptPar;
         this.pagePar = pagePar;

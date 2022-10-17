@@ -148,7 +148,7 @@ public class InfoMenu extends ShapeRenderer {
         int chx = posCh.getX();
         int chy = posCh.getY();
         if ((tile.x >= (chx-1)*Chunk.SIZE && tile.x < (chx+1)*Chunk.SIZE*2) && (tile.y >= (chy-1)*Chunk.SIZE && tile.y < (chy+1)*Chunk.SIZE*2)) {
-            Entite e = monde.getEnt((int) (tile.x), (int) (tile.y));
+            Entite e = monde.getCrea((int) (tile.x), (int) (tile.y));
             Objet o = monde.getObj((int) (tile.x),(int) (tile.y));
             
             if (e instanceof Creature) {

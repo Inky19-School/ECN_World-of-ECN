@@ -4,6 +4,8 @@
  */
 package org.centrale.objet.WoE.Objet;
 
+import org.centrale.objet.WoE.Action.Effect;
+import org.centrale.objet.WoE.Action.HasEffect;
 import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.Point2D;
 
@@ -11,11 +13,13 @@ import org.centrale.objet.WoE.Point2D;
  *
  * @author inky19
  */
-public class PotionSoin extends Objet implements Utilisable{
+public class PotionSoin extends Objet implements Utilisable, HasEffect{
     
       
     private int ptVieRegen;
-
+    private Effect effect;
+    
+    
     /**
      *
      * @param pos Position
@@ -71,5 +75,7 @@ public class PotionSoin extends Objet implements Utilisable{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    
+    public Effect getEffect(){
+        return new Effect(1, Effect.HP, ptVieRegen);
+    }
 }

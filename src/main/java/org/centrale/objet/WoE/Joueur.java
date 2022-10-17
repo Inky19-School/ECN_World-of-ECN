@@ -15,8 +15,11 @@ import java.util.logging.Logger;
 import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Action.Deplacable;
 import org.centrale.objet.WoE.Action.Effect;
+import org.centrale.objet.WoE.Action.HasEffect;
 import org.centrale.objet.WoE.Creature.*;
+import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.Utilisable;
+import org.centrale.objet.WoE.UI.EntityInfo;
 import org.centrale.objet.WoE.World.Chunk;
 
 /**
@@ -34,6 +37,8 @@ public class Joueur {
     private int dy;
     private LinkedList<Effect> effects;
     
+    private LinkedList<Objet> inventaire;
+    
     public Joueur(){
         name = "";
         player = new Guerrier();
@@ -41,6 +46,7 @@ public class Joueur {
     }
     
     public Joueur(String pClass, String name){
+        inventaire = new LinkedList<Objet>();
         this.name = name;
         this.effects = new LinkedList<>();
         for (Class c:JOUABLES){
@@ -85,7 +91,7 @@ public class Joueur {
     public void deplacer(World monde){
         Point2D pos = player.getPos();
         try {
-            if (monde.getEnt((pos.getX()+dx),(pos.getY()+dy)) == null){
+            if (monde.getCrea((pos.getX()+dx),(pos.getY()+dy)) == null){
                 monde.setEnt((pos.getX()+dx),(pos.getY()+dy),player);
                 monde.setEnt((pos.getX()),(pos.getY()),null);
                 //player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
@@ -115,6 +121,31 @@ public class Joueur {
             return ((Combattant)(player)).combattre(c);
         }
         return false;
+    }
+    
+    public boolean useMap(Objet o, World monde){
+        if (o.getPos().equals(player.getPos()) && o instanceof Utilisable){
+            inventaire.add(o);
+            monde.delEnt(o);
+            return true;
+        }
+        return false;
+    }
+    
+    public void useInventory(){
+        System.out.println("Choississez un objet à utiliser :");
+        int i = 0;
+        for (Objet o: inventaire){
+            System.out.println(""+i+" : " + EntityInfo.getClassName(o));
+        }
+        System.out.print("Numéro obj : ");
+        Scanner sc = new Scanner(System.in);
+        int ind = sc.nextInt();
+        Objet o = inventaire.get(ind);
+        if (o instanceof HasEffect){
+            effects.add(((HasEffect) o).getEffect());
+        }
+        inventaire.remove(o);
     }
 
     public int getDx() {
