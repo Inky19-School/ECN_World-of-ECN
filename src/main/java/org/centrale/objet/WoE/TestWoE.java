@@ -20,6 +20,12 @@ public class TestWoE {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        int test = 5/32;
+        System.out.println(test);
+        test = 5%32;
+        System.out.println(test);        
+        test = -5%32;
+        System.out.println(test);
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
         //World monde = new World();

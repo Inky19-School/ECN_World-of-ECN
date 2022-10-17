@@ -8,7 +8,6 @@ org/centrale/objet/WoE/UI/Window.class
 org/centrale/objet/WoE/UI/MainMenu.class
 org/centrale/objet/WoE/UI/WorldCreation.class
 org/centrale/objet/WoE/UI/PlayerInput.class
-org/centrale/objet/WoE/NuageToxique.class
 org/centrale/objet/WoE/Creature/Guerrier.class
 org/centrale/objet/WoE/Creature/Paysan.class
 org/centrale/objet/WoE/Creature/Lapin.class
@@ -22,6 +21,7 @@ org/centrale/objet/WoE/World/Chunk.class
 org/centrale/objet/WoE/Objet/Epee.class
 org/centrale/objet/WoE/Creature/Monstre.class
 org/centrale/objet/WoE/UI/EntityInfo.class
+org/centrale/objet/WoE/Objet/NuageToxique.class
 org/centrale/objet/WoE/sql/WorldOfECN.class
 org/centrale/objet/WoE/TestWoE.class
 org/centrale/objet/WoE/Point2D.class

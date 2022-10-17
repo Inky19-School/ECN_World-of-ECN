@@ -150,11 +150,6 @@ public class InfoMenu extends ShapeRenderer {
             Entite e = monde.getEnt((int) (tile.x), (int) (tile.y));
             Objet o = monde.getObj((int) (tile.x),(int) (tile.y));
             
-            if (e == null){
-                System.out.println("null");
-            } else {
-                            System.out.println(e.getClass());
-            }
 
             if (e instanceof Creature) {
                 boxCrea.update((Creature)(e));

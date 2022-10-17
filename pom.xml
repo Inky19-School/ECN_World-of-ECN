@@ -57,7 +57,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>Pong</finalName>
+        <finalName>WoE</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -83,7 +83,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-                                    <mainClass>DesktopLauncher</mainClass>
+                                    <mainClass>org.centrale.objet.WoE.TestWoE</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

@@ -1,4 +1,5 @@
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/Creature/Archer.java
+/home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/Objet/NuageToxique.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/World/Chunk.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/Creature/Paysan.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/Objet/Objet.java
@@ -10,7 +11,6 @@
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/UI/GameScreen.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/Creature/Lapin.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/World/World.java
-/home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/NuageToxique.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/UI/EntityInfo.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/UI/PlayerInput.java
 /home/inky19/NetBeansProjects/ProjetTP/src/main/java/org/centrale/objet/WoE/UI/Boot.java

@@ -67,7 +67,7 @@ public class Joueur {
             if (monde.getEnt((pos.getX()+dx),(pos.getY()+dy)) == null){
                 monde.setEnt((pos.getX()+dx),(pos.getY()+dy),player);
                 monde.setEnt((pos.getX()),(pos.getY()),null);
-                player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
+                //player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
                 //monde.interactionObjet(this.player);
             }   
         } catch (ArrayIndexOutOfBoundsException ex) {
