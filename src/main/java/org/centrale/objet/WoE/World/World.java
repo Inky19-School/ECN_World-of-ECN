@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.centrale.objet.WoE.Joueur;
 import org.centrale.objet.WoE.Point2D;
+import org.centrale.objet.WoE.SaveManager;
 
 
 /**
@@ -39,10 +40,9 @@ public class World {
      * Matrice des objets pour un accès rapide à partir d'une position
      */
     public Objet[][] mapObjets;
+
     
-    private Joueur joueur;
-    
-    
+    private String name;
     /**
      * Taille du monde.
      */
@@ -62,19 +62,20 @@ public class World {
     
     public Loup wolfie;
 
-    public World() {
-        joueur = new Joueur();
+    public World(String name) {
         entites = new LinkedList<>();
         mapCreature = new Entite[SIZE][SIZE];
         mapObjets = new Objet[SIZE][SIZE];
         wolfie = new Loup();
         player = new Joueur();
         activeChunks = new Chunk[3][3];
+        this.name = name;
         //mapCreatures[0][0] = wolfie;
     }
     
-    public World(int size, Joueur p) {
+    public World(int size, Joueur p, String name) {
         SIZE = size;
+        this.name = name;
         entites = new LinkedList<>();
         activeChunks = new Chunk[3][3];
         wolfie = new Loup();
@@ -212,6 +213,8 @@ public class World {
         
         activeChunks[1][1].chCrea[3][4] = wolfie;
         activeChunks[1][1].entites.add(wolfie);
+        
+        SaveManager.saveWorld(this);
     }
     
     /**
@@ -263,5 +266,8 @@ public class World {
         return activeChunks;
     }
     
+    public String getName() {
+        return name;
+    }
     
 }

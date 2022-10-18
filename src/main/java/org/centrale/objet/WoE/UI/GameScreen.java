@@ -87,7 +87,7 @@ public class GameScreen extends ScreenAdapter{
 
     @Override
     public void show(){
-        boolean sql = true;
+        boolean sql = false;
         
         if (sql){
             monde.getActiveChunks()[1][1] = new Chunk(0,0);

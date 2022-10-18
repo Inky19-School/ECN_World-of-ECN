@@ -1,0 +1,17 @@
+Archer 28 31 27 4 5 90 6  4 20
+Paysan 30 21 22 0 0 0 0 
+Paysan 26 24 22 0 0 0 0 
+Guerrier 0 7 42 7 8 83 10 Robert
+Guerrier 21 13 42 7 8 83 10 Robert
+Guerrier 14 21 42 7 8 83 10 Robert
+Loup 3 11 25 6 9 59 15
+Loup 20 0 25 6 9 59 15
+NuageToxique 9 6
+SuperMushroom 1 26 Effect 4 1 5
+SuperMushroom 20 0 Effect 4 1 5
+SuperMushroom 13 20 Effect 4 1 5
+ToxicMushroom 0 22 Effect 4 0 -10
+PotionSoin 1 1 6 Effect 1 1 6
+Loup 1 1 20 20 20 20 20
+Loup 3 4 25 6 9 59 15
+Player Guerrier 0 0 42 7 8 83 10 coucou

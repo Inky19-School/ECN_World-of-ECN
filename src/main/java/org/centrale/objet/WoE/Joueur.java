@@ -181,5 +181,14 @@ public class Joueur {
             this.dy = -1;
         }
     }
+
+    public LinkedList<Effect> getEffects() {
+        return effects;
+    }
+
+    public LinkedList<Objet> getInventaire() {
+        return inventaire;
+    }
+    
     
 }

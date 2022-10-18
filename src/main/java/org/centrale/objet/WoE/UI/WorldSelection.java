@@ -24,6 +24,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
@@ -98,16 +111,34 @@ public class WorldSelection implements Screen {
      * @return list of worlds
      */
     
-    public WorldSelectionListItem[] loadWorlds() {     
-        WorldSelectionListItem b1 = new WorldSelectionListItem(this, skin, "MyWorld1", "01/01/2022");
-        WorldSelectionListItem b2 = new WorldSelectionListItem(this, skin, "MyPrettyWorld2", "01/01/2022");
-        WorldSelectionListItem b3 = new WorldSelectionListItem(this, skin, "JYM le best", "02/05/2222");
-        WorldSelectionListItem b4 = new WorldSelectionListItem(this, skin, "Not Minecraft Related", "01/01/2022");
-        WorldSelectionListItem b5 = new WorldSelectionListItem(this, skin, "MyWorld1 Again", "01/01/2022");
-        WorldSelectionListItem b6 = new WorldSelectionListItem(this, skin, "Stop","01/01/2022");
-        WorldSelectionListItem b7 = new WorldSelectionListItem(this, skin, "Oups America", "11/09/2001");
-        WorldSelectionListItem b8 = new WorldSelectionListItem(this, skin, "This is too long and this needs to stop", "01/01/2022");
-        WorldSelectionListItem[] listItems = new WorldSelectionListItem[] {b1,b2,b3,b4,b5,b6,b7,b8};
+    public WorldSelectionListItem[] loadWorlds() {
+        File[] files = SaveManager.getWorlds();
+        int n = files.length;
+        WorldSelectionListItem[] listItems = new WorldSelectionListItem[n];
+
+        for (int i=0; i < n;i++) {
+            String fileName = files[i].getName();
+            Path file = (Path) Paths.get("save/"+fileName);
+            String name = fileName.split(" ",2)[0];
+            String fileSize = "error";
+            String lastModified = "error";
+            String mode = "solo";
+            try {
+                long bytes = Files.size(file);
+                fileSize = String.format("%,d o", bytes);
+                BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+                // Last modified time
+                Date date = new Date(attr.lastModifiedTime().toMillis());
+                String pattern = "dd/MM/yyyy HH:mm";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                lastModified = simpleDateFormat.format(date);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            
+            listItems[i] = new WorldSelectionListItem(this, skin, name, lastModified, fileSize, mode);
+            
+        }
         return listItems;
     }
     

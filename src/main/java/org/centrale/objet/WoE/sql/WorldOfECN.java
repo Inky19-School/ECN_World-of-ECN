@@ -23,7 +23,7 @@ public class WorldOfECN {
      * @param args
      */
     public static void main(String[] args) throws SQLException {
-        World world = new World();
+        World world = new World("HelloWorld");
         //world.setPlayer("Saegusa");
         
         // Test phase
