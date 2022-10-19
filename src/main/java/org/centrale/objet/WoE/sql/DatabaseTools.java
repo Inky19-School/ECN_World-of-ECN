@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.PotionSoin;
+import org.centrale.objet.WoE.Objet.SuperMushroom;
+import org.centrale.objet.WoE.Objet.ToxicMushroom;
 import org.centrale.objet.WoE.Point2D;
 import org.centrale.objet.WoE.UI.EntityInfo;
 
@@ -162,10 +164,28 @@ public class DatabaseTools {
         }
     }
 
-    private void insertObjet(int save_id, Objet o) throws SQLException{
+    private int insertObjet(int save_id, Objet o) throws SQLException{
+        String query = "INSERT INTO Objet(save_id, Type, Quantity) VALUES (?,?,1) RETURNING object_id";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setInt(1, save_id);
+        stmt.setString(2, EntityInfo.getClassName(o));
+        ResultSet res = stmt.executeQuery();
+        if (res.next()){
+            return res.getInt("object_id");
+        }
+        return -1;
+    }
+    
+    private void insertObjetOnMap(int save_id, Objet o) throws SQLException{
         int entity_id = insertEntity(save_id, o);
-        if (entity_id >= 0){
-            String query = "INSERT INTO ";
+        int object_id = insertObjet(save_id, o);
+        if (entity_id >= 0 && object_id >= 0){
+            String query = "INSERT INTO Objet_on_map(save_id, entity_id, object_id) VALUES (?,?,?)";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, save_id);
+            stmt.setInt(2, entity_id);
+            stmt.setInt(3, object_id);
+            stmt.setString(2, EntityInfo.getClassName(o));
         }
     }
     
@@ -205,7 +225,7 @@ public class DatabaseTools {
             } else if (e instanceof Monstre){
                 this.insertMonstre(save_id, (Monstre) e);
             } else if (e instanceof Objet){
-                this.insertObjet(save_id, (Objet) e);
+                this.insertObjetOnMap(save_id, (Objet) e);
             }
         }
         
@@ -287,10 +307,7 @@ public class DatabaseTools {
 
         }
         
-        
-        
-        /*
-        query = "SELECT * FROM Object_on_map JOIN Entity USING (entity_id) WHERE Entity.save_id = ?";
+        query = "SELECT * FROM Objet JOIN (SELECT * FROM Object_on_map JOIN Entity USING (entity_id) WHERE Entity.save_id = ?) USING (object_id)";
         stmt = connection.prepareStatement(query);
         stmt.setInt(1, save_id);
         res = stmt.executeQuery();
@@ -301,10 +318,20 @@ public class DatabaseTools {
                 case "Potion de soin":
                     e = new PotionSoin(pos,1,res.getInt(""));
                     break;
-            monde.entites.add(e);
-            monde.mapEntites[pos.getX()][pos.getY()] = e;
+                case "Super Champi":
+                    e = new SuperMushroom();
+                    
+                    break;
+                case "Champi Toxique":
+                    e = new ToxicMushroom();
+                    break;
+            }
+            e.setPos(pos);
+            e.setChPos(new Point2D(0,0));
+            monde.getActiveChunks()[1][1].getEntites().add(e);
+            monde.getActiveChunks()[1][1].getChObj()[pos.getX()][pos.getY()] = (Objet) e;
         }
-         */
+         
         
         
         
