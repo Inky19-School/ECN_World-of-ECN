@@ -30,7 +30,7 @@ public class WorldSelectionListItem extends Button {
         this.file = file;
         //Layout
         this.center().row();
-        this.add(new Label(file.getName(), skin)).left();
+        this.add(new Label(worldName, skin)).left();
 
         this.add(new Label(date, skin, "small-font", Color.GRAY)).right().expandX().row();
         this.add(new Label(mode, skin, "small-font", Color.ROYAL)).left();
