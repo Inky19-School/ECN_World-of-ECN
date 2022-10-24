@@ -43,6 +43,7 @@ import org.centrale.objet.WoE.SaveManager;
  * @author Rémi
  */
 public class WorldSelection implements Screen {
+
     private static final Skin skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
     private static final Skin customSkin = new Skin(Gdx.files.internal("data/gui/customui.json"));
     private final Boot game;
@@ -62,7 +63,7 @@ public class WorldSelection implements Screen {
         textButtonStyle.up = skin2.getDrawable("blue_button");
         textButtonStyle.over = skin2.getDrawable("blue_button_selected");
         textButtonStyle.disabledFontColor = Color.GRAY;
-        
+
         stage.addActor(c1);
         stage.addActor(mainLayout);
 
@@ -71,7 +72,12 @@ public class WorldSelection implements Screen {
         openButton.setDisabled(true);
         openButton.setColor(Color.GRAY);
         openButton.setTouchable(Touchable.disabled);
-
+        openButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                game.loadWorld(selected.getFile());
+            }
+        });
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -85,7 +91,7 @@ public class WorldSelection implements Screen {
         mainLayout.add(new Label("Select world", skin)).pad(20).row();
         Table list = new Table();
         VerticalGroup v = new VerticalGroup();
-        
+
         //Item Creation
         int size = 900;
         v.setWidth(size);
@@ -98,28 +104,27 @@ public class WorldSelection implements Screen {
         s.setScrollbarsOnTop(false);
         s.setFadeScrollBars(false);
         s.setScrollingDisabled(true, false);
-        s.setOverscroll(false, false);     
+        s.setOverscroll(false, false);
 
         mainLayout.add(s).width(size + 30).height(400).center().row();
         mainLayout.add(openButton).pad(40);
 
     }
-    
+
     /**
      * loadWorlds from files
      *
      * @return list of worlds
      */
-    
     public WorldSelectionListItem[] loadWorlds() {
         File[] files = SaveManager.getWorlds();
         int n = files.length;
         WorldSelectionListItem[] listItems = new WorldSelectionListItem[n];
 
-        for (int i=0; i < n;i++) {
+        for (int i = 0; i < n; i++) {
             String fileName = files[i].getName();
-            Path file = (Path) Paths.get("save/"+fileName);
-            String name = fileName.split(" ",2)[0];
+            Path file = (Path) Paths.get("save/" + fileName);
+            String name = fileName.split(" ", 2)[0];
             String fileSize = "error";
             String lastModified = "error";
             String mode = "solo";
@@ -135,15 +140,13 @@ public class WorldSelection implements Screen {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            
-            listItems[i] = new WorldSelectionListItem(this, skin, name, lastModified, fileSize, mode);
-            
+
+            listItems[i] = new WorldSelectionListItem(this, files[i], skin, name, lastModified, fileSize, mode);
+
         }
         return listItems;
     }
-    
-    
-    
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -158,10 +161,10 @@ public class WorldSelection implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
-    
+
     public void setSelection(WorldSelectionListItem b) {
         if (selected != null) {
-           selected.unselect();
+            selected.unselect();
         }
         if (selected != b) {
             selected = b;
@@ -174,12 +177,9 @@ public class WorldSelection implements Screen {
             openButton.setTouchable(Touchable.disabled);
             selected = null;
         }
-        
+
     }
-    
-    
-    
-    
+
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);

@@ -1,0 +1,13 @@
+Archer 22 0 27 4 5 90 6  0 4 20 0
+Lapin 28 2 13 2 13 93 2
+Guerrier 26 29 42 7 8 83 10 Robert 0
+Guerrier 24 0 42 7 8 83 10 Robert 0
+Loup 29 17 25 6 9 59 15
+Loup 0 2 25 6 9 59 15
+PotionSoin 15 25 5 Effect 1 1 5
+SuperMushroom 14 16 Effect 4 1 5
+SuperMushroom 5 19 Effect 4 1 5
+PotionSoin 1 1 6 Effect 1 1 6
+Loup 1 1 20 20 20 20 20
+Loup 3 4 25 6 9 59 15
+Player Guerrier 0 0 42 7 8 83 10 xc_v 0
