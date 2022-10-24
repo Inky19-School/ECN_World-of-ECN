@@ -258,7 +258,9 @@ public class GameScreen extends ScreenAdapter{
     }
     
     public void goToPlayer() {
-        Point2D tile_pos = this.monde.getJoueur().getPlayer().getPos();
+        Point2D localPos = this.monde.getJoueur().getPlayer().getPos();
+        Point2D chPos = this.monde.getJoueur().getPlayer().getChPos();
+        Point2D tile_pos = new Point2D(localPos.getX()+chPos.getX()*Chunk.SIZE, localPos.getY()+chPos.getY()*Chunk.SIZE);
         Vector2 pos = renderer.toWindowPos(tile_pos.getX(),tile_pos.getY());
         this.x = (int)pos.x;
         this.y = (int)pos.y;

@@ -20,6 +20,7 @@ public abstract class Entite {
      */
     public Entite(){
         pos = new Point2D();
+        chPos = new Point2D();
     }
     
     /**

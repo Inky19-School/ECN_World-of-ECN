@@ -116,6 +116,18 @@ public class World {
         return new Point2D(nX, nY);
     }
     
+    public static Point2D toChunkCoordiantes(Point2D p){
+        int chx = p.getX()/Chunk.SIZE;
+        int chy = p.getY()/Chunk.SIZE;
+        if (p.getX()<0){
+            chx--;
+        }
+        if (p.getY()<0){
+            chy--;
+        }
+        return new Point2D(chx, chy);
+    }
+    
     private Point2D toLocalCoordinates(Point2D p){
         return toLocalCoordinates(p.getX(), p.getY());
     }
@@ -144,14 +156,34 @@ public class World {
     }
     
     public void setEnt(int x, int y, Entite e){
-        Point2D chPos = Chunk.toChunkCoordinates(x, y);
-        if (isActive(chPos)){
-            Point2D relPos = chRelativePos(chPos);
+        Point2D newChPos = Chunk.toChunkCoordinates(x, y);
+        //System.out.println("====="+x + ":" + y+" "+newChPos.getX() + " " + newChPos.getY()+"=====");
+        Point2D currentChPos;
+        if (e!=null){
+            currentChPos = e.getChPos();
+            
+        } else {
+            currentChPos = activeChunks[1][1].getPos();
+            //System.out.println("null");
+        }
+        if (isActive(newChPos) && isActive(currentChPos)){
+            Point2D relPos = chRelativePos(newChPos);
+            //System.out.println(relPos.getX() + " " + relPos.getY() + "\n" + (x-relPos.getX()*Chunk.SIZE) + ":" + (y-relPos.getY()*Chunk.SIZE));
+            
             activeChunks[relPos.getX()+1][relPos.getY()+1].setCrea(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE, (Creature) e);
-
+            
             if (e != null){
+                //System.out.println(activeChunks[relPos.getX()+1][relPos.getY()+1].getChCrea()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE].getPagePar());
+                Point2D oldRelPos = chRelativePos(e.getChPos());
                 e.setPos(new Point2D(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE));
-                activeChunks[relPos.getX()+1][relPos.getY()+1].entites.add((Creature) e);
+                if (!e.getChPos().equals(newChPos)){
+                    
+                    activeChunks[relPos.getX()+1][relPos.getY()+1].entites.add((Creature) e);
+                    activeChunks[oldRelPos.getX()+1][oldRelPos.getY()+1].entites.remove(e);
+                    e.setChPos(newChPos);
+                    //System.out.println("ÇA MARCHE !!!!" + e.getChPos().getX() + " " + e.getChPos().getY());
+                }
+                
             }
             
         } else {
@@ -166,7 +198,6 @@ public class World {
             Point2D relPos = chRelativePos(chPos);
             Chunk ch = activeChunks[relPos.getX()+1][relPos.getY()+1];
             ch.getEntites().remove(e);
-            System.out.println("oui oui luuig");
             if (e instanceof Objet){
                 ch.getChObj()[e.getPos().getX()][e.getPos().getY()] = null;
             } else if (e instanceof Creature){
@@ -198,7 +229,6 @@ public class World {
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
                 activeChunks[i][j] = Chunk.chunkAlea(i-1, j-1);
-                System.out.println(activeChunks[i][j].entites.size());
             }
         }
         activeChunks[1][1].entites.add(player.getPlayer());
@@ -222,11 +252,37 @@ public class World {
      */
     public void tourDeJeu(){
         player.updateEffects();
-        for (Entite e: activeChunks[1][1].getEntites()){
-            if (e instanceof Creature && e!=player.getPlayer()){
-                ((Creature) e).deplacer(activeChunks[1][1]);
+        for (int i=0;i<3;i++){
+            for (int j=0; j<3; j++){
+                for (Entite e: activeChunks[i][j].getEntites()){
+                    if (e instanceof Creature && e!=player.getPlayer()){
+                        ((Creature) e).deplacer(activeChunks[i][j]);
+                    }
+                }
             }
         }
+        /*
+        Point2D playerChPos = player.getPlayer().getChPos();
+        Point2D relPosCh = chRelativePos(playerChPos);
+        if (!relPosCh.equals(new Point2D(0,0))){
+            Chunk[][] newActiveChunks = new Chunk[3][3];
+            for (int i=0;i<3;i++){
+                for (int j=0; j<3; j++){
+                    if((i+relPosCh.getX()<3 && i+relPosCh.getX()>=0) && (j+relPosCh.getY()<3 && j+relPosCh.getY()>=0)){
+                        newActiveChunks[i][j] = activeChunks[i+relPosCh.getX()][i+relPosCh.getY()];
+                    } else {
+                        newActiveChunks[i][j] = Chunk.chunkAlea(playerChPos.getX()+i, playerChPos.getX()+j);
+                    }
+                }
+            }
+            activeChunks = newActiveChunks;
+            for (int i=0; i<3; i++){
+                for (int j=0; j<3; j++){
+                System.out.println(activeChunks[i][j].entites.size());
+            }
+        }
+        }
+        */
     }
     
     /**

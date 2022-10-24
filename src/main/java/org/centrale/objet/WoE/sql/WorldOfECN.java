@@ -28,7 +28,6 @@ public class WorldOfECN {
         
         // Test phase
         DatabaseTools database = new DatabaseTools();
-
         // Save world
         database.connect();
         System.out.println("getname");

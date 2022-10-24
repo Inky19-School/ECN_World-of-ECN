@@ -8,6 +8,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.io.File;
 import org.centrale.objet.WoE.Joueur;
+import org.centrale.objet.WoE.Point2D;
 import org.centrale.objet.WoE.SaveManager;
 import org.centrale.objet.WoE.World.World;
 /**

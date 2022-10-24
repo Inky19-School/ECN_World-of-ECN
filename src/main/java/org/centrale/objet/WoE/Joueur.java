@@ -90,10 +90,12 @@ public class Joueur {
     
     public void deplacer(World monde){
         Point2D pos = player.getPos();
+        Point2D oldChPos = player.getChPos();
         try {
-            if (monde.getCrea((pos.getX()+dx),(pos.getY()+dy)) == null){
-                monde.setEnt((pos.getX()+dx),(pos.getY()+dy),player);
-                monde.setEnt((pos.getX()),(pos.getY()),null);
+            Point2D newPos = new Point2D((pos.getX()+player.getChPos().getX()*Chunk.SIZE+dx),(pos.getY()+player.getChPos().getY()*Chunk.SIZE+dy));
+            if (monde.getCrea(newPos.getX(), newPos.getY()) == null){
+                monde.setEnt(newPos.getX(), newPos.getY(),player);
+                monde.setEnt(pos.getX()+oldChPos.getX()*Chunk.SIZE, pos.getY()+oldChPos.getY()*Chunk.SIZE,null);
                 //player.setPos(new Point2D(pos.getX()+dx, pos.getY()+dy));
                 //monde.interactionObjet(this.player);
             }   
@@ -140,12 +142,18 @@ public class Joueur {
         }
         System.out.print("Numéro obj : ");
         Scanner sc = new Scanner(System.in);
-        int ind = sc.nextInt();
-        Objet o = inventaire.get(ind);
-        if (o instanceof HasEffect){
-            effects.add(((HasEffect) o).getEffect());
+        if (sc.hasNextInt()){
+            int ind = sc.nextInt();
+            if (ind > 0 && ind < inventaire.size()){
+                Objet o = inventaire.get(ind);
+                if (o instanceof HasEffect){
+                effects.add(((HasEffect) o).getEffect());
+                }
+                inventaire.remove(o);
+            }
         }
-        inventaire.remove(o);
+
+
     }
 
     public int getDx() {
