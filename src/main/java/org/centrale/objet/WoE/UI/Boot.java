@@ -6,6 +6,7 @@ package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.io.File;
 import org.centrale.objet.WoE.Joueur;
 import org.centrale.objet.WoE.SaveManager;
 import org.centrale.objet.WoE.World.World;
@@ -21,11 +22,9 @@ public class Boot extends Game {
     public World monde;
     public WorldCreation settings;
     public WorldSelection worldSelection;
-    public SaveManager saveManager;
  
     public Boot(){
-        super();
-        this.saveManager = new SaveManager();      
+        super();     
     }
     
     
@@ -64,5 +63,15 @@ public class Boot extends Game {
         monde.creerMondeAlea();
         gScreen = new GameScreen(batch, monde);
         setScreen(gScreen);
+    }
+    
+    public void loadWorld(File file) {
+        try {
+            World monde = SaveManager.loadWorld(file);
+            gScreen = new GameScreen(batch, monde);
+            setScreen(gScreen);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

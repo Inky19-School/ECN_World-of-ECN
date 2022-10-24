@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
+import java.io.File;
+import java.nio.file.Path;
 
 /**
  *
@@ -19,16 +21,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
  */
 public class WorldSelectionListItem extends Button {
 
-    private final WorldSelection selectScreen;
     private final String worldName;
+    private final File file;
 
-    public WorldSelectionListItem(WorldSelection selectScreen, Skin skin, String worldName, String date, String size, String mode) {
+    public WorldSelectionListItem(WorldSelection selectScreen, File file, Skin skin, String worldName, String date, String size, String mode) {
         super(skin, "toggle");
-        this.selectScreen = selectScreen;
         this.worldName = worldName;
+        this.file = file;
         //Layout
         this.center().row();
-        this.add(new Label(worldName, skin)).left();
+        this.add(new Label(file.getName(), skin)).left();
 
         this.add(new Label(date, skin, "small-font", Color.GRAY)).right().expandX().row();
         this.add(new Label(mode, skin, "small-font", Color.ROYAL)).left();
@@ -46,6 +48,10 @@ public class WorldSelectionListItem extends Button {
     public void unselect() {
         WorldSelectionListItem.this.setColor(Color.WHITE);
         this.setChecked(false);
+    }
+    
+    public File getFile() {
+        return file;
     }
 
 }
