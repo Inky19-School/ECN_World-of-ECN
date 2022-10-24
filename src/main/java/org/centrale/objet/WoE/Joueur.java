@@ -45,6 +45,14 @@ public class Joueur {
         
     }
     
+    public Joueur(Personnage p) {
+        name = p.getNom();
+        player = p;
+        effects = new LinkedList<>();
+    }
+    
+    
+    
     public Joueur(String pClass, String name){
         inventaire = new LinkedList<Objet>();
         this.name = name;

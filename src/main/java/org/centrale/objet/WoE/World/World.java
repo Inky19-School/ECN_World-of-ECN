@@ -179,8 +179,8 @@ public class World {
         }
     }
     
-    public void creerPlayer(Joueur player, int size) {
-        
+    public void setPlayer(Joueur player) {
+        this.player = player;
     }
     
     // À RETRAVAILLER !!!!

@@ -167,4 +167,14 @@ public class Chunk {
         return entites;
     }
     
+    public void addEntity(Entite e) {
+        Point2D p = e.getPos();
+        entites.add(e);
+        if (e instanceof Creature) {
+            chCrea[p.getX()][p.getY()] = (Creature)e;
+        } else {
+            chObj[p.getX()][p.getY()] = (Objet)e;
+        }
+    }
+    
 }

@@ -6,6 +6,7 @@ package org.centrale.objet.WoE.Objet;
 
 import org.centrale.objet.WoE.Action.Effect;
 import org.centrale.objet.WoE.Action.HasEffect;
+import org.centrale.objet.WoE.Point2D;
 
 /**
  *
@@ -18,11 +19,21 @@ public abstract class Nourriture extends Objet implements Utilisable, HasEffect 
     public Nourriture(){
         effect = new Effect();
     }
-    
-    public Nourriture(int duration, int effect, int modifier){
+
+    public Nourriture(Point2D pos){
+        super(pos,1);
+    }    
+
+    public Nourriture(Point2D pos, int duration, int effect, int modifier){
+        super(pos,1);
         this.effect = new Effect(duration, effect, modifier);
     }
 
+    public Nourriture(int duration, int effect, int modifier){
+        this.effect = new Effect(duration, effect, modifier);
+    }
+    
+    
     public Effect getEffect() {
         return effect;
     }
