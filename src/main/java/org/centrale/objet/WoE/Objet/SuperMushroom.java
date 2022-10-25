@@ -4,13 +4,18 @@
  */
 package org.centrale.objet.WoE.Objet;
 import org.centrale.objet.WoE.Action.Effect;
+import org.centrale.objet.WoE.Point2D;
 
 /**
  *
  * @author inky19
  */
 public class SuperMushroom extends Nourriture {
-        
+     
+    public SuperMushroom(Point2D pos){
+        super(pos,4,Effect.HP,5);
+    }    
+
     public SuperMushroom(){
         super(4,Effect.HP,5);
     }

@@ -1,0 +1,16 @@
+Archer 17 17 27 4 5 90 6 Jean 0  0 4 20 0
+Paysan 20 8 22 0 0 0 0 Jean 0  0
+Paysan 4 8 22 0 0 0 0 Jean 0  0
+Paysan 28 23 22 0 0 0 0 Jean 0  0
+Lapin 7 24 13 2 13 93 2
+Lapin 14 28 13 2 13 93 2
+Guerrier 14 27 42 7 8 83 10 Robert 0
+Guerrier 9 18 42 7 8 83 10 Robert 0
+Guerrier 22 2 42 7 8 83 10 Robert 0
+Loup 30 25 25 6 9 59 15
+Loup 18 8 25 6 9 59 15
+Loup 30 19 25 6 9 59 15
+PotionSoin 1 1 6 Effect 1 1 6
+Loup 1 1 20 20 20 20 20
+Loup 3 4 25 6 9 59 15
+Player Guerrier 0 0 42 7 8 83 10 papa 0

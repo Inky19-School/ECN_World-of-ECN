@@ -4,6 +4,7 @@
  */
 package org.centrale.objet.WoE.Objet;
 import org.centrale.objet.WoE.Action.Effect;
+import org.centrale.objet.WoE.Point2D;
 /**
  *
  * @author inky19
@@ -11,6 +12,10 @@ import org.centrale.objet.WoE.Action.Effect;
 public class ToxicMushroom extends Nourriture{
 
     private int modhp;
+    public ToxicMushroom(Point2D pos){
+        super(pos,4,Effect.ATK,-10);
+    } 
+
     public ToxicMushroom(){
         super(4,Effect.ATK,-10);
     }
