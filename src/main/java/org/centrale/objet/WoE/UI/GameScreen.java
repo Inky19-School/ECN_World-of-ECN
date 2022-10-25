@@ -57,6 +57,8 @@ public class GameScreen extends ScreenAdapter{
     private Vector3 mousePos;
     private Vector2 selectedTile;
     
+    private boolean showInv;
+    
     private long timer;
     private long timerCamera;
     private long timerTurn;
@@ -82,6 +84,7 @@ public class GameScreen extends ScreenAdapter{
         selectedTile = new Vector2();
         zoom = 0.5f;
         turnPassed = false;
+        showInv = false;
     }
     
 
@@ -111,8 +114,8 @@ public class GameScreen extends ScreenAdapter{
             
             try {
                 // Retreive World
-                database.readWorld(playerId, "Test Game 1", "Test1", monde);
-                database.removeWorld(0, "Test Game 1", "Start");
+                database.readWorld("Test Game 1", "Test1", monde);
+                database.removeWorld("Test Game 1", "Start");
             } catch (SQLException ex) {
                 Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -165,8 +168,11 @@ public class GameScreen extends ScreenAdapter{
         infomenu.begin(ShapeType.Filled);
         infomenu.setColor(0.8f, 0.8f, 0.8f, 0.7f);
         infomenu.update(selectedTile, monde);
-        
+
         infomenu.draw();
+        if (showInv){
+            infomenu.drawInventoryBox(monde.getJoueur().getInventaire());
+        }
         infomenu.end();
         
         Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -245,7 +251,8 @@ public class GameScreen extends ScreenAdapter{
         Objet o = monde.getObj((int)selectedTile.x,(int)selectedTile.y);
         if (c != null){
             turnPassed = monde.getJoueur().combattre(c) || turnPassed;
-            if (c.getPtVie()<=0) {
+
+            if (c.getPtVie()<=0){
                 monde.delEnt(c);
             }
         }
@@ -257,7 +264,12 @@ public class GameScreen extends ScreenAdapter{
     }
     
     public void useInventory(){
-        monde.getJoueur().useInventory();
+        //monde.getJoueur().useInventory();
+        showInv = true;
+    }
+    
+    public void setShowInv(boolean b){
+        showInv = b;
     }
     
     public void goToPlayer() {

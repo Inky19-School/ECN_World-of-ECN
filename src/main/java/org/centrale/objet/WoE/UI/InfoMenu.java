@@ -12,7 +12,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import java.util.ArrayList;
+import java.util.List;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
 import org.centrale.objet.WoE.Point2D;
@@ -26,6 +29,7 @@ import org.centrale.objet.WoE.World.World;
 public class InfoMenu extends ShapeRenderer {
 
     private Vector2 pos;
+    private Vector2 posInventory;
     private float width;
     private float height;
     private float radius;
@@ -46,6 +50,7 @@ public class InfoMenu extends ShapeRenderer {
         radius = 10;
         ptVie = -1;
         pos = new Vector2(50, 50);
+        posInventory = new Vector2(0, 0);
         Skin skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
         font = skin.getFont("small-font");
         font.setColor(Color.BLACK);
@@ -56,10 +61,10 @@ public class InfoMenu extends ShapeRenderer {
         heart = new Texture(Gdx.files.internal("data/textures/ui/heart.png"));
         texture = new Texture(Gdx.files.internal("data/textures/entity/monster/wolf.png"));
     }
-
-    public void draw() {
-        float x = pos.x - width;
-        float y = pos.y - height;
+    
+    public void drawRectangle(Vector2 posRel, float width, float height, float radius){
+        float x = posRel.x - width;
+        float y = posRel.y - height;
 
         if (width > 0 && height > 0) {
             // Central rectangle
@@ -77,6 +82,10 @@ public class InfoMenu extends ShapeRenderer {
             super.arc(x + width - radius, y + height - radius, radius, 0f, 90f);
             super.arc(x + radius, y + height - radius, radius, 90f, 90f);
         }
+    }
+
+    public void draw() {
+        drawRectangle(pos, width, height, radius);
 
     }
     
@@ -174,6 +183,18 @@ public class InfoMenu extends ShapeRenderer {
                 height += 20;
             }
         }
+
+    }
+    
+    public void drawInventoryBox(List<Objet> objs){
+        int size = min(objs.size(), 10);
+        float width = 74*10;
+        float height = 40;
+        
+        drawRectangle(pos, width, height, radius);
+    }
+    
+    public void showInventory(Objet[] objs){
 
     }
 
