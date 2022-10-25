@@ -34,8 +34,8 @@ public class Epee extends Objet implements Utilisable {
      * @param pos
      * @param qte
      */
-    public Epee(int ptDgt, int coolDown, int durabilite, Point2D pos, int qte) {
-        super(pos, qte);
+    public Epee(Point2D pos, Point2D chPos,int ptDgt, int coolDown, int durabilite) {
+        super(pos, chPos);
         this.ptDgt = ptDgt;
         this.coolDown = coolDown;
         this.durabilite = durabilite;
@@ -103,6 +103,11 @@ public class Epee extends Objet implements Utilisable {
 
     @Override
     public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void affiche() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

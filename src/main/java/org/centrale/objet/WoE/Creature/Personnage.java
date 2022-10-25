@@ -52,7 +52,7 @@ public class Personnage extends Creature{
      * @param pos Position de la créature dans le chunk
      * @param chPos Position du chunk de la créature
      */
-    public Personnage(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos, Point2D chPos) {
+    public Personnage(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int dissAttMax, String nom) {
         super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt);
         this.nom = nom;
         this.distAttMax = distAttMax;

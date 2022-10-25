@@ -9,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,15 +28,15 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class MainMenu implements Screen {
     protected Stage stage;
     private final Boot game;
+    public final static Texture background = new Texture(Gdx.files.internal("data/gui/menuBackground.jpg"));
+    private final SpriteBatch sb;
     //private final SpriteBatch batch;
 
     public MainMenu(Boot game)
     {
         this.game = game;
+        this.sb = new SpriteBatch();
     }
-
-    
-    
     
     @Override
     public void show() {
@@ -101,7 +102,10 @@ public class MainMenu implements Screen {
 		
         // tell our stage to do actions and draw itself
 	stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-	stage.draw();
+	sb.begin();
+        sb.draw(MainMenu.background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        sb.end();
+        stage.draw();
     }
 
     @Override

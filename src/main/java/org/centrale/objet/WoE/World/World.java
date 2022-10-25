@@ -60,13 +60,13 @@ public class World {
     private Joueur player;
     
     
-    public Loup wolfie;
+    //public Loup wolfie;
 
     public World(String name) {
         entites = new LinkedList<>();
         mapCreature = new Entite[SIZE][SIZE];
         mapObjets = new Objet[SIZE][SIZE];
-        wolfie = new Loup();
+        //wolfie = new Loup();
         player = new Joueur();
         activeChunks = new Chunk[3][3];
         this.name = name;
@@ -78,8 +78,8 @@ public class World {
         this.name = name;
         entites = new LinkedList<>();
         activeChunks = new Chunk[3][3];
-        wolfie = new Loup();
-        wolfie.setPos(new Point2D(3,4));
+        //wolfie = new Loup();
+        //wolfie.setPos(new Point2D(3,4));
         player = p;
     } 
     
@@ -234,17 +234,9 @@ public class World {
         activeChunks[1][1].entites.add(player.getPlayer());
         activeChunks[1][1].chCrea[player.getPlayer().getPos().getX()][player.getPlayer().getPos().getY()]  = player.getPlayer();
         
-        PotionSoin p = new PotionSoin(new Point2D(1,1), 1, 6);
-        activeChunks[1][1].entites.add(p);
-        activeChunks[1][1].chObj[1][1] = p;
-        Loup l1 = new Loup(new Point2D(1,1), new Point2D(0,0), 20, 20, 20, 20, 20);
-        activeChunks[1][1].chCrea[1][1] = l1;
-        activeChunks[1][1].entites.add(l1);
         
-        activeChunks[1][1].chCrea[3][4] = wolfie;
-        activeChunks[1][1].entites.add(wolfie);
-        
-        SaveManager.saveWorld(this);
+        //activeChunks[1][1].chCrea[3][4] = wolfie;
+        //activeChunks[1][1].entites.add(wolfie);
     }
     
     /**

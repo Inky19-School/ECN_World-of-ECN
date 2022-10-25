@@ -245,6 +245,9 @@ public class GameScreen extends ScreenAdapter{
         Objet o = monde.getObj((int)selectedTile.x,(int)selectedTile.y);
         if (c != null){
             turnPassed = monde.getJoueur().combattre(c) || turnPassed;
+            if (c.getPtVie()<=0) {
+                monde.delEnt(c);
+            }
         }
         if (o != null){
             turnPassed = monde.getJoueur().useMap(o, monde) || turnPassed;
@@ -327,6 +330,10 @@ public class GameScreen extends ScreenAdapter{
 
     public void setD(boolean d) {
         this.d = d;
+    }
+    
+    public World getMonde() {
+        return monde;
     }
     
     

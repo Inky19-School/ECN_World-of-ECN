@@ -9,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.centrale.objet.WoE.Joueur;
+import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
@@ -39,9 +41,11 @@ public class WorldCreation implements Screen {
     private static final int MAXLENGTH = 30;
     private final Slider sizeSlider;
     private final Label sizeLabel;
+    private final SpriteBatch sb;
 
     public WorldCreation(Boot game) {
         this.game = game;
+        this.sb = new SpriteBatch();
         stage = new Stage(new ScreenViewport());
         Skin skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
         //Slider
@@ -87,8 +91,8 @@ public class WorldCreation implements Screen {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 String playerType = selectBox.getSelected();
-                String worldName = worldNameField.getText().replaceAll(" ","_");
-                String playerName = playerNameField.getText().replaceAll(" ","_");
+                String worldName = worldNameField.getText().replaceAll("_"," ");
+                String playerName = playerNameField.getText().replaceAll("_"," ");
                 int size = (int) sizeSlider.getValue();
 
                 Joueur player = new Joueur(playerType, playerName);
@@ -136,7 +140,9 @@ public class WorldCreation implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //update sliders label;
         sizeLabel.setText((int) sizeSlider.getValue());
-
+        sb.begin();
+        sb.draw(MainMenu.background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        sb.end();
         // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

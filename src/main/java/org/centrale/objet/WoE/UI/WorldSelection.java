@@ -9,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -50,9 +51,11 @@ public class WorldSelection implements Screen {
     private final Stage stage;
     private WorldSelectionListItem selected;
     private final TextButton openButton;
+    private final SpriteBatch sb;
 
     public WorldSelection(Boot game) {
         this.game = game;
+        this.sb = new SpriteBatch();
         stage = new Stage(new ScreenViewport());
         Table mainLayout = new Table();
         Container c1 = new Container();
@@ -117,20 +120,21 @@ public class WorldSelection implements Screen {
      * @return list of worlds
      */
     public WorldSelectionListItem[] loadWorlds() {
-        File[] files = SaveManager.getWorlds();
-        int n = files.length;
+        File[] folders = SaveManager.getWorlds();
+        int n = folders.length;
         WorldSelectionListItem[] listItems = new WorldSelectionListItem[n];
 
         for (int i = 0; i < n; i++) {
-            String fileName = files[i].getName();
+            String fileName = folders[i].getName();
             Path file = (Path) Paths.get("save/" + fileName);
-            String name = fileName.split(" ", 2)[0];
+            String name = fileName.split("_", 2)[0];
             String fileSize = "error";
             String lastModified = "error";
             String mode = "solo";
             try {
-                long bytes = Files.size(file);
-                fileSize = String.format("%,d o", bytes);
+                Path folder = Paths.get(folders[i].getAbsolutePath());
+                long bytes = Files.walk(folder).filter(p -> p.toFile().isFile()).mapToLong(p -> p.toFile().length()).sum();
+                fileSize = String.format("%d o", bytes);
                 BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
                 // Last modified time
                 Date date = new Date(attr.lastModifiedTime().toMillis());
@@ -141,7 +145,7 @@ public class WorldSelection implements Screen {
                 ex.printStackTrace();
             }
 
-            listItems[i] = new WorldSelectionListItem(this, files[i], skin, name, lastModified, fileSize, mode);
+            listItems[i] = new WorldSelectionListItem(this, folders[i], skin, name, lastModified, fileSize, mode);
 
         }
         return listItems;
@@ -156,7 +160,9 @@ public class WorldSelection implements Screen {
     public void render(float f) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        sb.begin();
+        sb.draw(MainMenu.background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        sb.end();
         // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

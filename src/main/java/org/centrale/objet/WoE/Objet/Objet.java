@@ -13,7 +13,6 @@ import org.centrale.objet.WoE.Point2D;
  */
 public abstract class Objet extends Entite{
 
-    private Point2D pos;
     private int qte;
 
     /**
@@ -21,18 +20,22 @@ public abstract class Objet extends Entite{
      * @param pos Position
      * @param qte Quantité
      */
-    public Objet(Point2D pos, int qte) {
-        this.pos = pos;
+    public Objet(Point2D pos, Point2D chPos) {
+        super(pos,chPos);
+        this.qte = 1;
+    }
+    
+    
+    public Objet(Point2D pos, Point2D chPos, int qte) {
+        super(pos,chPos);
         this.qte = qte;
     }
     
-    /**
-     *
-     */
-    public Objet(){
+    public Objet() {
+        super();
         qte = 1;
-        pos = new Point2D();
     }
+    
     
     /**
      *
@@ -40,22 +43,6 @@ public abstract class Objet extends Entite{
      */
     public void interagir(Creature creature){
         
-    }
-
-    /**
-     * Renvoie la position
-     * @return Position
-     */
-    public Point2D getPos() {
-        return pos;
-    }
-
-    /**
-     * Modifie la postion
-     * @param pos Nouvelle position
-     */
-    public void setPos(Point2D pos) {
-        this.pos = pos;
     }
 
     /**
@@ -72,10 +59,5 @@ public abstract class Objet extends Entite{
      */
     public void setQte(int qte) {
         this.qte = qte;
-    }
-    
-    public void affiche() {
-        
-    }
-    
+    }    
 }

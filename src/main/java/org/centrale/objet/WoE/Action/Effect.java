@@ -13,7 +13,7 @@ public class Effect {
     public static final int HP = 1;
     
     private int duration;
-    private int effect;
+    private int type;
     private int modifier;
     
 
@@ -21,18 +21,24 @@ public class Effect {
         return duration;
     }
 
-    public int getEffect() {
-        return effect;
+    public int getType() {
+        return type;
     }
 
     public int getModifier() {
         return modifier;
     }
 
-    public Effect(int duration, int effect, int modifier) {
+    public Effect(int duration, int type, int modifier) {
         this.duration = duration;
-        this.effect = effect;
+        this.type = type;
         this.modifier = modifier;
+    }
+    
+    public Effect(Effect effect) {
+        this.duration = effect.getDuration();
+        this.type = effect.getType();
+        this.modifier = effect.getModifier();
     }
     
     public void decreaseDuration() {

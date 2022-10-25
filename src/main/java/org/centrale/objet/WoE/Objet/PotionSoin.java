@@ -17,7 +17,7 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
     
       
     private int ptVieRegen;
-    private Effect effect;
+    //private Effect effect;
     
     
     /**
@@ -26,8 +26,8 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
      * @param qte Quantité
      * @param ptVieRegen Points de vie régénérés
      */
-    public PotionSoin(Point2D pos, int qte, int ptVieRegen) {
-        super(pos, qte);
+    public PotionSoin(Point2D pos, Point2D chPos, int ptVieRegen) {
+        super(pos, chPos);
         this.ptVieRegen = ptVieRegen;
     }
 
@@ -37,6 +37,7 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
     public PotionSoin() {
         super();
         ptVieRegen = 5;
+        //effect = new Effect
     }
     
     /**

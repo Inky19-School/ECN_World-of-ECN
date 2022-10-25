@@ -6,6 +6,7 @@ package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
@@ -54,6 +55,9 @@ public class PlayerInput implements InputProcessor{
                 break;
             case Input.Keys.P:
                 gScreen.goToPlayer();
+                break;
+            case (Input.Keys.CONTROL_LEFT) :
+                SaveManager.saveWorld(gScreen.getMonde());
                 break;
         }
         return true;
