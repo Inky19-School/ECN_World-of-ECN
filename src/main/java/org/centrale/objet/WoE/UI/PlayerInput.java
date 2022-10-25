@@ -94,6 +94,8 @@ public class PlayerInput implements InputProcessor{
             case Input.Keys.D:
                 gScreen.setD(false);
                 break;
+            case Input.Keys.I:
+                gScreen.setShowInv(false);
         }
         return true;
     }

@@ -57,6 +57,8 @@ public class GameScreen extends ScreenAdapter{
     private Vector3 mousePos;
     private Vector2 selectedTile;
     
+    private boolean showInv;
+    
     private long timer;
     private long timerCamera;
     private long timerTurn;
@@ -82,6 +84,7 @@ public class GameScreen extends ScreenAdapter{
         selectedTile = new Vector2();
         zoom = 0.5f;
         turnPassed = false;
+        showInv = false;
     }
     
 
@@ -165,8 +168,11 @@ public class GameScreen extends ScreenAdapter{
         infomenu.begin(ShapeType.Filled);
         infomenu.setColor(0.8f, 0.8f, 0.8f, 0.7f);
         infomenu.update(selectedTile, monde);
-        
+
         infomenu.draw();
+        if (showInv){
+            infomenu.drawInventoryBox(monde.getJoueur().getInventaire());
+        }
         infomenu.end();
         
         Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -245,6 +251,9 @@ public class GameScreen extends ScreenAdapter{
         Objet o = monde.getObj((int)selectedTile.x,(int)selectedTile.y);
         if (c != null){
             turnPassed = monde.getJoueur().combattre(c) || turnPassed;
+            if (c.getPtVie()<=0){
+                monde.delEnt(c);
+            }
         }
         if (o != null){
             turnPassed = monde.getJoueur().useMap(o, monde) || turnPassed;
@@ -254,7 +263,12 @@ public class GameScreen extends ScreenAdapter{
     }
     
     public void useInventory(){
-        monde.getJoueur().useInventory();
+        //monde.getJoueur().useInventory();
+        showInv = true;
+    }
+    
+    public void setShowInv(boolean b){
+        showInv = b;
     }
     
     public void goToPlayer() {

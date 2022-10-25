@@ -122,6 +122,7 @@ public class Joueur {
         if (player instanceof Combattant){
             return ((Combattant)(player)).combattre(c);
         }
+
         return false;
     }
     
