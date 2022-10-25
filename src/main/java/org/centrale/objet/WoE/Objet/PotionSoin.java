@@ -28,14 +28,19 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
      * @param qte Quantité
      * @param ptVieRegen Points de vie régénérés
      */
+    public PotionSoin(Point2D pos, Point2D chPos) {
+        super(pos, chPos);
+        this.ptVieRegen = BASE_PV_REGEN;
+    }
+        
     public PotionSoin(Point2D pos, Point2D chPos, int ptVieRegen) {
         super(pos, chPos);
         this.ptVieRegen = ptVieRegen;
     }
     
-        public PotionSoin(Point2D pos, int qte) {
-        super(pos, qte);
-        this.ptVieRegen = BASE_PV_REGEN;
+    public PotionSoin(Point2D pos, Point2D chPos, int ptVieRegen, int qte) {
+        super(pos, chPos, qte);
+        this.ptVieRegen = ptVieRegen;
     }
 
     /**

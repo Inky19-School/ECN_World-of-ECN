@@ -53,7 +53,7 @@ public class Effect {
     }
     
     public static String effectName(Effect effect){
-        switch (effect.getEffect()){
+        switch (effect.getType()){
             case ATK:
                 return "ATK";
             case HP:
