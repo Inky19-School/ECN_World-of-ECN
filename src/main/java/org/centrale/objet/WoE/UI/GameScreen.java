@@ -114,8 +114,8 @@ public class GameScreen extends ScreenAdapter{
             
             try {
                 // Retreive World
-                database.readWorld(playerId, "Test Game 1", "Test1", monde);
-                database.removeWorld(0, "Test Game 1", "Start");
+                database.readWorld("Test Game 1", "Test1", monde);
+                database.removeWorld("Test Game 1", "Start");
             } catch (SQLException ex) {
                 Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
             }

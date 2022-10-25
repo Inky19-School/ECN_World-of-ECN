@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.centrale.objet.WoE.Action.Effect;
+import org.centrale.objet.WoE.Action.HasEffect;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.PotionSoin;
@@ -40,7 +42,7 @@ public class DatabaseTools {
     private Connection connection;
 
     /**
-     * Load infos
+     * Charge les informations de connexion.
      */
     public DatabaseTools() {
         try {
@@ -67,7 +69,7 @@ public class DatabaseTools {
     }
 
     /**
-     * Get connection to the database
+     * Connecte à la base de données.
      */
     public void connect() {
         if (this.connection == null) {
@@ -80,7 +82,7 @@ public class DatabaseTools {
     }
 
     /**
-     * Disconnect from database
+     * Déconnecte de la base de données
      */
     public void disconnect() {
         if (this.connection != null) {
@@ -94,10 +96,11 @@ public class DatabaseTools {
     }
 
     /**
-     * get Player ID
-     * @param nomJoueur
-     * @param password
-     * @return
+     * Retourne l'ID Steam du joueur.
+     * @param nomJoueur Login du joueur
+     * @param password Mot de passe
+     * @return SteamID
+     * @throws java.sql.SQLException
      */
     public Integer getPlayerID(String nomJoueur, String password) throws SQLException {
         String query = "SELECT steamid FROM Player WHERE Login=? AND Password=?";
@@ -111,6 +114,13 @@ public class DatabaseTools {
         return null;
     }
 
+    /**
+     * Sauvegarde une entité.
+     * @param save_id Sauvegarde
+     * @param p Entite à sauvegarder
+     * @return entity_id : ID de l'entité dans la table Entity
+     * @throws SQLException 
+     */
     private int insertEntity(int save_id, Entite p) throws SQLException{
         String query = "INSERT INTO Entity(x,y,save_id) VALUES (?,?,?) RETURNING entity_id";
         PreparedStatement stmt = connection.prepareStatement(query);
@@ -124,7 +134,15 @@ public class DatabaseTools {
         return -1;
     }
     
-    private void insertPerso(int save_id, Personnage p) throws SQLException{
+    /**
+     * Sauvegarde un Personnage dans la table Humanoid
+     * Le personnage est également enregistré dans la table Entity.
+     * @param save_id Sauvegarde
+     * @param p Personnage à sauvegarder
+     * @return entity_id : ID du personnage dans la table Entity
+     * @throws SQLException 
+     */
+    private int insertPerso(int save_id, Personnage p) throws SQLException{
         int entity_id = insertEntity(save_id, p);
         if (entity_id >= 0){
             String query = "INSERT INTO Humanoid(save_id, entity_id, hp, Type, Attack_pourcentage_cold_weapon, Block_pourcentage, Max_attack_distance, Attack_point_cold_weapon, arrow_nb, block_point) VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -145,8 +163,16 @@ public class DatabaseTools {
             stmt.setInt(10, p.getPtPar());
             stmt.executeUpdate();
         }
+        return entity_id;
     }
         
+    /**
+     * Sauvegarde un Monstre dans la table Monster.
+     * Le monstre est également enregistré dans la table Entity
+     * @param save_id Sauvegarde
+     * @param m Monstre à sauvegarder
+     * @throws SQLException 
+     */
     private void insertMonstre(int save_id, Monstre m) throws SQLException{
         int entity_id = insertEntity(save_id, m);
         if (entity_id >= 0){
@@ -164,23 +190,46 @@ public class DatabaseTools {
         }
     }
 
+    /**
+     * Sauvegarde un objet dans la table Object.
+     * Les caractéristiques éventuelles de l'objet sont également sauvegardées.
+     * @param save_id Sauvegarde
+     * @param o Objet à sauvegarder
+     * @return object_id : ID de l'objet inséré dans la table Object
+     * @throws SQLException 
+     */
     private int insertObjet(int save_id, Objet o) throws SQLException{
         String query = "INSERT INTO Objet(save_id, Type, Quantity) VALUES (?,?,1) RETURNING object_id";
         PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setInt(1, save_id);
         stmt.setString(2, EntityInfo.getClassName(o));
         ResultSet res = stmt.executeQuery();
+        int object_id = -1;
         if (res.next()){
-            return res.getInt("object_id");
+            object_id =  res.getInt("object_id");
+                    
+            if (o instanceof HasEffect){
+                Effect effect = ((HasEffect) o).getEffect();
+                String name = Effect.effectName(effect);
+                insertObjectCarac(save_id, object_id, name, "duration", effect.getDuration());
+                insertObjectCarac(save_id, object_id, name, "modifier", effect.getModifier());
+            }
         }
-        return -1;
+        return object_id;
     }
     
+    /**
+     * Sauvegarde un objet présent sur la carte dans la table Object_on_map.
+     * L'objet est également enregistré dans la table Entity
+     * @param save_id Sauvegarde
+     * @param o Objet à sauvegarder
+     * @throws SQLException 
+     */
     private void insertObjetOnMap(int save_id, Objet o) throws SQLException{
         int entity_id = insertEntity(save_id, o);
         int object_id = insertObjet(save_id, o);
         if (entity_id >= 0 && object_id >= 0){
-            String query = "INSERT INTO Objet_on_map(save_id, entity_id, object_id) VALUES (?,?,?)";
+            String query = "INSERT INTO Object_on_map(save_id, entity_id, object_id) VALUES (?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, save_id);
             stmt.setInt(2, entity_id);
@@ -190,13 +239,39 @@ public class DatabaseTools {
     }
     
     /**
-     * save world to database
-     * @param idJoueur
-     * @param nomPartie
-     * @param nomSauvegarde
-     * @param monde
+     * Sauvegarde une valeur associée à une caractéristique d'un objet dans la table Object_caracteristic.
+     * @param save_id Sauvegarde
+     * @param object_id Objet possédant la caractéristique
+     * @param name Nom de la caractéristique
+     * @param value_name Nom de la valeur
+     * @param value Valeur
+     * @return carac_id : ID de la caractéristique insérée dans la table Object_caracteristic
+     * @throws SQLException 
      */
-    public void saveWorld(Integer idJoueur, String nomPartie, String nomSauvegarde, World monde) throws SQLException {
+    private int insertObjectCarac(int save_id, int object_id, String name, String value_name, int value) throws SQLException{
+        String query = "INSERT INTO Object_caracteristic (Name, object_id, save_id, Value_name, Value) VALUES (?,?,?,?,?)";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setString(1, name);
+        stmt.setInt(2, object_id);
+        stmt.setInt(3, save_id);
+        stmt.setString(4, value_name);
+        stmt.setInt(5, value);
+        ResultSet res = stmt.executeQuery();
+        if (res.next()){
+            return res.getInt("carac_id");
+        }
+        return -1;
+    }
+    
+    /**
+     * Sauvegarde le monde dans la base de données
+     * @param Login Nom du joueur
+     * @param nomPartie Nom de la partie
+     * @param nomSauvegarde Nom de la sauvegarde
+     * @param monde Instance de World à sauvegarder
+     * @throws java.sql.SQLException
+     */
+    public void saveWorld(String Login, String nomPartie, String nomSauvegarde, World monde) throws SQLException {
         String query = "SELECT game_id FROM Game WHERE Name = ? ";
         PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, nomPartie);
@@ -218,10 +293,19 @@ public class DatabaseTools {
         }
         
         List<Entite> entites = monde.getActiveChunks()[1][1].getEntites();
-        
+        int player_entity = 0;
         for (Entite e: entites){
             if (e instanceof Personnage ){
-                this.insertPerso(save_id, (Personnage) e);
+                
+                if (e == monde.getJoueur().getPlayer()){
+                    player_entity = this.insertPerso(save_id, (Personnage) e);
+                    query = "INSERT INTO save_player (save_id, login, entity_id) VALUES (?,?,?)";
+                    stmt.setInt(1, save_id);
+                    stmt.setString(2, Login);
+                    stmt.setInt(3,player_entity);
+                } else {
+                    this.insertPerso(save_id, (Personnage) e);
+                }
             } else if (e instanceof Monstre){
                 this.insertMonstre(save_id, (Monstre) e);
             } else if (e instanceof Objet){
@@ -229,17 +313,50 @@ public class DatabaseTools {
             }
         }
         
+        List<Objet> Inventaire = monde.getJoueur().getInventaire();
+        for (Objet o: Inventaire){
+            int object_id = insertObjet(save_id, o);
+            query = "INSERT INTO Inventory (save_id, entity_id, object_id, equiped) VALUES (?,?,?,?)";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, save_id);
+            stmt.setInt(2, player_entity);
+            stmt.setInt(3, object_id);
+            stmt.setBoolean(4, false); // L'équipement n'a pas encore été implémenté
+        }        
     }
        
+    /**
+     * Crée un Objet à partir du nom de sa classe.
+     * Le nom doit correspondre à celui retourné par EntityInfo.getClassName().
+     * @param objectClassName Nom de la classe à construire
+     * @return Nouvel Objet
+     */
+    private Objet createObject(String objectClassName){
+        Objet o;
+        switch (objectClassName){
+            case "Potion de soin":
+                o = new PotionSoin();
+                break;
+            case "Super Champi":
+                o = new SuperMushroom();
+                break;
+            case "Champi Toxique":
+                o = new ToxicMushroom();
+                break;
+            default:
+                o = null;
+        }
+        return o;
+    }
 
     /**
-     * get world from database
-     * @param idJoueur
-     * @param nomPartie
-     * @param nomSauvegarde
-     * @param monde
+     * Charge un monde à partir de la base de données
+     * @param nomPartie Nom de la partie à charger
+     * @param nomSauvegarde Nom de la sauvegarde à charger
+     * @param monde Instance de World qui recevra la sauvegarde
+     * @throws java.sql.SQLException
      */
-    public void readWorld(Integer idJoueur, String nomPartie, String nomSauvegarde, World monde) throws SQLException {
+    public void readWorld(String nomPartie, String nomSauvegarde, World monde) throws SQLException {
         String query = "SELECT game_id FROM Game WHERE Name = ? ";
         PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, nomPartie);
@@ -314,30 +431,32 @@ public class DatabaseTools {
         while (res.next()){
             type = res.getString("Type");
             pos = new Point2D(res.getInt("x"), res.getInt("y"));
-            switch (type){
-                case "Potion de soin":
-                    e = new PotionSoin(pos,1,res.getInt(""));
-                    break;
-                case "Super Champi":
-                    e = new SuperMushroom();
-                    
-                    break;
-                case "Champi Toxique":
-                    e = new ToxicMushroom();
-                    break;
-            }
+            e = createObject(type);
             e.setPos(pos);
             e.setChPos(new Point2D(0,0));
             monde.getActiveChunks()[1][1].getEntites().add(e);
             monde.getActiveChunks()[1][1].getChObj()[pos.getX()][pos.getY()] = (Objet) e;
         }
          
-        
-        
-        
+        query = "SELECT * FROM Inventory JOIN Object USING (object_id, save_id) WHERE Inventory.save_id=?";
+        stmt = connection.prepareStatement(query);
+        stmt.setInt(1, save_id);
+        res = stmt.executeQuery();
+        Objet newObj;
+        while (res.next()){
+            type = res.getString("Type");
+            newObj = createObject(type);
+            monde.getJoueur().getInventaire().add(newObj);
+        }
     }
     
-    public void removeWorld(int idJoueur, String nomPartie, String nomSauvegarde) throws SQLException{
+    /**
+     * Supprime une sauvegarde.
+     * @param nomPartie Partie
+     * @param nomSauvegarde Sauvegarde
+     * @throws SQLException
+     */
+    public void removeWorld(String nomPartie, String nomSauvegarde) throws SQLException{
         String query = "DELETE FROM Save WHERE save_id IN (SELECT save_id FROM Save JOIN Game WHERE Game.Name = ? AND Save.Name = ?) ";
         PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, nomPartie);

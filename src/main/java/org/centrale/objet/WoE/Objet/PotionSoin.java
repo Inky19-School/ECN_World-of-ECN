@@ -18,6 +18,7 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
       
     private int ptVieRegen;
     private Effect effect;
+    private static int BASE_PV_REGEN = 5;
     
     
     /**
@@ -30,13 +31,18 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
         super(pos, qte);
         this.ptVieRegen = ptVieRegen;
     }
+    
+        public PotionSoin(Point2D pos, int qte) {
+        super(pos, qte);
+        this.ptVieRegen = BASE_PV_REGEN;
+    }
 
     /**
      *
      */
     public PotionSoin() {
         super();
-        ptVieRegen = 5;
+        ptVieRegen = BASE_PV_REGEN;
     }
     
     /**

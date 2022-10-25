@@ -33,10 +33,10 @@ public class WorldOfECN {
         System.out.println("getname");
         Integer playerId = database.getPlayerID("Saegusa", "Mayumi");
         System.out.println(playerId);
-        database.saveWorld(playerId, "Test Game 1", "Start", world);
+        database.saveWorld("Saegusa","Test Game 1", "Start", world);
         
         // Retreive World
-        database.readWorld(playerId, "Test Game 1", "Start", world);
+        database.readWorld("Test Game 1", "Start", world);
         database.disconnect();
     }
 }

@@ -22,6 +22,7 @@ public abstract class Nourriture extends Objet implements Utilisable, HasEffect 
 
     public Nourriture(Point2D pos){
         super(pos,1);
+        effect = new Effect();
     }    
 
     public Nourriture(Point2D pos, int duration, int effect, int modifier){

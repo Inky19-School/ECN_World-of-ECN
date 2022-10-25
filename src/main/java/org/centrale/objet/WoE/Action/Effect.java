@@ -46,4 +46,14 @@ public class Effect {
     public Effect() {
     }
     
+    public static String effectName(Effect effect){
+        switch (effect.getEffect()){
+            case ATK:
+                return "ATK";
+            case HP:
+                return "HP";
+                
+        }
+        return "";
+    }
 }
