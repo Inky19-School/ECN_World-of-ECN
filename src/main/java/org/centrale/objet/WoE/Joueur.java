@@ -42,13 +42,15 @@ public class Joueur {
     public Joueur(){
         name = "";
         player = new Guerrier();
-        
+        effects = new LinkedList<>();
+        inventaire = new LinkedList<Objet>();        
     }
     
     public Joueur(Personnage p) {
         name = p.getNom();
         player = p;
         effects = new LinkedList<>();
+        inventaire = new LinkedList<Objet>();
     }
     
     
@@ -87,7 +89,7 @@ public class Joueur {
             if (effect.isFinished()) {
                 effects.remove(effect);
             } else {
-                if (effect.getEffect() == Effect.HP) {
+                if (effect.getType() == Effect.HP) {
                     this.getPlayer().addPV(effect.getModifier());
                 }
             }
@@ -148,6 +150,7 @@ public class Joueur {
         int i = 0;
         for (Objet o: inventaire){
             System.out.println(""+i+" : " + EntityInfo.getClassName(o));
+            i++;
         }
         System.out.print("Numéro obj : ");
         Scanner sc = new Scanner(System.in);
@@ -205,6 +208,10 @@ public class Joueur {
 
     public LinkedList<Objet> getInventaire() {
         return inventaire;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     

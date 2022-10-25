@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.DriverManager;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -52,19 +53,22 @@ import org.centrale.objet.WoE.World.World;
  * @author Rémi
  */
 public class SaveManager {
-    private static final String SEP = " ";
-
+    private static final String SEP = "_";
+    /**
+     * Returns the list of all worlds saved under save/, sorted by last modified order
+     * @return worlds 
+     */
     public static File[] getWorlds() {
-        File folder = new File("save");
-        return folder.listFiles();
+        File[] worlds = new File("save").listFiles();
+        Arrays.sort(worlds, Comparator.comparingLong(File::lastModified).reversed());
+        return worlds;
     }
-    
-    
+
     public SaveManager() {
     }
     
     private static String saveEffect(Effect effect) {
-        return "Effect" + SEP + effect.getDuration() + SEP + effect.getEffect() + SEP + effect.getModifier();
+        return effect.getDuration() + SEP + effect.getType() + SEP + effect.getModifier();
     }  
     
     private static String saveEntity(Entite e) {
@@ -79,12 +83,14 @@ public class SaveManager {
             Integer degAtt = c.getDegAtt();
             line += SEP + ptVie + SEP + ptPar + SEP + pagePar + SEP + pageAtt + SEP + degAtt;
             if (c instanceof Personnage) {
+                Integer distAttMax = ((Personnage) c).getDistAttMax();
                 if ((((Personnage) c).getNom()).equals("")) {
-                    line += SEP + "Jean" + SEP + ((Personnage) c).getDistAttMax();
+                    line += SEP + distAttMax + SEP + " " + SEP + ((Personnage) c).getDistAttMax();
+                } else {
+                    line += SEP + distAttMax + SEP + ((Personnage) c).getNom() + SEP + ((Personnage) c).getDistAttMax(); //A MODIFIER
                 }
-                line += SEP + ((Personnage) c).getNom() + SEP + ((Personnage) c).getDistAttMax(); //A MODIFIER
                 if (c instanceof Archer) {
-                    line += SEP + ((Archer) c).getDegAttDist() + SEP + ((Archer) c).getNbFleches() + SEP + ((Archer) c).getDistAttMax();
+                    line += SEP + ((Archer) c).getDegAttDist() + SEP + ((Archer) c).getNbFleches();
                 }
             } else if (c instanceof Monstre) {
             }
@@ -94,169 +100,179 @@ public class SaveManager {
                 line += SEP + saveEffect(((Nourriture) o).getEffect());
             }
             if (o instanceof PotionSoin) {
-                line += SEP + ((PotionSoin) o).getPtVieRegen() + SEP + saveEffect(((PotionSoin) o).getEffect());
+                line += SEP + ((PotionSoin) o).getPtVieRegen();
+            }
+            if (o instanceof NuageToxique) {
+                line += SEP + saveEffect(((NuageToxique) o).getEffect());
             }
         }
         return line;
     }
     
-    private static String savePlayer(Joueur player) {
-        String lines = "Player" + SEP + saveEntity(player.getPlayer()) + "\n";
-        LinkedList<Objet> inventaire = player.getInventaire();
-        LinkedList<Effect> effects = player.getEffects();
-        for (Objet o : inventaire) {
-            lines += "Inventaire" + SEP + saveEntity(o) + "\n";
+    private static void savePlayer(File folder, Joueur player) throws IOException {
+        // Creating player folder
+        File playerFolder = new File(folder+"/player");
+        if (!playerFolder.exists()){
+            playerFolder.mkdirs();
         }
-        for (Effect eff : effects) {
-            lines += "Inventaire" + SEP + saveEffect(eff) + "\n";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(playerFolder + "/" + player.getName()))) {
+            bw.write("Player" + SEP + player.getPlayer().getChPos().getX() + SEP + player.getPlayer().getChPos().getX());
+            bw.write(SEP + saveEntity(player.getPlayer()));
+            bw.newLine();
+            LinkedList<Objet> inventaire = player.getInventaire();
+            LinkedList<Effect> effects = player.getEffects();
+            for (Objet o : inventaire) {
+                bw.write("Inventaire" + SEP + saveEntity(o));
+                bw.newLine();
+            }
+            for (Effect eff : effects) {
+                bw.write("Effets" + SEP + saveEffect(eff));
+                bw.newLine();
+            }
+            bw.close();
         }
-        return lines;
     }
     
     
     public static void saveWorld(World monde) {
-        saveChunk(monde, new Point2D(1,1));
+        // Creating main folder
+        File folder = new File("save/"+ monde.getName());
+        if (!folder.exists()){
+            folder.mkdirs();
+        }
+        // Saving chunks
+        for (int i=0;i<3;i++) {
+            for (int j=0;j<3;j++) {
+                try {
+                    saveChunk(folder,monde,monde.getActiveChunks()[i][j], new Point2D(i,j));
+                } catch(IOException e) {
+                    
+                }
+            }
+        }
+        try {
+            savePlayer(folder,monde.getJoueur());
+        } catch (IOException ex) {
+            System.err.println("Could not save player "+monde.getJoueur().getName());
+        }
+        
     }
     
     
-    public static void saveChunk(World monde, Point2D chPos) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("save/" + monde.getName() + " " + chPos.getX() + " " + chPos.getY() + ".txt"))) {
-            List<Entite> entities = monde.getActiveChunks()[chPos.getX()][chPos.getY()].getEntites();
-            Joueur player = monde.getJoueur();
+    public static void saveChunk(File folder,World monde,Chunk chunk, Point2D chPos) throws IOException {
+        // Creating chunk folder
+        File chunkFolder = new File(folder+"/chunk");
+        if (!chunkFolder.exists()){
+            chunkFolder.mkdirs();
+        }
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(chunkFolder + "/" + folder.getName() + "_" + chunk.getPos().getX() + "_" + chunk.getPos().getY() + ".woe"))) {
+            List<Entite> entities = chunk.getEntites();
+            Personnage player = monde.getJoueur().getPlayer();
             for (Entite e : entities) {
-                if (e != player.getPlayer()) {
+                if (e != player) {
                     bw.write(saveEntity(e));
                     bw.newLine();
                 }
             }
-            bw.write(savePlayer(player));
             bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
     
-    private static Entite loadEntity(String line, Point2D chPos) {
-        StringTokenizer tokenizer = new StringTokenizer(line, SEP);
-        String type = tokenizer.nextToken();
-        if (type.equals("Player")) {
-            type = tokenizer.nextToken();
-            System.out.println(tokenizer.toString());
-        }
-        int x = Integer.parseInt(tokenizer.nextToken());
-        int y = Integer.parseInt(tokenizer.nextToken());
-        Point2D pos = new Point2D(x,y);
-        
-        Class entityType = Paysan.class;// = Class.forName("org.centrale.objet.WoE." + type);
-        switch (type) {
-            case "Archer" :
-                entityType = Archer.class;
-                break;
-            case "Guerrier" : 
-                entityType = Guerrier.class;
-                break;
-            case "NuageToxique" :
-                entityType = NuageToxique.class;
-                break;
-            case "PotionSoin" : 
-                entityType = PotionSoin.class;
-                break;
-            case "SuperMushroom" :
-                entityType = SuperMushroom.class;
-                break;
-            case "ToxicMushroom" :
-                entityType = ToxicMushroom.class; 
-                break;
-            case "Epee" :
-                entityType = Epee.class;
-                break;
-            case "Lapin" :
-                entityType = Lapin.class;
-                break;
-            case "Loup" :
-                entityType = Loup.class;
-                break;
-            case "Paysan" :
-                entityType = Paysan.class;
-                break;          
-        }
-        // If Creature
-        if (Creature.class.isAssignableFrom(entityType)) {
-            Integer ptVie = Integer.parseInt(tokenizer.nextToken());
-            Integer ptPar = Integer.parseInt(tokenizer.nextToken());
-            Integer pagePar = Integer.parseInt(tokenizer.nextToken());
-            Integer pageAtt = Integer.parseInt(tokenizer.nextToken());
-            Integer degAtt = Integer.parseInt(tokenizer.nextToken());
-            // Personnage
-            if (Personnage.class.isAssignableFrom(entityType)) {
-                String nom = tokenizer.nextToken(); 
-                Integer distAttMax = Integer.parseInt(tokenizer.nextToken());
-                switch (type) {
-                    case ("Archer") :
-                        Integer degAttDist = Integer.parseInt(tokenizer.nextToken());
-                        Integer nbFleches = Integer.parseInt(tokenizer.nextToken());
-                        return new Archer(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, chPos, nbFleches, degAttDist);
-                    case ("Guerrier") :
-                        return new Guerrier(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, chPos);
-                    case ("Paysan") :
-                        return new Paysan(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, chPos);                       
-                }
-            } else if (Monstre.class.isAssignableFrom(entityType)) {
-                switch (type) {
-                    case ("Loup") :
-                        return new Loup(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt);
-                    case ("Lapin") :
-                        return new Lapin(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt);                       
-                }               
+    private static Integer[] toIntArray(String[] arrStr) {
+        Integer[] arrInt = new Integer[arrStr.length];
+        Integer arg;
+        for (int i=0; i < arrStr.length;i++) {
+            try {
+                arg = Integer.parseInt(arrStr[i]);
+            } catch(NumberFormatException e) {
+                arg = null;
             }
-        } else if (Objet.class.isAssignableFrom(entityType)) {
-            if (Nourriture.class.isAssignableFrom(entityType)) {
-                tokenizer.nextToken(); 
-                Integer duration = Integer.parseInt(tokenizer.nextToken());
-                Integer effect = Integer.parseInt(tokenizer.nextToken());
-                Integer modifier = Integer.parseInt(tokenizer.nextToken());
-                Effect eff = new Effect(duration,effect,modifier);
-                switch (type) {
-                    case("ToxicMushroom") :
-                        return new ToxicMushroom(pos);
-                    case("SuperMushRoom") :
-                        return new SuperMushroom(pos);    
-                }       
-            } else {
-                switch (type) {
-                    case "PotionSoin" :
-                        Integer ptVieRegen = Integer.parseInt(tokenizer.nextToken());
-                        tokenizer.nextToken();
-                        Integer duration = Integer.parseInt(tokenizer.nextToken());
-                        Integer effect = Integer.parseInt(tokenizer.nextToken());
-                        Integer modifier = Integer.parseInt(tokenizer.nextToken());
-                        Effect eff = new Effect(duration,effect,modifier);
-                        return new PotionSoin(pos,1,ptVieRegen);
-                    case "NuageToxique" :
-                        return new NuageToxique(pos);
-                }
-            }
-        } 
-        return null;
+            arrInt[i] = arg;
+        }
+        return arrInt;
     }
     
     
-    public static World loadWorld(File file) {
-        Joueur player = new Joueur("Archer", "Jean-Pierre");
-        World monde = new World(10, player , file.getName());
+    
+    private static Entite loadEntity(String line, Point2D chPos) {
+        String[] argStr = line.split(SEP);
+        Integer[] argInt = toIntArray(argStr);
+        Point2D pos = new Point2D(argInt[1],argInt[2]);
+        switch (argStr[0]) {
+            // Personnages
+            case "Archer" :;
+                return new Archer(pos,chPos,argInt[3],argInt[4],argInt[5],argInt[6],argInt[7],argInt[8],argStr[9],argInt[10], argInt[11]);
+            case "Guerrier" : 
+                return new Guerrier(pos,chPos,argInt[3],argInt[4],argInt[5],argInt[6],argInt[7],argInt[8],argStr[9]);
+            case "Paysan" :
+                return new Paysan(pos,chPos,argInt[3],argInt[4],argInt[5],argInt[6],argInt[7],argInt[8],argStr[9]);
+            // Monstres
+            case "Lapin" :
+                return new Lapin(pos,chPos,argInt[3],argInt[4],argInt[5],argInt[6],argInt[7]);
+            case "Loup" :
+                return new Loup(pos,chPos,argInt[3],argInt[4],argInt[5],argInt[6],argInt[7]); 
+            // Objets
+            case "NuageToxique" :
+                return new NuageToxique(pos, chPos, new Effect(argInt[3],argInt[4],argInt[5]));
+            case "PotionSoin" : 
+                return new PotionSoin(pos, chPos, argInt[3]);
+            case "SuperMushroom" :
+                return new SuperMushroom(pos, chPos, new Effect(argInt[3],argInt[4],argInt[5]));
+            case "ToxicMushroom" :
+                return new ToxicMushroom(pos, chPos, new Effect(argInt[3],argInt[4],argInt[5]));
+            case "Epee" :
+                return new Epee(pos, chPos,argInt[3],argInt[4],argInt[5]);
+            default :
+                return null;
+        }
+    }
+    
+    
+    public static World loadWorld(File folder) {
+        System.out.println("Loading " + folder);
+        Joueur player = new Joueur();
+        World monde = new World(10, player ,folder.getName());
+        Point2D initChunkPos = new Point2D(0,0);
+        // For safety
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
-                if (i==1&&j==1) {
+                monde.getActiveChunks()[i][j] = new Chunk(i-1+initChunkPos.getX(), j-1+initChunkPos.getY());
+            }
+        }
+        int loaded = 0;
+        File chunks = new File(folder.getPath()+"/chunk");
+        for (File file : chunks.listFiles()) {
+            if (file.isFile()) {
+                String[] fileNameInfo = file.getName().replaceFirst("[.][^.]+$", "").split(SEP); //Remove extension and get info
+                int chX = Integer.parseInt(fileNameInfo[1]);
+                int chY = Integer.parseInt(fileNameInfo[2]);
+                int i = chX + 1 - initChunkPos.getX();
+                int j = chY + 1 - initChunkPos.getY();
+                if ( 0<=i && i<3 && 0<=j && j<3) {
                     try {
-                        monde.getActiveChunks()[i][j] = loadChunk(file,new Point2D(i-1,j-1),monde);
+                        monde.getActiveChunks()[i][j] = loadChunk(file,new Point2D(chX,chY),monde);
+                        System.out.print(".");
+                        loaded++;
                     } catch(IOException e) {
-                        monde.getActiveChunks()[i][j] = new Chunk(i-1, j-1);
+                        System.out.print("X");
                     }
-                } else {
-                    monde.getActiveChunks()[i][j] = new Chunk(i-1, j-1);
                 }
             }
+        }
+        System.out.print(" || "+loaded+"/"+chunks.listFiles().length+" chunks succesfully loaded\n");
+        File playerFolder = new File(folder.getPath()+"/player");
+        try {
+            player = loadPlayer(playerFolder.listFiles()[0]);
+            monde.setPlayer(player);
+            Point2D chPos = player.getPlayer().getChPos();
+            int i = chPos.getX() + 1 - initChunkPos.getX();
+            int j = chPos.getY() + 1 - initChunkPos.getY();
+            if ( 0<=i && i<3 && 0<=j && j<3) {
+                monde.getActiveChunks()[i][j].addEntity(player.getPlayer());
+            }
+        } catch (IOException ex) {
+            System.out.println("Player couldn't be loaded");
         }
         return monde;
     }
@@ -266,12 +282,16 @@ public class SaveManager {
         Chunk chunk = new Chunk(chPos.getX(),chPos.getY());
         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
         String line = br.readLine();
-        Joueur p;
+        Joueur p = new Joueur();
         while (line != null) {
             if (line.split(SEP)[0].equals("Player")) { 
-                Entite e = loadEntity(line,chPos);
-                monde.setPlayer(new Joueur((Personnage)e));
+                Entite e = loadEntity(line.substring(("Player"+SEP).length()),chPos);
+                p = new Joueur((Personnage)e);
+                monde.setPlayer(p);
                 chunk.addEntity(e);
+            }else if(line.split(SEP)[0].equals("Inventaire")) {
+                Entite e = loadEntity(line.substring(("Inventaire"+SEP).length()),chPos);
+                p.getInventaire().add((Objet)e);
             }  else {
                 Entite e = loadEntity(line,chPos);
                 if (e != null) {
@@ -286,4 +306,23 @@ public class SaveManager {
         return chunk;
     }
     
+    private static Joueur loadPlayer(File file) throws FileNotFoundException, IOException {
+        BufferedReader br = new BufferedReader(new FileReader(new File(file.getAbsolutePath())));
+        String line = br.readLine();
+        String[] info = line.split(SEP,4);
+        Point2D chPos = new Point2D(Integer.parseInt(info[1]), Integer.parseInt(info[2]));
+        Joueur p = new Joueur((Personnage)loadEntity(info[3], chPos));
+        System.out.println(p.getPlayer());
+        while (line != null) {
+            if(line.split(SEP)[0].equals("Inventaire")) {
+                Entite e = loadEntity(line.substring(("Inventaire"+SEP).length()),chPos);
+                p.getInventaire().add((Objet)e);          
+            } else if (line.split(SEP)[0].equals("Effect")) {
+                
+            }
+            line = br.readLine();
+        }
+        br.close();
+        return p;
+    }
 }

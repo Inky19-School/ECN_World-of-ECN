@@ -11,9 +11,13 @@ import org.centrale.objet.WoE.Point2D;
  * @author inky19
  */
 public class SuperMushroom extends Nourriture {
-     
-    public SuperMushroom(Point2D pos){
-        super(pos,4,Effect.HP,5);
+
+    public SuperMushroom(Point2D pos, Point2D chPos, Effect effect){
+        super(pos,chPos,effect);
+    } 
+ 
+    public SuperMushroom(Point2D pos, Point2D chPos){
+        super(pos,chPos,4,Effect.HP,5);
     }    
 
     public SuperMushroom(){
@@ -22,6 +26,11 @@ public class SuperMushroom extends Nourriture {
 
     @Override
     public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void affiche() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

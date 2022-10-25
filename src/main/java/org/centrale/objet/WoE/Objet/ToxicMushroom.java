@@ -10,10 +10,13 @@ import org.centrale.objet.WoE.Point2D;
  * @author inky19
  */
 public class ToxicMushroom extends Nourriture{
+    
+    public ToxicMushroom(Point2D pos, Point2D chPos, Effect effect){
+        super(pos, chPos,effect);
+    } 
 
-    private int modhp;
-    public ToxicMushroom(Point2D pos){
-        super(pos,4,Effect.ATK,-10);
+    public ToxicMushroom(Point2D pos, Point2D chPos){
+        super(pos, chPos,4,Effect.ATK,-10);
     } 
 
     public ToxicMushroom(){
@@ -22,6 +25,11 @@ public class ToxicMushroom extends Nourriture{
 
     @Override
     public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void affiche() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

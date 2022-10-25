@@ -29,7 +29,7 @@ public abstract class Entite {
      */
     public Entite(Point2D pos, Point2D chPos) {
         this.pos = new Point2D(pos);
-        this.chPos = chPos;
+        this.chPos = new Point2D(chPos);
     }
     
     /**
@@ -38,6 +38,7 @@ public abstract class Entite {
      */
     public Entite(Entite entite){
         this.pos = new Point2D(entite.pos);
+        this.chPos = new Point2D(entite.chPos);
     }
 
     /**
@@ -64,7 +65,6 @@ public abstract class Entite {
         this.chPos = chPos;
     }
    
-    
     /**
      * Affiche des informations sur l'entité
      */

@@ -46,8 +46,8 @@ public class Guerrier extends Personnage implements Combattant {
      * @param distAttMax Distance maximale d'attaque
      * @param pos Positon
      */
-    public Guerrier(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos, Point2D chPos) {
-        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos, chPos);
+    public Guerrier(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int distAttMax, String nom) {
+        super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt, distAttMax, nom);
     }
 
     /**

@@ -390,13 +390,13 @@ public class DatabaseTools {
             pos = new Point2D(res.getInt("x"), res.getInt("y"));
             switch (type){
                 case "Paysan":       
-                    e = new Paysan("",res.getInt("hp"),res.getInt("Attack_point_cold_weapon"),res.getInt("Block_pourcentage"), res.getInt("Attack_pourcentage_cold_weapon"),res.getInt("Block_pourcentage"),res.getInt("Max_attack_distance"), pos, new Point2D(0,0));
+                    e = new Paysan(pos, new Point2D(0,0),res.getInt("hp"),res.getInt("Attack_point_cold_weapon"),res.getInt("Block_pourcentage"), res.getInt("Attack_pourcentage_cold_weapon"),res.getInt("Block_pourcentage"),res.getInt("Max_attack_distance"),"");
                     break;
                 case "Guerrier":
-                    e = new Guerrier("",res.getInt("hp"),res.getInt("Attack_point_cold_weapon"),res.getInt("Block_pourcentage"), res.getInt("Attack_pourcentage_cold_weapon"),res.getInt("Block_pourcentage"),res.getInt("Max_attack_distance"), pos, new Point2D(0,0));
+                    e = new Guerrier(pos, new Point2D(0,0),res.getInt("hp"),res.getInt("Attack_point_cold_weapon"),res.getInt("Block_pourcentage"), res.getInt("Attack_pourcentage_cold_weapon"),res.getInt("Block_pourcentage"),res.getInt("Max_attack_distance"), "");
                     break;
                 case "Archer":
-                    e = new Archer("",res.getInt("hp"),res.getInt("Attack_point_cold_weapon"),res.getInt("Block_pourcentage"), res.getInt("Attack_pourcentage_cold_weapon"),res.getInt("Block_pourcentage"),res.getInt("Max_attack_distance"), pos, new Point2D(0,0), res.getInt("arrow_nb"),10);
+                    e = new Archer(pos, new Point2D(0,0),res.getInt("hp"),res.getInt("Attack_point_cold_weapon"),res.getInt("Block_pourcentage"), res.getInt("Attack_pourcentage_cold_weapon"),res.getInt("Block_pourcentage"),res.getInt("Max_attack_distance"), "", res.getInt("arrow_nb"),10);
                     break;
             }   
             monde.getActiveChunks()[1][1].getEntites().add(e);
