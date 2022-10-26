@@ -4,11 +4,9 @@
  */
 package org.centrale.objet.WoE.Objet;
 
-import org.centrale.objet.WoE.Creature.Creature;
-
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public interface Utilisable {
     public void utiliser();

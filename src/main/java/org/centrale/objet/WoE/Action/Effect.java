@@ -6,7 +6,7 @@ package org.centrale.objet.WoE.Action;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Effect {
     public static final int ATK = 0;

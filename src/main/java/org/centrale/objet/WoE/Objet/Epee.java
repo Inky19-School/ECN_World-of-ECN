@@ -8,7 +8,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Epee extends Objet implements Utilisable {
 
@@ -28,11 +28,12 @@ public class Epee extends Objet implements Utilisable {
     
     /**
      *
-     * @param ptDgt
-     * @param coolDown
-     * @param durabilite
-     * @param pos
-     * @param qte
+     * @param ptDgt Point de dégâts
+     * @param coolDown Attente entre deux coups
+     * @param durabilite Durabilité de l'épée
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param qte Quantité
      */
     public Epee(Point2D pos, Point2D chPos,int ptDgt, int coolDown, int durabilite) {
         super(pos, chPos);
@@ -43,9 +44,9 @@ public class Epee extends Objet implements Utilisable {
 
     /**
      *
-     * @param ptDgt
-     * @param coolDown
-     * @param durabilite
+     * @param ptDgt Point de dégâts
+     * @param coolDown Attente entre deux coups
+     * @param durabilite Durabilité de l'épée
      */
     public Epee(int ptDgt, int coolDown, int durabilite) {
         this.ptDgt = ptDgt;

@@ -9,7 +9,7 @@ import org.centrale.objet.WoE.World.World;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public interface Deplacable {
 

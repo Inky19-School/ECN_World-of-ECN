@@ -8,8 +8,14 @@ import org.centrale.objet.WoE.Creature.Creature;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public interface Combattant {
+
+    /**
+     * Combat avec une créature
+     * @param c Créature adverse
+     * @return boolean : si l'attaque est un succès
+     */
     public boolean combattre(Creature c);
 }

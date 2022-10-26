@@ -12,7 +12,6 @@ org\centrale\objet\WoE\UI\GameScreen.class
 org\centrale\objet\WoE\UI\MainMenu.class
 org\centrale\objet\WoE\World\World.class
 org\centrale\objet\WoE\sql\DatabaseTools.class
-org\centrale\objet\WoE\sql\WorldOfECN.class
 org\centrale\objet\WoE\Creature\Archer.class
 org\centrale\objet\WoE\Creature\Loup.class
 org\centrale\objet\WoE\Objet\Nourriture.class

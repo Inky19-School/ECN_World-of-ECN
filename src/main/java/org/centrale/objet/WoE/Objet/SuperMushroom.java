@@ -8,14 +8,25 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class SuperMushroom extends Nourriture {
 
+    /**
+     *
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param effect Effet lors de l'utilisation
+     */
     public SuperMushroom(Point2D pos, Point2D chPos, Effect effect){
         super(pos,chPos,effect);
     } 
  
+    /**
+     *
+     * @param pos Positon
+     * @param chPos Position du chunk
+     */
     public SuperMushroom(Point2D pos, Point2D chPos){
         super(pos,chPos,4,Effect.HP,5);
     }    

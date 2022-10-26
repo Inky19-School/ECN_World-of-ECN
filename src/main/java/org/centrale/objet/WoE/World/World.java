@@ -4,23 +4,18 @@
  */
 package org.centrale.objet.WoE.World;
 
-import java.lang.reflect.InvocationTargetException;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.centrale.objet.WoE.Joueur;
 import org.centrale.objet.WoE.Point2D;
-import org.centrale.objet.WoE.SaveManager;
 
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class World {
     /**
@@ -30,16 +25,7 @@ public class World {
     * Liste des entités
     */
     private Chunk[][] activeChunks;
-    public List<Entite> entites; 
-    /**
-     * Matrice des Créatures pour un accès rapide à partir d'une position
-     */
-    public Entite[][] mapCreature;// Matrice des entités à leur position
-    
-    /**
-     * Matrice des objets pour un accès rapide à partir d'une position
-     */
-    public Objet[][] mapObjets;
+
 
     
     private String name;
@@ -63,9 +49,6 @@ public class World {
     //public Loup wolfie;
 
     public World(String name) {
-        entites = new LinkedList<>();
-        mapCreature = new Entite[SIZE][SIZE];
-        mapObjets = new Objet[SIZE][SIZE];
         //wolfie = new Loup();
         player = new Joueur();
         activeChunks = new Chunk[3][3];
@@ -76,7 +59,6 @@ public class World {
     public World(int size, Joueur p, String name) {
         SIZE = size;
         this.name = name;
-        entites = new LinkedList<>();
         activeChunks = new Chunk[3][3];
         //wolfie = new Loup();
         //wolfie.setPos(new Point2D(3,4));
@@ -104,6 +86,12 @@ public class World {
         return new Point2D(active.getX()-x, active.getY()-y);
     }
     
+    /**
+     * Convertit des coordonnées globales en coordonnées locales d'un chunk.
+     * @param x
+     * @param y
+     * @return Couple des coordonnées locales dans un chunk
+     */
     private Point2D toLocalCoordinates(int x, int y){
         int nX = x%Chunk.SIZE;
         int nY = y%Chunk.SIZE;
@@ -116,6 +104,20 @@ public class World {
         return new Point2D(nX, nY);
     }
     
+     /**
+     * Convertit des coordonnées globales en coordonnées locales d'un chunk.
+     * @param p
+     * @return Couple des coordonnées locales dans un chunk
+     */
+    private Point2D toLocalCoordinates(Point2D p){
+        return toLocalCoordinates(p.getX(), p.getY());
+    }
+    
+     /**
+     * Convertit des coordonnées globales en coordonnées de chunk.
+     * @param p
+     * @return Couple des coordonnées locales d'un chunk
+     */
     public static Point2D toChunkCoordiantes(Point2D p){
         int chx = p.getX()/Chunk.SIZE;
         int chy = p.getY()/Chunk.SIZE;
@@ -128,11 +130,13 @@ public class World {
         return new Point2D(chx, chy);
     }
     
-    private Point2D toLocalCoordinates(Point2D p){
-        return toLocalCoordinates(p.getX(), p.getY());
-    }
-    
-    
+    /**
+     * Retourne une entité à l'aide des coordonées globales.
+     * Doit se trouver dans un chunk actif.
+     * @param x
+     * @param y
+     * @return Entité
+     */
     public Creature getCrea(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
         if (isActive(chPos)){
@@ -144,6 +148,13 @@ public class World {
         }
     }
     
+    /**
+     * Retourne un objet à l'aide des coordonées globales.
+     * Doit se trouver dans un chunk actif.
+     * @param x
+     * @param y
+     * @return Objet
+     */
     public Objet getObj(int x, int y){
         Point2D chPos = Chunk.toChunkCoordinates(x, y);
         if (isActive(chPos)){
@@ -155,6 +166,13 @@ public class World {
         }
     }
     
+     /**
+     * Place une entité à l'aide des coordonées globales.
+     * Doit se trouver dans un chunk actif.
+     * @param x
+     * @param y
+     * @param e Entité à placer
+     */
     public void setEnt(int x, int y, Entite e){
         Point2D newChPos = Chunk.toChunkCoordinates(x, y);
         //System.out.println("====="+x + ":" + y+" "+newChPos.getX() + " " + newChPos.getY()+"=====");
@@ -164,16 +182,13 @@ public class World {
             
         } else {
             currentChPos = activeChunks[1][1].getPos();
-            //System.out.println("null");
         }
         if (isActive(newChPos) && isActive(currentChPos)){
             Point2D relPos = chRelativePos(newChPos);
-            //System.out.println(relPos.getX() + " " + relPos.getY() + "\n" + (x-relPos.getX()*Chunk.SIZE) + ":" + (y-relPos.getY()*Chunk.SIZE));
             
             activeChunks[relPos.getX()+1][relPos.getY()+1].setCrea(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE, (Creature) e);
             
             if (e != null){
-                //System.out.println(activeChunks[relPos.getX()+1][relPos.getY()+1].getChCrea()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE].getPagePar());
                 Point2D oldRelPos = chRelativePos(e.getChPos());
                 e.setPos(new Point2D(x-relPos.getX()*Chunk.SIZE, y-relPos.getY()*Chunk.SIZE));
                 if (!e.getChPos().equals(newChPos)){
@@ -181,7 +196,6 @@ public class World {
                     activeChunks[relPos.getX()+1][relPos.getY()+1].entites.add((Creature) e);
                     activeChunks[oldRelPos.getX()+1][oldRelPos.getY()+1].entites.remove(e);
                     e.setChPos(newChPos);
-                    //System.out.println("ÇA MARCHE !!!!" + e.getChPos().getX() + " " + e.getChPos().getY());
                 }
                 
             }
@@ -191,7 +205,10 @@ public class World {
         }
     }
     
-    
+    /**
+     * Supprime une entité du monde (i.e. de son chunk).
+     * @param e Entité à supprimer
+     */
     public void delEnt(Entite e){
        Point2D chPos = e.getChPos();
         if (isActive(chPos)){
@@ -214,12 +231,6 @@ public class World {
         this.player = player;
     }
     
-    // À RETRAVAILLER !!!!
-    public void ajoutCreature(Creature c){
-        Point2D posC = c.getPos();
-        mapCreature[posC.getX()][posC.getY()] = c;
-        entites.add(c);
-    }
     
     /**
      * Crée un monde avec des positions de départ aléatoires et distinctes
@@ -234,13 +245,10 @@ public class World {
         activeChunks[1][1].entites.add(player.getPlayer());
         activeChunks[1][1].chCrea[player.getPlayer().getPos().getX()][player.getPlayer().getPos().getY()]  = player.getPlayer();
         
-        
-        //activeChunks[1][1].chCrea[3][4] = wolfie;
-        //activeChunks[1][1].entites.add(wolfie);
     }
     
     /**
-     * Non implémentée
+     * Tour de jeu entre chaque action du joueur.
      */
     public void tourDeJeu(){
         player.updateEffects();
@@ -253,7 +261,8 @@ public class World {
                 }
             }
         }
-        /*
+        
+        /* PARTIE DU CODE EN TRAVAIL POUR GÉRER LA GÉNÉRATION DE NOUVEAU CHUNK. NON FINIE POUR LE RAPPORT FINAL.
         Point2D playerChPos = player.getPlayer().getChPos();
         Point2D relPosCh = chRelativePos(playerChPos);
         if (!relPosCh.equals(new Point2D(0,0))){
@@ -282,10 +291,12 @@ public class World {
      * @param creature Créature avec laquelle intéragir
      */
     public void interactionObjet(Creature creature) {
-        int x = creature.getPos().getX();
-        int y = creature.getPos().getY();
-        if (mapObjets[x][y] != null) {
-            mapObjets[x][y].interagir(creature);
+        Point2D posCrea = creature.getPos();
+        Point2D posCh = creature.getChPos();
+        int x = posCrea.getX() + posCh.getX()*Chunk.SIZE;
+        int y = posCrea.getY() + posCh.getY()*Chunk.SIZE;
+        if (getObj(x, y) != null) {
+            getObj(x, y).interagir(creature);
         }
     }
     
@@ -297,13 +308,6 @@ public class World {
         for (int i=0; i<ObjetsMap.size(); i++){
             ObjetsMap.get(i).affiche();
         }
-    }
-    
-    /**
-     * Non implémentée
-     */
-    public void afficheWorld(){
-        
     }
 
     public Joueur getJoueur() {

@@ -7,14 +7,12 @@ package org.centrale.objet.WoE.UI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class InfoBox {
     

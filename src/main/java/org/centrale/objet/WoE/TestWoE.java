@@ -5,14 +5,10 @@
 package org.centrale.objet.WoE;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.UI.*;
 /**
  *
- * @author François MARIE & Rémi RAVELLI
+ * @author François MARIE et Rémi RAVELLI
  */
 public class TestWoE {
 
@@ -20,6 +16,11 @@ public class TestWoE {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        System.out.println(""+(23/32));
+        System.out.println(""+(45/32));
+        System.out.println(""+(-23/32));
+        System.out.println(""+(-45/32));
+        
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
         //World monde = new World();

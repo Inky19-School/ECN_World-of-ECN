@@ -13,7 +13,7 @@ import org.centrale.objet.WoE.World.World;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class NuageToxique extends Objet implements Deplacable{
     private Effect effect;
@@ -22,11 +22,22 @@ public class NuageToxique extends Objet implements Deplacable{
         return effect;
     }
 
+    /**
+     *
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param effect Identifiant de l'effet
+     */
     public NuageToxique(Point2D pos, Point2D chPos, Effect effect) {
         super(pos,chPos);
         this.effect = effect;
     }
     
+    /**
+     *
+     * @param pos Position
+     * @param chPos Position du chunk
+     */
     public NuageToxique(Point2D pos, Point2D chPos) {
         super(pos,chPos);
         this.effect = new Effect(5,Effect.HP,-3);

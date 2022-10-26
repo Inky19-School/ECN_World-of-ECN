@@ -24,7 +24,7 @@ import org.centrale.objet.WoE.World.Chunk;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Joueur {
 

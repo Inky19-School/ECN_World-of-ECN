@@ -9,7 +9,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public abstract class Objet extends Entite{
 
@@ -18,14 +18,19 @@ public abstract class Objet extends Entite{
     /**
      *
      * @param pos Position
-     * @param qte Quantité
+     * @param chPos Position du chunk
      */
     public Objet(Point2D pos, Point2D chPos) {
         super(pos,chPos);
         this.qte = 1;
     }
     
-    
+    /**
+     *
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param qte Quantité
+     */
     public Objet(Point2D pos, Point2D chPos, int qte) {
         super(pos,chPos);
         this.qte = qte;

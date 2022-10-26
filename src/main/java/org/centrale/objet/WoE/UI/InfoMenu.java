@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import static java.lang.Math.max;
 import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ import org.centrale.objet.WoE.World.World;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class InfoMenu extends ShapeRenderer {
 

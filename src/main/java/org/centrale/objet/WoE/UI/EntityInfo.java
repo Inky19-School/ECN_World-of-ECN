@@ -11,7 +11,7 @@ import org.centrale.objet.WoE.Objet.*;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class EntityInfo {
     
@@ -26,13 +26,12 @@ public class EntityInfo {
     static private final Texture toxicMushroom = new Texture(Gdx.files.internal("data/textures/entity/object/toxic_mushroom.png"));
     static private final Texture toxicCloud = new Texture(Gdx.files.internal("data/textures/entity/object/toxicCloud.png"));    
     
-    void EntityTexture()
-    {
-         
 
-    }
-
-    
+    /**
+     * Renvoie la texture correspondante d'une entité
+     * @param e
+     * @return Texture de l'entité
+     */
     public static Texture getTexture(Entite e){
         if (e instanceof Creature ){
             if (e instanceof Loup){
@@ -60,6 +59,11 @@ public class EntityInfo {
         return null;
     }
         
+    /**
+     * Renvoie le nom de la classe d'une entité
+     * @param e
+     * @return Nom de la classe 
+     */
     public static String getClassName(Entite e){
         if (e instanceof Creature ){
             if (e instanceof Loup){
