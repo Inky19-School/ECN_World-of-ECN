@@ -5,12 +5,10 @@
 package org.centrale.objet.WoE;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import java.util.ArrayList;
-import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.UI.*;
 /**
  *
- * @author François MARIE & Rémi RAVELLI
+ * @author François MARIE et Rémi RAVELLI
  */
 public class TestWoE {
 
@@ -18,18 +16,20 @@ public class TestWoE {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        World monde = new World();
-        monde.creerMondeAlea();
-
-       
+        System.out.println(""+(23/32));
+        System.out.println(""+(45/32));
+        System.out.println(""+(-23/32));
+        System.out.println(""+(-45/32));
         
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
-        config.setTitle("WoE");
+        //World monde = new World();
+        //monde.creerMondeAlea();
+        config.setTitle("World of ECN");
         config.setIdleFPS(60);
-        
+        config.setWindowIcon("data/gui/icon3.png");
         config.setWindowedMode(GameScreen.WIDTH, GameScreen.HEIGHT);
-        new Lwjgl3Application(new Boot(monde), config);
-        
+        //new Lwjgl3Application(new Boot(monde), config);
+        new Lwjgl3Application(new Boot(), config);
     }
 }

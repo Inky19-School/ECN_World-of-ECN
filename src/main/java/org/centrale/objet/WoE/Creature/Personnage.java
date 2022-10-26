@@ -8,7 +8,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 
 
@@ -49,10 +49,11 @@ public class Personnage extends Creature{
      * @param pageAtt Pourcentage d'attaque
      * @param pagePar Pourcentage de parade
      * @param distAttMax Distance maximale d'attaque
-     * @param pos Position dans le monde
+     * @param pos Position de la créature dans le chunk
+     * @param chPos Position du chunk de la créature
      */
-    public Personnage(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
-        super(pos, ptVie, ptPar, pagePar, pageAtt, degAtt);
+    public Personnage(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int dissAttMax, String nom) {
+        super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt);
         this.nom = nom;
         this.distAttMax = distAttMax;
     }

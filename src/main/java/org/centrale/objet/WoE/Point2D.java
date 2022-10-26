@@ -7,7 +7,7 @@ package org.centrale.objet.WoE;
 
 /**
  *
- * @author François MARIE & Rémi RAVELLI
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Point2D {
     private int x;
@@ -73,7 +73,7 @@ public class Point2D {
     }
     
     /**
-     *
+     * Positionne le point
      * @param x
      * @param y
      */
@@ -83,7 +83,7 @@ public class Point2D {
     }
     
     /**
-     *
+     * Déplace le point selon x et y
      * @param dx
      * @param dy
      */
@@ -100,8 +100,8 @@ public class Point2D {
     }
     
     /**
-     *
-     * @param p
+     * Calcul la distance entre 2 points
+     * @param p Point cible
      * @return
      */
     public float distance(Point2D p){

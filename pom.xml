@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.centrale.objet.WoE</groupId>
@@ -11,6 +11,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.4.0</version>
+        </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-box2d-platform</artifactId>
@@ -52,7 +57,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>Pong</finalName>
+        <finalName>WoE</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -78,7 +83,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-                                    <mainClass>DesktopLauncher</mainClass>
+                                    <mainClass>org.centrale.objet.WoE.TestWoE</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -90,4 +95,5 @@
             </plugin>
         </plugins>
     </build>
+    <name>World-of-ECN</name>
 </project>

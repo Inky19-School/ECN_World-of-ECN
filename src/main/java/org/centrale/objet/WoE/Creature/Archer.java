@@ -5,14 +5,15 @@
 package org.centrale.objet.WoE.Creature;
 
 import java.util.Random;
+import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Creature.Personnage;
 import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
-public class Archer extends Personnage {
+public class Archer extends Personnage implements Combattant {
 
     private int nbFleches;
     private int degAttDist;
@@ -51,11 +52,12 @@ public class Archer extends Personnage {
      * @param pagePar Pourcentage de parade
      * @param distAttMax Distance maximale d'attaque
      * @param pos Position
+     * @param chPos Position du chunk
      * @param nbFleches Nombre de flèches
      * @param degAttDist Dégâts infligés à distance
      */
-    public Archer(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos, int nbFleches, int degAttDist) {
-        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
+    public Archer(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int distAttMax, String nom, int nbFleches, int degAttDist) {
+        super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt, distAttMax, nom);
         this.nbFleches = nbFleches;
         this.degAttDist = degAttDist;
     }
@@ -64,7 +66,8 @@ public class Archer extends Personnage {
      * Combat contre une autre créature et inflige des dégâts
      * @param c Crétature à combattre
      */
-    public void combattre(Creature c){
+    public boolean combattre(Creature c){
+        
         float distance = c.getPos().distance(this.getPos());
         if (distance ==1){
             Random alea = new Random();
@@ -81,14 +84,17 @@ public class Archer extends Personnage {
                     c.addPV(-this.getDegAtt());
                 }
             }
+            return true;
         } else if (distance>1 && distance < this.getDistAttMax() && nbFleches > 0){
             Random alea = new Random();
             nbFleches --;
             int rand = alea.nextInt(100)+1;
             if (rand <= this.getPageAtt()){
                     c.addPV(-degAttDist);
-                }
+            }
+            return true;
         }
+        return false;
     }
 
     /**

@@ -8,9 +8,9 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
-public class Epee extends Objet{
+public class Epee extends Objet implements Utilisable {
 
     private int ptDgt;
     private int coolDown;
@@ -28,14 +28,15 @@ public class Epee extends Objet{
     
     /**
      *
-     * @param ptDgt
-     * @param coolDown
-     * @param durabilite
-     * @param pos
-     * @param qte
+     * @param ptDgt Point de dégâts
+     * @param coolDown Attente entre deux coups
+     * @param durabilite Durabilité de l'épée
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param qte Quantité
      */
-    public Epee(int ptDgt, int coolDown, int durabilite, Point2D pos, int qte) {
-        super(pos, qte);
+    public Epee(Point2D pos, Point2D chPos,int ptDgt, int coolDown, int durabilite) {
+        super(pos, chPos);
         this.ptDgt = ptDgt;
         this.coolDown = coolDown;
         this.durabilite = durabilite;
@@ -43,9 +44,9 @@ public class Epee extends Objet{
 
     /**
      *
-     * @param ptDgt
-     * @param coolDown
-     * @param durabilite
+     * @param ptDgt Point de dégâts
+     * @param coolDown Attente entre deux coups
+     * @param durabilite Durabilité de l'épée
      */
     public Epee(int ptDgt, int coolDown, int durabilite) {
         this.ptDgt = ptDgt;
@@ -99,6 +100,16 @@ public class Epee extends Objet{
      */
     public void setDurabilite(int durabilite) {
         this.durabilite = durabilite;
+    }
+
+    @Override
+    public void utiliser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void affiche() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

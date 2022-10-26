@@ -5,13 +5,14 @@
 package org.centrale.objet.WoE.Creature;
 
 import java.util.Random;
+import org.centrale.objet.WoE.Action.Combattant;
 import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
-public class Guerrier extends Personnage {
+public class Guerrier extends Personnage implements Combattant {
 
     /**
      *
@@ -23,6 +24,7 @@ public class Guerrier extends Personnage {
         this.setPagePar(8);
         this.setPtPar(7);
         this.setPtVie(42);
+        super.setNom("Robert");
     }
 
     /**
@@ -42,17 +44,19 @@ public class Guerrier extends Personnage {
      * @param pageAtt Pourcentage d'attaque
      * @param pagePar Pourcentage de parade
      * @param distAttMax Distance maximale d'attaque
+     * @param chPos Position du chunk
      * @param pos Positon
      */
-    public Guerrier(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
-        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
+    public Guerrier(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int distAttMax, String nom) {
+        super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt, distAttMax, nom);
     }
 
     /**
      * Combat contre une autre créature et inflige des dégâts
      * @param c Crétature à combattre
      */
-    public void combattre(Creature c){
+    @Override
+    public boolean combattre(Creature c){
         if (c.getPos().distance(this.getPos())==1){
             Random alea = new Random();
             int rand = alea.nextInt(100)+1; // Lance le dé pour savoir si l'attaque a lieu
@@ -67,7 +71,9 @@ public class Guerrier extends Personnage {
                     c.addPV(-this.getDegAtt());
                 }
             }
+            return true;
         }
+        return false;
     }
     
     /**

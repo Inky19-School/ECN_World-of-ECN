@@ -9,7 +9,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Paysan extends Personnage {
     
@@ -42,10 +42,11 @@ public class Paysan extends Personnage {
      * @param pageAtt Pourcentage d'attaque
      * @param pagePar Pourcentage de parade
      * @param distAttMax Distance maximale d'attaque
+     * @param chPos Position du chunk
      * @param pos Position
      */
-    public Paysan(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
-        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
+    public Paysan(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int distAttMax, String nom) {
+        super(pos, chPos, ptVie, ptPar, pagePar, pageAtt, degAtt, distAttMax, nom);
     }
     
     /**

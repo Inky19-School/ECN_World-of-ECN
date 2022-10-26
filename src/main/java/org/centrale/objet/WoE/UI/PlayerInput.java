@@ -6,14 +6,15 @@ package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class PlayerInput implements InputProcessor{
     
-    private GameScreen gScreen;
+    private final GameScreen gScreen;
     
     public PlayerInput(GameScreen g){
         gScreen = g;
@@ -33,6 +34,30 @@ public class PlayerInput implements InputProcessor{
                 break;
             case Input.Keys.DOWN:
                 gScreen.moveCameraVertical(-gScreen.getCameraBaseSpeed());
+                break;
+            case Input.Keys.W:
+                gScreen.setZ(true);
+                break;
+            case Input.Keys.A:
+                gScreen.setQ(true);
+                break;
+            case Input.Keys.S:
+                gScreen.setS(true);
+                break;
+            case Input.Keys.D:
+                gScreen.setD(true);
+                break;
+            case Input.Keys.E:
+                gScreen.interact();
+                break;
+            case Input.Keys.I:
+                gScreen.useInventory();
+                break;
+            case Input.Keys.P:
+                gScreen.goToPlayer();
+                break;
+            case (Input.Keys.CONTROL_LEFT) :
+                SaveManager.saveWorld(gScreen.getMonde());
                 break;
         }
         return true;
@@ -61,6 +86,20 @@ public class PlayerInput implements InputProcessor{
                     gScreen.moveCameraVertical(0);
                 }  
                 break;
+            case Input.Keys.W:
+                gScreen.setZ(false);
+                break;
+            case Input.Keys.A:
+                gScreen.setQ(false);
+                break;
+            case Input.Keys.S:
+                gScreen.setS(false);
+                break;
+            case Input.Keys.D:
+                gScreen.setD(false);
+                break;
+            case Input.Keys.I:
+                gScreen.setShowInv(false);
         }
         return true;
     }

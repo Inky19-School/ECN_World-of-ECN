@@ -1,7 +1,8 @@
 package org.centrale.objet.WoE.UI;
 
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+
+
 
 public class Window {
 

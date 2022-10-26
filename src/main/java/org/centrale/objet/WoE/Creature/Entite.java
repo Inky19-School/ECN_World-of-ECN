@@ -8,25 +8,28 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public abstract class Entite {
 
     private Point2D pos;
+    private Point2D chPos;
     
     /**
      *
      */
     public Entite(){
         pos = new Point2D();
+        chPos = new Point2D();
     }
     
     /**
      *
      * @param pos Position de l'entité
      */
-    public Entite(Point2D pos) {
+    public Entite(Point2D pos, Point2D chPos) {
         this.pos = new Point2D(pos);
+        this.chPos = new Point2D(chPos);
     }
     
     /**
@@ -35,6 +38,7 @@ public abstract class Entite {
      */
     public Entite(Entite entite){
         this.pos = new Point2D(entite.pos);
+        this.chPos = new Point2D(entite.chPos);
     }
 
     /**
@@ -52,7 +56,15 @@ public abstract class Entite {
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
-    
+
+    public Point2D getChPos() {
+        return chPos;
+    }
+
+    public void setChPos(Point2D chPos) {
+        this.chPos = chPos;
+    }
+   
     /**
      * Affiche des informations sur l'entité
      */
