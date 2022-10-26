@@ -26,11 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.centrale.objet.WoE.Joueur;
-import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class WorldCreation implements Screen {
 

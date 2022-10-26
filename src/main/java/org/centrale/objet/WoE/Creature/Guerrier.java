@@ -10,7 +10,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Guerrier extends Personnage implements Combattant {
 
@@ -44,6 +44,7 @@ public class Guerrier extends Personnage implements Combattant {
      * @param pageAtt Pourcentage d'attaque
      * @param pagePar Pourcentage de parade
      * @param distAttMax Distance maximale d'attaque
+     * @param chPos Position du chunk
      * @param pos Positon
      */
     public Guerrier(Point2D pos, Point2D chPos, int ptVie, int ptPar, int pagePar, int pageAtt, int degAtt, int distAttMax, String nom) {

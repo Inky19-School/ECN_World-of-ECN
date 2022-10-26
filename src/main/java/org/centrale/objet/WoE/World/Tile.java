@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Tile {
 

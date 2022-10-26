@@ -13,7 +13,7 @@ import org.centrale.objet.WoE.World.World;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public abstract class Creature extends Entite implements Deplacable {
     private int ptVie;

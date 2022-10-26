@@ -10,7 +10,7 @@ import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class PlayerInput implements InputProcessor{
     

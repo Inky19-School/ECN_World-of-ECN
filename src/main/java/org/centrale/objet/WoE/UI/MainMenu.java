@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class MainMenu implements Screen {
     protected Stage stage;

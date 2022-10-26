@@ -33,15 +33,11 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.centrale.objet.WoE.SaveManager;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class WorldSelection implements Screen {
 

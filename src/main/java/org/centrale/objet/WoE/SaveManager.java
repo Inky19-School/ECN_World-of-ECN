@@ -11,22 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.DriverManager;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.swing.text.html.parser.Entity;
 import org.centrale.objet.WoE.Action.Effect;
 import org.centrale.objet.WoE.Creature.Archer;
 import org.centrale.objet.WoE.Creature.Creature;
@@ -44,18 +32,17 @@ import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Objet.PotionSoin;
 import org.centrale.objet.WoE.Objet.SuperMushroom;
 import org.centrale.objet.WoE.Objet.ToxicMushroom;
-import org.centrale.objet.WoE.UI.PlayerInput;
 import org.centrale.objet.WoE.World.Chunk;
 import org.centrale.objet.WoE.World.World;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class SaveManager {
-    private static final String SEP = "_";
+    private static final String SEP = "_"; // Caractère délimiteur dans le fichier texte.
     /**
-     * Returns the list of all worlds saved under save/, sorted by last modified order
+     * Retourne la liste des mondes, sauvegardés dans le dossier save, triés par date de dernière modification
      * @return worlds 
      */
     public static File[] getWorlds() {
@@ -67,10 +54,20 @@ public class SaveManager {
     public SaveManager() {
     }
     
+    /**
+     * Sauvegarde un effet d'un objet
+     * @param effect
+     * @return 
+     */
     private static String saveEffect(Effect effect) {
         return effect.getDuration() + SEP + effect.getType() + SEP + effect.getModifier();
     }  
     
+    /**
+     * Sauvegarde une entité dans son fichier de chunk
+     * @param e
+     * @return 
+     */
     private static String saveEntity(Entite e) {
         String line = e.getClass().getSimpleName() + SEP + e.getPos().getX() + SEP + e.getPos().getY();
         
@@ -109,6 +106,12 @@ public class SaveManager {
         return line;
     }
     
+    /**
+     * Sauvegarde le fichier du joueur
+     * @param folder
+     * @param player
+     * @throws IOException 
+     */
     private static void savePlayer(File folder, Joueur player) throws IOException {
         // Creating player folder
         File playerFolder = new File(folder+"/player");
@@ -133,7 +136,10 @@ public class SaveManager {
         }
     }
     
-    
+    /**
+     * Sauvegarde le monde dans un dossier, décomposé en chunks
+     * @param monde Monde à sauvegarder
+     */
     public static void saveWorld(World monde) {
         // Creating main folder
         File folder = new File("save/"+ monde.getName());
@@ -158,7 +164,14 @@ public class SaveManager {
         
     }
     
-    
+    /**
+     * Sauvegarde un chunk dans un fichier
+     * @param folder Dossier cible
+     * @param monde Monde du chunk
+     * @param chunk Chunk à sauvegarder
+     * @param chPos Position du chunk
+     * @throws IOException 
+     */
     public static void saveChunk(File folder,World monde,Chunk chunk, Point2D chPos) throws IOException {
         // Creating chunk folder
         File chunkFolder = new File(folder+"/chunk");
@@ -179,6 +192,12 @@ public class SaveManager {
 
     }
     
+    /**
+     * Transforme une array de String en array de int.
+     * Insère null si la conversion échoue.
+     * @param arrStr
+     * @return Array de int
+     */
     private static Integer[] toIntArray(String[] arrStr) {
         Integer[] arrInt = new Integer[arrStr.length];
         Integer arg;
@@ -194,7 +213,12 @@ public class SaveManager {
     }
     
     
-    
+    /**
+     * Charge une entité
+     * @param line Ligne d'un fichier de chunk comportant une entité
+     * @param chPos Position du chunk
+     * @return L'entité
+     */
     private static Entite loadEntity(String line, Point2D chPos) {
         String[] argStr = line.split(SEP);
         Integer[] argInt = toIntArray(argStr);
@@ -228,7 +252,11 @@ public class SaveManager {
         }
     }
     
-    
+    /**
+     * Charge un monde
+     * @param folder Dossier cible
+     * @return Le monde chargé
+     */
     public static World loadWorld(File folder) {
         System.out.println("Loading " + folder);
         Joueur player = new Joueur();
@@ -277,7 +305,15 @@ public class SaveManager {
         return monde;
     }
     
-    
+    /**
+     * Charge un chunk depuis un fichier
+     * @param file Fichier cible
+     * @param chPos Position du chunk
+     * @param monde Monde du chunk
+     * @return Le chunk chargé
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public static Chunk loadChunk(File file, Point2D chPos, World monde) throws FileNotFoundException, IOException  {
         Chunk chunk = new Chunk(chPos.getX(),chPos.getY());
         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
@@ -306,6 +342,13 @@ public class SaveManager {
         return chunk;
     }
     
+    /**
+     * Charge le fichier du joueur
+     * @param file Fichier cible
+     * @return Le joueur chargé
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     private static Joueur loadPlayer(File file) throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(new File(file.getAbsolutePath())));
         String line = br.readLine();

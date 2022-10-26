@@ -6,7 +6,7 @@ package org.centrale.objet.WoE.Action;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public interface HasEffect {
     

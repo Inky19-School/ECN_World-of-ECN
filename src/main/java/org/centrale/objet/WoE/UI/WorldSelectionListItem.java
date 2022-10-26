@@ -5,19 +5,16 @@
 package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import java.io.File;
-import java.nio.file.Path;
 
 /**
  *
- * @author Rémi
+ * @author François MARIE et Rémi RAVELLI
  */
 public class WorldSelectionListItem extends Button {
 

@@ -10,7 +10,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Loup extends Monstre implements Combattant {
 

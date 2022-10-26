@@ -32,7 +32,7 @@ import org.centrale.objet.WoE.World.World;
 
 /**
  *
- * @author ECN
+ * @author ECN et François MARIE et Rémi RAVELLI
  */
 public class DatabaseTools {
 

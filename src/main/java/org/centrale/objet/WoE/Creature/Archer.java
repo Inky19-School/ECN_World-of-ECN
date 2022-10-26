@@ -11,7 +11,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class Archer extends Personnage implements Combattant {
 
@@ -52,6 +52,7 @@ public class Archer extends Personnage implements Combattant {
      * @param pagePar Pourcentage de parade
      * @param distAttMax Distance maximale d'attaque
      * @param pos Position
+     * @param chPos Position du chunk
      * @param nbFleches Nombre de flèches
      * @param degAttDist Dégâts infligés à distance
      */

@@ -11,7 +11,7 @@ import org.centrale.objet.WoE.Point2D;
 
 /**
  *
- * @author inky19
+ * @author François MARIE et Rémi RAVELLI
  */
 public class PotionSoin extends Objet implements Utilisable, HasEffect{
     
@@ -25,19 +25,31 @@ public class PotionSoin extends Objet implements Utilisable, HasEffect{
     /**
      *
      * @param pos Position
-     * @param qte Quantité
-     * @param ptVieRegen Points de vie régénérés
+     * @param chPos Position du chunk
      */
     public PotionSoin(Point2D pos, Point2D chPos) {
         super(pos, chPos);
         this.ptVieRegen = BASE_PV_REGEN;
     }
         
+    /**
+     *
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param ptVieRegen Point de vie à régénérer
+     */
     public PotionSoin(Point2D pos, Point2D chPos, int ptVieRegen) {
         super(pos, chPos);
         this.ptVieRegen = ptVieRegen;
     }
     
+    /**
+     *
+     * @param pos Position
+     * @param chPos Position du chunk
+     * @param ptVieRegen Point de vie à régénérer
+     * @param qte Quantité
+     */
     public PotionSoin(Point2D pos, Point2D chPos, int ptVieRegen, int qte) {
         super(pos, chPos, qte);
         this.ptVieRegen = ptVieRegen;
