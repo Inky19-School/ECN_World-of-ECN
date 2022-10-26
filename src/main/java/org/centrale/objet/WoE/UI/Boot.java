@@ -63,13 +63,13 @@ public class Boot extends Game {
         monde = new World(size,player,name);
         monde.creerMondeAlea();
         SaveManager.saveWorld(monde);
-        gScreen = new GameScreen(batch, monde);
+        gScreen = new GameScreen(batch, monde, this);
         setScreen(gScreen);
     }
     
     public void loadWorld(File file) {
         World monde = SaveManager.loadWorld(file);
-        gScreen = new GameScreen(batch, monde);
+        gScreen = new GameScreen(batch, monde, this);
         setScreen(gScreen);
     }
 }

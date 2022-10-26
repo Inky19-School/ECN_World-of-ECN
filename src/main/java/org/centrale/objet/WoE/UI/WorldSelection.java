@@ -52,6 +52,7 @@ public class WorldSelection implements Screen {
     private WorldSelectionListItem selected;
     private final TextButton openButton;
     private final SpriteBatch sb;
+    private final Table list;
 
     public WorldSelection(Boot game) {
         this.game = game;
@@ -92,16 +93,15 @@ public class WorldSelection implements Screen {
         c1.align(Align.topLeft).pad(20);
         mainLayout.setFillParent(true);
         mainLayout.add(new Label("Select world", skin)).pad(20).row();
-        Table list = new Table();
+        
         VerticalGroup v = new VerticalGroup();
 
         //Item Creation
         int size = 900;
         v.setWidth(size);
-        WorldSelectionListItem[] items = loadWorlds();
-        for (WorldSelectionListItem item : items) {
-            list.add(item).width(size).row();
-        }
+        
+        list = new Table();
+        loadWorlds();
 
         ScrollPane s = new ScrollPane(list, skin);
         s.setScrollbarsOnTop(false);
@@ -117,12 +117,11 @@ public class WorldSelection implements Screen {
     /**
      * loadWorlds from files
      *
-     * @return list of worlds
      */
-    public WorldSelectionListItem[] loadWorlds() {
+    public void loadWorlds() {
+        list.clear();
         File[] folders = SaveManager.getWorlds();
         int n = folders.length;
-        WorldSelectionListItem[] listItems = new WorldSelectionListItem[n];
 
         for (int i = 0; i < n; i++) {
             String fileName = folders[i].getName();
@@ -144,16 +143,15 @@ public class WorldSelection implements Screen {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-
-            listItems[i] = new WorldSelectionListItem(this, folders[i], skin, name, lastModified, fileSize, mode);
-
+            var item = new WorldSelectionListItem(this, folders[i], skin, name, lastModified, fileSize, mode);
+            list.add(item).width(900).row();
         }
-        return listItems;
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        loadWorlds();
     }
 
     @Override

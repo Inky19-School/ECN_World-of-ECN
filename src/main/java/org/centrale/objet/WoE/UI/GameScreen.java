@@ -5,6 +5,7 @@
 package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +13,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -44,7 +52,7 @@ public class GameScreen extends ScreenAdapter{
     
     private boolean turnPassed;
     
-    
+    private final Boot game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private OrthographicCamera fixedCamera;
@@ -52,6 +60,7 @@ public class GameScreen extends ScreenAdapter{
     private PlayerInput input;
     private World monde;
     private InfoMenu infomenu;
+    private final Stage stage;
     private int x, y; // Vraie position caméra
     
     private Vector3 mousePos;
@@ -67,13 +76,15 @@ public class GameScreen extends ScreenAdapter{
     private boolean d;
     
     private float zoom;
+    private static final Skin skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
     
     
-    public GameScreen(SpriteBatch batch, World monde){
+    public GameScreen(SpriteBatch batch, World monde, Boot game){
         z = false; q = false; s = false; d = false;
         this.batch = batch;
         this.input = new PlayerInput(this);
         this.monde = monde;
+        this.game = game;
         timer = System.currentTimeMillis();
         timerCamera = System.currentTimeMillis();
         timerTurn = System.currentTimeMillis();
@@ -82,6 +93,8 @@ public class GameScreen extends ScreenAdapter{
         selectedTile = new Vector2();
         zoom = 0.5f;
         turnPassed = false;
+        stage = new Stage();
+        
     }
     
 
@@ -133,10 +146,23 @@ public class GameScreen extends ScreenAdapter{
         
         infomenu.setPos(new Vector2(WIDTH-20,HEIGHT-20));
         
-        Gdx.input.setInputProcessor(input);
+        InputMultiplexer multiInput = new InputMultiplexer(stage,input);
+        Gdx.input.setInputProcessor(multiInput);
         
         renderer = new IsometricRenderer(monde);
         
+        TextButton pauseButton = new TextButton("Menu", skin);
+        pauseButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                game.goToMenu();
+            }
+        });
+        Container cont = new Container(pauseButton);
+        cont.setFillParent(true);
+        cont.align(Align.topLeft);
+        cont.pad(20);
+        stage.addActor(cont);
     }
     
     @Override
@@ -175,6 +201,8 @@ public class GameScreen extends ScreenAdapter{
         infomenu.drawTextures(batch);
         batch.end();
         
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
         
     }
     /**
@@ -335,6 +363,6 @@ public class GameScreen extends ScreenAdapter{
     public World getMonde() {
         return monde;
     }
-    
+
     
 }

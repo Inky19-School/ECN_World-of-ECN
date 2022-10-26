@@ -42,6 +42,8 @@ public class WorldCreation implements Screen {
     private final Slider sizeSlider;
     private final Label sizeLabel;
     private final SpriteBatch sb;
+    private final TextField worldNameField; 
+    private final TextButton createButton;
 
     public WorldCreation(Boot game) {
         this.game = game;
@@ -60,7 +62,7 @@ public class WorldCreation implements Screen {
         textButtonStyle.up = skin2.getDrawable("blue_button");
         textButtonStyle.over = skin2.getDrawable("blue_button_selected");
         SelectBox<String> selectBox = new SelectBox<>(skin, "small");
-        TextField worldNameField = new TextField("", skin);
+        worldNameField = new TextField("", skin);
         worldNameField.setMaxLength(MAXLENGTH);
         TextField playerNameField = new TextField("", skin);
         playerNameField.setMaxLength(MAXLENGTH);
@@ -85,7 +87,7 @@ public class WorldCreation implements Screen {
         }
         selectBox.setItems(items);
         //Buttons      
-        TextButton createButton = new TextButton("Create New World", textButtonStyle);
+        createButton = new TextButton("Create New World", textButtonStyle);
         TextButton backButton = new TextButton("Back", skin);
         createButton.addListener(new ChangeListener() {
             @Override
@@ -144,6 +146,12 @@ public class WorldCreation implements Screen {
         sb.draw(MainMenu.background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         sb.end();
         // tell our stage to do actions and draw itself
+        if (worldNameField.getText().equals("")) {
+            createButton.setDisabled(true);
+        } else {
+            createButton.setDisabled(false);
+        }
+        
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
