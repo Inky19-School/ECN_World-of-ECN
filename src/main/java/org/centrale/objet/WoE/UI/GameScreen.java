@@ -97,7 +97,6 @@ public class GameScreen extends ScreenAdapter{
         turnPassed = false;
         showInv = false;
         stage = new Stage();
-        
     }
     
 
