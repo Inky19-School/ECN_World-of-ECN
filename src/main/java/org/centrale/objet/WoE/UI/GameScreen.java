@@ -5,6 +5,7 @@
 package org.centrale.objet.WoE.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +13,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
+import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import java.sql.SQLException;
@@ -20,6 +29,7 @@ import java.util.logging.Logger;
 import org.centrale.objet.WoE.Creature.Creature;
 import org.centrale.objet.WoE.Objet.Objet;
 import org.centrale.objet.WoE.Point2D;
+import org.centrale.objet.WoE.SaveManager;
 import org.centrale.objet.WoE.TestWoE;
 import static org.centrale.objet.WoE.UI.IsometricRenderer.TILE_WIDTH;
 import org.centrale.objet.WoE.World.Chunk;
@@ -41,14 +51,16 @@ public class GameScreen extends ScreenAdapter {
     private float cameraBaseSpeed = 10;
 
     private boolean turnPassed;
-
+    
+    private final Boot game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private OrthographicCamera fixedCamera;
     private IsometricRenderer renderer;
-    private PlayerInput input;
+    private final PlayerInput input;
     private World monde;
     private InfoMenu infomenu;
+    private final Stage stage;
     private int x, y; // Vraie position caméra
 
     private Vector3 mousePos;
@@ -64,17 +76,22 @@ public class GameScreen extends ScreenAdapter {
     private boolean q;
     private boolean s;
     private boolean d;
+    private boolean ctrl;
 
     private float zoom;
-
-    public GameScreen(SpriteBatch batch, World monde) {
-        z = false;
-        q = false;
-        s = false;
-        d = false;
+    private final InGameMenu menu;
+    
+    
+    public GameScreen(SpriteBatch batch, World monde, Boot game){
+        z = false; 
+        q = false; 
+        s = false; 
+        d = false; 
+        ctrl = false;
         this.batch = batch;
         this.input = new PlayerInput(this);
         this.monde = monde;
+        this.game = game;
         timer = System.currentTimeMillis();
         timerCamera = System.currentTimeMillis();
         timerTurn = System.currentTimeMillis();
@@ -84,6 +101,9 @@ public class GameScreen extends ScreenAdapter {
         zoom = 0.5f;
         turnPassed = false;
         showInv = false;
+        stage = new Stage();
+        menu = new InGameMenu(game, this);
+        stage.addActor(menu);
     }
 
     @Override
@@ -138,13 +158,13 @@ public class GameScreen extends ScreenAdapter {
         camera.zoom = 0.5f;
         fixedCamera.position.set(-WIDTH, WIDTH, 0);
         fixedCamera.zoom = 0.5f;
-
-        infomenu.setPos(new Vector2(WIDTH - 20, HEIGHT - 20));
-
+        
+        infomenu.setPos(new Vector2(WIDTH-20,HEIGHT-20));
+        
         Gdx.input.setInputProcessor(input);
-
+        menu.setVisible(false);
+        
         renderer = new IsometricRenderer(monde);
-
     }
 
     @Override
@@ -184,7 +204,10 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         infomenu.drawTextures(batch);
         batch.end();
-
+        
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
+        
     }
 
     /**
@@ -199,12 +222,17 @@ public class GameScreen extends ScreenAdapter {
 
         camera.translate((x - (float) camera.position.x) / SMOOTHNESS, (y - (float) camera.position.y) / SMOOTHNESS);
         camera.zoom += (zoom - camera.zoom) / SMOOTHNESS;
-
+        
+        if (ctrl && s) {
+            SaveManager.saveWorld(monde);
+            ctrl = false;
+            s = false;
+        }
+        
         if ((z || q || s || d) && System.currentTimeMillis() > timerTurn + 300) {
             boolean temp = movePlayer();
             turnPassed = temp || turnPassed;
             timerTurn = System.currentTimeMillis();
-
         }
         if (turnPassed) {
             monde.tourDeJeu();
@@ -225,6 +253,20 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+    @Override
+    public void resume() {
+        super.resume();
+        menu.setVisible(false); 
+        Gdx.input.setInputProcessor(input);
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        menu.setVisible(true);
+        Gdx.input.setInputProcessor(stage);
+    }
+    
     private boolean movePlayer() {
         Point2D pos = new Point2D(monde.getJoueur().getPlayer().getPos());
         if (z) {
@@ -347,8 +389,13 @@ public class GameScreen extends ScreenAdapter {
         this.d = d;
     }
 
+    public void setCtrl(boolean ctrl) {
+        this.ctrl = ctrl;
+    }
+
     public World getMonde() {
         return monde;
     }
 
+    
 }

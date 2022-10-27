@@ -142,6 +142,7 @@ public class SaveManager {
      */
     public static void saveWorld(World monde) {
         // Creating main folder
+        System.out.println("Saving "+monde.getName());
         File folder = new File("save/"+ monde.getName());
         if (!folder.exists()){
             folder.mkdirs();
@@ -151,8 +152,9 @@ public class SaveManager {
             for (int j=0;j<3;j++) {
                 try {
                     saveChunk(folder,monde,monde.getActiveChunks()[i][j], new Point2D(i,j));
+                    System.out.print(".");
                 } catch(IOException e) {
-                    
+                    System.out.print("x");
                 }
             }
         }
@@ -161,6 +163,7 @@ public class SaveManager {
         } catch (IOException ex) {
             System.err.println("Could not save player "+monde.getJoueur().getName());
         }
+        System.out.println(" || Save finished");
         
     }
     
@@ -318,21 +321,10 @@ public class SaveManager {
         Chunk chunk = new Chunk(chPos.getX(),chPos.getY());
         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
         String line = br.readLine();
-        Joueur p = new Joueur();
         while (line != null) {
-            if (line.split(SEP)[0].equals("Player")) { 
-                Entite e = loadEntity(line.substring(("Player"+SEP).length()),chPos);
-                p = new Joueur((Personnage)e);
-                monde.setPlayer(p);
-                chunk.addEntity(e);
-            }else if(line.split(SEP)[0].equals("Inventaire")) {
-                Entite e = loadEntity(line.substring(("Inventaire"+SEP).length()),chPos);
-                p.getInventaire().add((Objet)e);
-            }  else {
-                Entite e = loadEntity(line,chPos);
-                if (e != null) {
-                    chunk.addEntity(e);    
-                }
+            Entite e = loadEntity(line,chPos);
+            if (e != null) {
+                chunk.addEntity(e);    
             }
 
             line = br.readLine();
@@ -355,7 +347,6 @@ public class SaveManager {
         String[] info = line.split(SEP,4);
         Point2D chPos = new Point2D(Integer.parseInt(info[1]), Integer.parseInt(info[2]));
         Joueur p = new Joueur((Personnage)loadEntity(info[3], chPos));
-        System.out.println(p.getPlayer());
         while (line != null) {
             if(line.split(SEP)[0].equals("Inventaire")) {
                 Entite e = loadEntity(line.substring(("Inventaire"+SEP).length()),chPos);

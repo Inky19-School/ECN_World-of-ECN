@@ -10,6 +10,7 @@ import java.io.File;
 import org.centrale.objet.WoE.Joueur;
 import org.centrale.objet.WoE.SaveManager;
 import org.centrale.objet.WoE.World.World;
+import org.centrale.objet.WoE.UI.WorldCreation;
 /**
  *
  * @author François MARIE et Rémi RAVELLI
@@ -62,13 +63,13 @@ public class Boot extends Game {
         monde = new World(size,player,name);
         monde.creerMondeAlea();
         SaveManager.saveWorld(monde);
-        gScreen = new GameScreen(batch, monde);
+        gScreen = new GameScreen(batch, monde, this);
         setScreen(gScreen);
     }
     
     public void loadWorld(File file) {
         World monde = SaveManager.loadWorld(file);
-        gScreen = new GameScreen(batch, monde);
+        gScreen = new GameScreen(batch, monde, this);
         setScreen(gScreen);
     }
 }

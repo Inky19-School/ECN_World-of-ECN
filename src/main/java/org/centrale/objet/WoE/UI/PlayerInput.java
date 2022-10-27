@@ -57,7 +57,7 @@ public class PlayerInput implements InputProcessor{
                 gScreen.goToPlayer();
                 break;
             case (Input.Keys.CONTROL_LEFT) :
-                SaveManager.saveWorld(gScreen.getMonde());
+                gScreen.setCtrl(true);
                 break;
         }
         return true;
@@ -100,6 +100,13 @@ public class PlayerInput implements InputProcessor{
                 break;
             case Input.Keys.I:
                 gScreen.setShowInv(false);
+                break;
+            case (Input.Keys.CONTROL_LEFT) :
+                gScreen.setCtrl(false);
+                break;
+            case (Input.Keys.ESCAPE) :
+                gScreen.pause();
+                break;
         }
         return true;
     }

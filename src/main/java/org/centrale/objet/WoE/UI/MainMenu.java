@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -97,13 +98,13 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float f) {
-	Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+	//Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
         // tell our stage to do actions and draw itself
 	stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	sb.begin();
-        sb.draw(MainMenu.background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        sb.draw(MainMenu.background,0,0);
         sb.end();
         stage.draw();
     }
