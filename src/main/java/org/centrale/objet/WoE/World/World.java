@@ -7,8 +7,6 @@ package org.centrale.objet.WoE.World;
 import org.centrale.objet.WoE.Creature.*;
 import org.centrale.objet.WoE.Objet.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import org.centrale.objet.WoE.Joueur;
 import org.centrale.objet.WoE.Point2D;
 
@@ -143,7 +141,6 @@ public class World {
             Point2D relPos = chRelativePos(chPos);
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChCrea()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
-            System.out.println("ça déconne getCrea");
             return null;
         }
     }
@@ -161,7 +158,6 @@ public class World {
             Point2D relPos = chRelativePos(chPos);
             return activeChunks[relPos.getX()+1][relPos.getY()+1].getChObj()[x-relPos.getX()*Chunk.SIZE][y-relPos.getY()*Chunk.SIZE];
         } else {
-            System.out.println("ça déconne getObj");
             return null;
         }
     }
@@ -200,8 +196,6 @@ public class World {
                 
             }
             
-        } else {
-            System.out.println("ça déconne setEnt");
         }
     }
     
@@ -221,9 +215,6 @@ public class World {
                 ch.getChCrea()[e.getPos().getX()][e.getPos().getY()] = null;
             }
             
-            
-        } else {
-            System.out.println("ça déconne delEnt");
         }
     }
     
@@ -297,16 +288,6 @@ public class World {
         int y = posCrea.getY() + posCh.getY()*Chunk.SIZE;
         if (getObj(x, y) != null) {
             getObj(x, y).interagir(creature);
-        }
-    }
-    
-    /**
-     * Affiche la liste des objets présents sur la carte
-     */
-    public void afficheObjetMap(){
-        System.out.println("OBJETS SUR LA CARTE :");
-        for (int i=0; i<ObjetsMap.size(); i++){
-            ObjetsMap.get(i).affiche();
         }
     }
 
