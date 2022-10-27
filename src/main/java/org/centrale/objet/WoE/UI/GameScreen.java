@@ -266,8 +266,8 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void useInventory() {
-        //monde.getJoueur().useInventory();
-        showInv = true;
+        monde.getJoueur().useInventory();
+        //showInv = true; // Permet d'afficher l'interface graphique de l'inventaire. En cours d'implémentation
     }
 
     public void setShowInv(boolean b) {

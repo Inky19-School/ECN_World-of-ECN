@@ -16,10 +16,6 @@ public class TestWoE {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        System.out.println(""+(23/32));
-        System.out.println(""+(45/32));
-        System.out.println(""+(-23/32));
-        System.out.println(""+(-45/32));
         
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         
